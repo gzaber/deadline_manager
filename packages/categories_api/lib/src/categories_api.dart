@@ -5,5 +5,6 @@ abstract interface class CategoriesApi {
   Future<void> updateCategory(Category category);
   Future<void> deleteCategory(String id);
   Future<Category> readCategory(String id);
-  Stream<List<Category>> observeCategoriesByEmail(String email);
+  Stream<List<Category>> observeCategoriesByUserEmail(String email);
+  Stream<List<Category>> observeCategoriesByAuthorizedUserEmail(String email);
 }
