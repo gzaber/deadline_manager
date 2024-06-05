@@ -40,7 +40,7 @@ class FirestoreCategoriesApi implements CategoriesApi {
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map(
-                (doc) => Category.fromJson(doc as Map<String, dynamic>),
+                (doc) => Category.fromJson(doc.data() as Map<String, dynamic>),
               )
               .toList());
 
@@ -51,7 +51,7 @@ class FirestoreCategoriesApi implements CategoriesApi {
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map(
-                (doc) => Category.fromJson(doc as Map<String, dynamic>),
+                (doc) => Category.fromJson(doc.data() as Map<String, dynamic>),
               )
               .toList());
 }
