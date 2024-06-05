@@ -13,7 +13,7 @@ Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
           .map((e) => e as String)
           .toList(),
       name: json['name'] as String,
-      icon: json['icon'] as String,
+      icon: (json['icon'] as num).toInt(),
       color: (json['color'] as num).toInt(),
     );
 
