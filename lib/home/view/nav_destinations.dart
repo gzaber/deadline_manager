@@ -1,3 +1,4 @@
+import 'package:deadline_manager/categories/categories.dart';
 import 'package:deadline_manager/home/home.dart';
 import 'package:flutter/material.dart';
 
@@ -8,10 +9,10 @@ class NavDestinations {
       icon: Icons.list,
       widget: Container(color: Colors.amber),
     ),
-    Destination(
+    const Destination(
       label: 'Categories',
       icon: Icons.category,
-      widget: Container(color: Colors.indigo),
+      widget: CategoriesPage(),
     ),
     Destination(
       label: 'Share',
