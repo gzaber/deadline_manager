@@ -7,8 +7,23 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  authentication_repository:
+    path: packages/authentication_repository
+  bloc: ^8.1.4
+  categories_repository:
+    path: packages/categories_repository
+  deadlines_repository:
+    path: packages/deadlines_repository
+  equatable: ^2.0.5
+  firebase_core: ^2.32.0
+  firebase_ui_auth: ^1.14.0
+  firestore_categories_api:
+    path: packages/firestore_categories_api
+  firestore_deadlines_api:
+    path: packages/firestore_deadlines_api
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.5
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +32,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/

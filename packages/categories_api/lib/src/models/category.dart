@@ -18,7 +18,7 @@ class Category extends Equatable {
   final String userEmail;
   final List<String> authorizedUserEmails;
   final String name;
-  final String icon;
+  final int icon;
   final int color;
 
   factory Category.fromJson(Map<String, dynamic> json) =>
@@ -31,7 +31,7 @@ class Category extends Equatable {
     String? userEmail,
     List<String>? authorizedUserEmails,
     String? name,
-    String? icon,
+    int? icon,
     int? color,
   }) {
     return Category(
