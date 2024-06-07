@@ -1,11 +1,11 @@
 import 'package:deadline_manager/categories/categories.dart';
-import 'package:deadline_manager/home/home.dart';
+import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 
 class NavDestinations {
   static final destinations = [
     Destination(
-      label: 'Overview',
+      label: 'Home',
       icon: Icons.list,
       widget: Container(color: Colors.amber),
     ),

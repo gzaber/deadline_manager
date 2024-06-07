@@ -2,7 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:categories_repository/categories_repository.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/authentication/authentication.dart';
-import 'package:deadline_manager/home/home.dart';
+import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +61,7 @@ class AppView extends StatelessWidget {
           useMaterial3: true,
         ),
         home: switch (isAuthenticated) {
-          true => const HomePage(),
+          true => const NavigationPage(),
           false => const AuthenticationPage(),
         });
   }

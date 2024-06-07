@@ -1,3 +1,3 @@
-export 'cubit/home_cubit.dart';
+export 'cubit/navigation_cubit.dart';
 export 'models/destination.dart';
 export 'view/view.dart';

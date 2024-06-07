@@ -1,26 +1,26 @@
-import 'package:deadline_manager/home/home.dart';
+import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class NavigationPage extends StatelessWidget {
+  const NavigationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(),
-      child: const HomeView(),
+      create: (context) => NavigationCubit(),
+      child: const NavigationView(),
     );
   }
 }
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class NavigationView extends StatelessWidget {
+  const NavigationView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final selectedIndex =
-        context.select((HomeCubit cubit) => cubit.state.selectedIndex);
+        context.select((NavigationCubit cubit) => cubit.state.selectedIndex);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -44,7 +44,7 @@ class HomeView extends StatelessWidget {
                     extended: isLargeWidth ? true : false,
                     selectedIndex: selectedIndex,
                     onDestinationSelected: (value) =>
-                        context.read<HomeCubit>().setIndex(value),
+                        context.read<NavigationCubit>().setIndex(value),
                   ),
                   Expanded(
                     child: _DestinationView(index: selectedIndex),
@@ -67,7 +67,7 @@ class HomeView extends StatelessWidget {
             ],
             selectedIndex: selectedIndex,
             onDestinationSelected: (value) =>
-                context.read<HomeCubit>().setIndex(value),
+                context.read<NavigationCubit>().setIndex(value),
           ),
           body: SafeArea(
             child: _DestinationView(index: selectedIndex),

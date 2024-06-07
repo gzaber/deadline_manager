@@ -1,7 +1,7 @@
-part of 'home_cubit.dart';
+part of 'navigation_cubit.dart';
 
-final class HomeState extends Equatable {
-  const HomeState({
+final class NavigationState extends Equatable {
+  const NavigationState({
     this.selectedIndex = 0,
   });
 
