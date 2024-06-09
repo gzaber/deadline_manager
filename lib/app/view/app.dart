@@ -1,11 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:categories_repository/categories_repository.dart';
-import 'package:deadline_manager/app/app.dart';
-import 'package:deadline_manager/authentication/authentication.dart';
-import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deadline_manager/app/app.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -53,16 +51,15 @@ class AppView extends StatelessWidget {
     final isAuthenticated =
         context.select((AppCubit cubit) => cubit.state.isAuthenticated);
 
-    return MaterialApp(
-        title: 'Deadline Manager',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: switch (isAuthenticated) {
-          true => const NavigationPage(),
-          false => const AuthenticationPage(),
-        });
+    return MaterialApp.router(
+      title: 'Deadline Manager',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      routerConfig:
+          RouterConfiguration(isAuthenticated: isAuthenticated).router,
+    );
   }
 }

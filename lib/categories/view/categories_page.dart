@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deadline_manager/add_edit_category/view/add_edit_category_page.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/categories/categories.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});
@@ -49,7 +50,7 @@ class CategoriesView extends StatelessWidget {
                 actions: [
                   TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        context.pop();
                       },
                       child: const Text('OK')),
                 ],
@@ -86,7 +87,9 @@ class _CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        context.go(RouterConfiguration.categoriesToDeadlinesPath);
+      },
       leading: Icon(IconData(category.icon)),
       title: Text(category.name),
       subtitle: Text(category.userEmail),

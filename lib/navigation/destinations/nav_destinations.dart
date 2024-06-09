@@ -1,28 +1,28 @@
-import 'package:deadline_manager/categories/categories.dart';
+import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 
 class NavDestinations {
-  static final destinations = [
+  static const destinations = [
     Destination(
       label: 'Home',
       icon: Icons.list,
-      widget: Container(color: Colors.amber),
+      path: RouterConfiguration.homePath,
     ),
-    const Destination(
+    Destination(
       label: 'Categories',
       icon: Icons.category,
-      widget: CategoriesPage(),
+      path: RouterConfiguration.categoriesPath,
     ),
     Destination(
       label: 'Share',
       icon: Icons.share,
-      widget: Container(color: Colors.purple),
+      path: RouterConfiguration.sharePath,
     ),
     Destination(
       label: 'Settings',
       icon: Icons.settings,
-      widget: Container(color: Colors.blue),
+      path: RouterConfiguration.settingsPath,
     ),
   ];
 }
