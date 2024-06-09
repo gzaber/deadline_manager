@@ -1,5 +1,6 @@
 import 'package:deadline_manager/authentication/authentication.dart';
 import 'package:deadline_manager/categories/categories.dart';
+import 'package:deadline_manager/deadlines/deadlines.dart';
 import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -14,10 +15,12 @@ class RouterConfiguration {
   static const authenticationPath = '/authentication';
   static const homePath = '/home';
   static const categoriesPath = '/categories';
+  static const categoryIdParameter = 'categoryId';
+  static const categoryNameParameter = 'categoryName';
   static const deadlinesPath = 'deadlines';
+  static const deadlinesWithParametersPath =
+      '$deadlinesPath/:$categoryIdParameter/:$categoryNameParameter';
   static const categoriesToDeadlinesPath = '$categoriesPath/$deadlinesPath';
-  static const addEditPath = 'add_edit';
-  static const categoriesToAddEditPath = '$categoriesPath/$addEditPath';
   static const sharePath = '/share';
   static const settingsPath = '/settings';
 
@@ -48,9 +51,12 @@ class RouterConfiguration {
             builder: (context, state) => const CategoriesPage(),
             routes: [
               GoRoute(
-                path: deadlinesPath,
-                builder: (context, state) =>
-                    Container(color: Colors.greenAccent),
+                path: deadlinesWithParametersPath,
+                builder: (context, state) => DeadlinesPage(
+                  categoryId: state.pathParameters[categoryIdParameter] ?? '',
+                  categoryName:
+                      state.pathParameters[categoryNameParameter] ?? '',
+                ),
               ),
             ],
           ),

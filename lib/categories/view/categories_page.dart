@@ -88,7 +88,9 @@ class _CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        context.go(RouterConfiguration.categoriesToDeadlinesPath);
+        context.go(
+          '${RouterConfiguration.categoriesToDeadlinesPath}/:${category.id}/${category.name}',
+        );
       },
       leading: Icon(IconData(category.icon)),
       title: Text(category.name),

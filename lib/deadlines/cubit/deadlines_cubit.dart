@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:categories_repository/categories_repository.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -10,10 +9,16 @@ part 'deadlines_state.dart';
 class DeadlinesCubit extends Cubit<DeadlinesState> {
   DeadlinesCubit({
     required DeadlinesRepository deadlinesRepository,
-    required Category category,
+    required String categoryId,
+    required String categoryName,
   })  : _deadlinesRepository = deadlinesRepository,
-        super(DeadlinesState(category: category)) {
-    _subscribeToDeadlines(category.id ?? '');
+        super(
+          DeadlinesState(
+            categoryId: categoryId,
+            categoryName: categoryName,
+          ),
+        ) {
+    _subscribeToDeadlines(categoryId);
   }
 
   final DeadlinesRepository _deadlinesRepository;
