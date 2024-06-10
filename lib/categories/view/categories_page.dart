@@ -5,6 +5,7 @@ import 'package:deadline_manager/categories/categories.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -60,17 +61,15 @@ class CategoriesView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return GridView.extent(
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            maxCrossAxisExtent: 350,
-            childAspectRatio: 3,
+          return MasonryGridView.extent(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            children: [
-              ...state.categories.map(
-                (category) => _CategoryItem(category: category),
-              ),
-            ],
+            maxCrossAxisExtent: 400,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            itemCount: state.categories.length,
+            itemBuilder: (context, index) {
+              return _CategoryItem(category: state.categories[index]);
+            },
           );
         },
       ),
