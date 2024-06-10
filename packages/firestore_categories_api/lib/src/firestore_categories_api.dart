@@ -28,10 +28,10 @@ class FirestoreCategoriesApi implements CategoriesApi {
       await _categoriesRef.doc(id).delete();
 
   @override
-  Future<Category> readCategory(String id) async => await _categoriesRef
-      .doc(id)
-      .get()
-      .then((snapshot) => Category.fromJson(snapshot as Map<String, dynamic>));
+  Stream<Category> observeCategoryById(String id) =>
+      _categoriesRef.doc(id).snapshots().map((snapshot) =>
+          Category.fromJson(snapshot.data() as Map<String, dynamic>)
+              .copyWith(id: snapshot.id));
 
   @override
   Stream<List<Category>> observeCategoriesByUserEmail(String email) =>
@@ -40,7 +40,8 @@ class FirestoreCategoriesApi implements CategoriesApi {
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map(
-                (doc) => Category.fromJson(doc.data() as Map<String, dynamic>),
+                (doc) => Category.fromJson(doc.data() as Map<String, dynamic>)
+                    .copyWith(id: doc.id),
               )
               .toList());
 
@@ -51,7 +52,8 @@ class FirestoreCategoriesApi implements CategoriesApi {
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map(
-                (doc) => Category.fromJson(doc.data() as Map<String, dynamic>),
+                (doc) => Category.fromJson(doc.data() as Map<String, dynamic>)
+                    .copyWith(id: doc.id),
               )
               .toList());
 }
