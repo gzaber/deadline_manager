@@ -1,10 +1,10 @@
 import 'package:categories_repository/categories_repository.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:deadline_manager/add_edit_category/view/add_edit_category_page.dart';
+import 'package:deadline_manager/add_edit_category/add_edit_category.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/categories/categories.dart';
+import 'package:deadlines_repository/deadlines_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -15,6 +15,7 @@ class CategoriesPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => CategoriesCubit(
         categoriesRepository: context.read<CategoriesRepository>(),
+        deadlinesRepository: context.read<DeadlinesRepository>(),
         user: context.read<AppCubit>().state.user,
       ),
       child: const CategoriesView(),
@@ -93,12 +94,70 @@ class _CategoryItem extends StatelessWidget {
         );
       },
       leading: Icon(IconData(category.icon)),
+      trailing: _PopupMenuButton(
+        onUpdateTap: () => AddEditCategoryPage.show(
+          context: context,
+          category: category,
+        ),
+        onDeleteTap: () async {
+          return await showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Delete'),
+              content: const Text('Delete this category?'),
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text('No'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: const Text('Yes'),
+                ),
+              ],
+            ),
+          ).then(
+            (value) {
+              if (value == true) {
+                context
+                    .read<CategoriesCubit>()
+                    .deleteCategoryWithDeadlines(category.id ?? '');
+              }
+            },
+          );
+        },
+      ),
       title: Text(category.name),
       subtitle: Text(category.userEmail),
       tileColor: Color(category.color),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
+    );
+  }
+}
+
+class _PopupMenuButton extends StatelessWidget {
+  const _PopupMenuButton({
+    required this.onUpdateTap,
+    required this.onDeleteTap,
+  });
+
+  final Function() onUpdateTap;
+  final Function() onDeleteTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      itemBuilder: (_) => [
+        PopupMenuItem(onTap: onUpdateTap, child: const Text('Update')),
+        PopupMenuItem(onTap: onDeleteTap, child: const Text('Delete')),
+      ],
     );
   }
 }

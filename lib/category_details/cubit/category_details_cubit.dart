@@ -55,6 +55,19 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     });
   }
 
+  void deleteDeadline(String id) async {
+    try {
+      await _deadlinesRepository.deleteDeadline(id);
+      emit(
+        state.copyWith(status: CategoryDetailsStatus.success),
+      );
+    } catch (_) {
+      emit(
+        state.copyWith(status: CategoryDetailsStatus.failure),
+      );
+    }
+  }
+
   @override
   Future<void> close() {
     _categorySubscription.cancel();
