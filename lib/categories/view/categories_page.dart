@@ -89,7 +89,7 @@ class _CategoryItem extends StatelessWidget {
     return ListTile(
       onTap: () {
         context.go(
-          '${RouterConfiguration.categoriesToDeadlinesPath}/:${category.id}/${category.name}',
+          '${RouterConfiguration.categoriesToDeadlinesPath}/${category.id}',
         );
       },
       leading: Icon(IconData(category.icon)),

@@ -16,11 +16,11 @@ class RouterConfiguration {
   static const homePath = '/home';
   static const categoriesPath = '/categories';
   static const categoryIdParameter = 'categoryId';
-  static const categoryNameParameter = 'categoryName';
-  static const deadlinesPath = 'deadlines';
-  static const deadlinesWithParametersPath =
-      '$deadlinesPath/:$categoryIdParameter/:$categoryNameParameter';
-  static const categoriesToDeadlinesPath = '$categoriesPath/$deadlinesPath';
+  static const categoryDetailsPath = 'category_details';
+  static const categoryDetailsWithParameterPath =
+      '$categoryDetailsPath/:$categoryIdParameter';
+  static const categoriesToDeadlinesPath =
+      '$categoriesPath/$categoryDetailsPath';
   static const sharePath = '/share';
   static const settingsPath = '/settings';
 
@@ -51,11 +51,9 @@ class RouterConfiguration {
             builder: (context, state) => const CategoriesPage(),
             routes: [
               GoRoute(
-                path: deadlinesWithParametersPath,
+                path: categoryDetailsWithParameterPath,
                 builder: (context, state) => CategoryDetailsPage(
                   categoryId: state.pathParameters[categoryIdParameter] ?? '',
-                  categoryName:
-                      state.pathParameters[categoryNameParameter] ?? '',
                 ),
               ),
             ],
