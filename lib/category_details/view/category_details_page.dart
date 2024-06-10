@@ -1,3 +1,4 @@
+import 'package:categories_repository/categories_repository.dart';
 import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +8,17 @@ class CategoryDetailsPage extends StatelessWidget {
   const CategoryDetailsPage({
     super.key,
     required this.categoryId,
-    required this.categoryName,
   });
 
   final String categoryId;
-  final String categoryName;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CategoryDetailsCubit(
+        categoriesRepository: context.read<CategoriesRepository>(),
         deadlinesRepository: context.read<DeadlinesRepository>(),
         categoryId: categoryId,
-        categoryName: categoryName,
       ),
       child: const CategoryDetailsView(),
     );
@@ -31,10 +30,14 @@ class CategoryDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final category =
+        context.select((CategoryDetailsCubit cubit) => cubit.state.category);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(context.read<CategoryDetailsCubit>().state.categoryName),
+        title: Text(category.name),
+        backgroundColor: Color(category.color),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -48,7 +51,7 @@ class CategoryDetailsView extends StatelessWidget {
               context: context,
               builder: (_) => AlertDialog(
                 title: const Text('Error'),
-                content: const Text('Something went wrong with deadlines'),
+                content: const Text('Something went wrong'),
                 actions: [
                   TextButton(
                       onPressed: () {
