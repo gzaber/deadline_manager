@@ -4,16 +4,16 @@ import 'package:bloc/bloc.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:equatable/equatable.dart';
 
-part 'deadlines_state.dart';
+part 'category_details_state.dart';
 
-class DeadlinesCubit extends Cubit<DeadlinesState> {
-  DeadlinesCubit({
+class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
+  CategoryDetailsCubit({
     required DeadlinesRepository deadlinesRepository,
     required String categoryId,
     required String categoryName,
   })  : _deadlinesRepository = deadlinesRepository,
         super(
-          DeadlinesState(
+          CategoryDetailsState(
             categoryId: categoryId,
             categoryName: categoryName,
           ),
@@ -29,9 +29,9 @@ class DeadlinesCubit extends Cubit<DeadlinesState> {
         .observeDeadlinesByCategory(categoryId)
         .listen((deadlines) {
       emit(state.copyWith(
-          status: DeadlinesStatus.success, deadlines: deadlines));
+          status: CategoryDetailsStatus.success, deadlines: deadlines));
     }, onError: (_) {
-      emit(state.copyWith(status: DeadlinesStatus.failure));
+      emit(state.copyWith(status: CategoryDetailsStatus.failure));
     });
   }
 

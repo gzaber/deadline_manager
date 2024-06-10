@@ -1,16 +1,16 @@
-part of 'deadlines_cubit.dart';
+part of 'category_details_cubit.dart';
 
-enum DeadlinesStatus { initial, success, failure }
+enum CategoryDetailsStatus { initial, success, failure }
 
-final class DeadlinesState extends Equatable {
-  const DeadlinesState({
-    this.status = DeadlinesStatus.initial,
+final class CategoryDetailsState extends Equatable {
+  const CategoryDetailsState({
+    this.status = CategoryDetailsStatus.initial,
     required this.categoryId,
     required this.categoryName,
     this.deadlines = const [],
   });
 
-  final DeadlinesStatus status;
+  final CategoryDetailsStatus status;
   final String categoryId;
   final String categoryName;
   final List<Deadline> deadlines;
@@ -18,13 +18,13 @@ final class DeadlinesState extends Equatable {
   @override
   List<Object> get props => [status, categoryId, categoryName, deadlines];
 
-  DeadlinesState copyWith({
-    DeadlinesStatus? status,
+  CategoryDetailsState copyWith({
+    CategoryDetailsStatus? status,
     String? categoryId,
     String? categoryName,
     List<Deadline>? deadlines,
   }) {
-    return DeadlinesState(
+    return CategoryDetailsState(
       status: status ?? this.status,
       categoryId: categoryId ?? this.categoryId,
       categoryName: categoryName ?? this.categoryName,

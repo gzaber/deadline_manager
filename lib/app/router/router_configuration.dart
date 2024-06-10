@@ -1,6 +1,6 @@
 import 'package:deadline_manager/authentication/authentication.dart';
 import 'package:deadline_manager/categories/categories.dart';
-import 'package:deadline_manager/deadlines/deadlines.dart';
+import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -52,7 +52,7 @@ class RouterConfiguration {
             routes: [
               GoRoute(
                 path: deadlinesWithParametersPath,
-                builder: (context, state) => DeadlinesPage(
+                builder: (context, state) => CategoryDetailsPage(
                   categoryId: state.pathParameters[categoryIdParameter] ?? '',
                   categoryName:
                       state.pathParameters[categoryNameParameter] ?? '',
