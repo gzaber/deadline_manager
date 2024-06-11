@@ -1,58 +1,73 @@
 import 'package:categories_repository/categories_repository.dart';
-import 'package:deadline_manager/add_edit_category/add_edit_category.dart';
-import 'package:deadline_manager/app/app.dart';
-import 'package:deadline_manager/categories/categories.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:go_router/go_router.dart';
+import 'package:deadline_manager/add_edit_deadline/add_edit_deadline.dart';
+import 'package:deadline_manager/category_details/category_details.dart';
 
-class CategoriesPage extends StatelessWidget {
-  const CategoriesPage({super.key});
+class CategoryDetailsPage extends StatelessWidget {
+  const CategoryDetailsPage({
+    super.key,
+    required this.categoryId,
+  });
+
+  final String categoryId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CategoriesCubit(
+      create: (context) => CategoryDetailsCubit(
         categoriesRepository: context.read<CategoriesRepository>(),
         deadlinesRepository: context.read<DeadlinesRepository>(),
-        user: context.read<AppCubit>().state.user,
+        categoryId: categoryId,
       ),
-      child: const CategoriesView(),
+      child: const CategoryDetailsView(),
     );
   }
 }
 
-class CategoriesView extends StatelessWidget {
-  const CategoriesView({super.key});
+class CategoryDetailsView extends StatelessWidget {
+  const CategoryDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final category =
+        context.select((CategoryDetailsCubit cubit) => cubit.state.category);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Categories'),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(IconData(category.icon)),
+            Text(category.name),
+          ],
+        ),
+        backgroundColor: Color(category.color),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          AddEditCategoryPage.show(context: context);
+          AddEditDeadlinePage.show(
+            context: context,
+            categoryId: category.id ?? '',
+          );
         },
         child: const Icon(Icons.add),
       ),
-      body: BlocConsumer<CategoriesCubit, CategoriesState>(
+      body: BlocConsumer<CategoryDetailsCubit, CategoryDetailsState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
-          if (state.status == CategoriesStatus.failure) {
+          if (state.status == CategoryDetailsStatus.failure) {
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
                 title: const Text('Error'),
-                content: const Text('Something went wrong with categories'),
+                content: const Text('Something went wrong'),
                 actions: [
                   TextButton(
                       onPressed: () {
-                        context.pop();
+                        Navigator.pop(context);
                       },
                       child: const Text('OK')),
                 ],
@@ -61,14 +76,10 @@ class CategoriesView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return MasonryGridView.extent(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            maxCrossAxisExtent: 400,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            itemCount: state.categories.length,
-            itemBuilder: (context, index) {
-              return _CategoryItem(category: state.categories[index]);
+          return ListView.builder(
+            itemCount: state.deadlines.length,
+            itemBuilder: (_, index) {
+              return _DeadlineItem(deadline: state.deadlines[index]);
             },
           );
         },
@@ -77,33 +88,45 @@ class CategoriesView extends StatelessWidget {
   }
 }
 
-class _CategoryItem extends StatelessWidget {
-  const _CategoryItem({
-    required this.category,
+class _DeadlineItem extends StatelessWidget {
+  const _DeadlineItem({
+    required this.deadline,
   });
 
-  final Category category;
+  final Deadline deadline;
 
   @override
   Widget build(BuildContext context) {
+    final showFullScreenDialog = MediaQuery.sizeOf(context).width < 640;
+    final date = deadline.expirationDate;
+    final formattedDate = '${date.day}-${date.month}-${date.year}';
+
     return ListTile(
-      onTap: () {
-        context.go(
-          '${RouterConfiguration.categoriesToDeadlinesPath}/${category.id}',
-        );
-      },
-      leading: Icon(IconData(category.icon)),
+      leading: const Icon(Icons.description),
+      title: showFullScreenDialog
+          ? Text(deadline.name)
+          : Row(
+              children: [
+                Text(deadline.name),
+                const Spacer(),
+                Text(formattedDate)
+              ],
+            ),
+      subtitle: showFullScreenDialog ? Text(formattedDate) : null,
       trailing: _PopupMenuButton(
-        onUpdateTap: () => AddEditCategoryPage.show(
-          context: context,
-          category: category,
-        ),
+        onUpdateTap: () {
+          AddEditDeadlinePage.show(
+            context: context,
+            categoryId: deadline.categoryId,
+            deadline: deadline,
+          );
+        },
         onDeleteTap: () async {
           return await showDialog<bool>(
             context: context,
             builder: (context) => AlertDialog(
               title: const Text('Delete'),
-              content: const Text('Delete this category?'),
+              content: const Text('Delete this deadline?'),
               actionsAlignment: MainAxisAlignment.spaceBetween,
               actions: [
                 TextButton(
@@ -124,18 +147,12 @@ class _CategoryItem extends StatelessWidget {
             (value) {
               if (value == true) {
                 context
-                    .read<CategoriesCubit>()
-                    .deleteCategoryWithDeadlines(category.id ?? '');
+                    .read<CategoryDetailsCubit>()
+                    .deleteDeadline(deadline.id ?? '');
               }
             },
           );
         },
-      ),
-      title: Text(category.name),
-      subtitle: Text(category.userEmail),
-      tileColor: Color(category.color),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
     );
   }

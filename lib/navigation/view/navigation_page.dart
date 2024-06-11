@@ -1,27 +1,17 @@
-import 'package:deadline_manager/home/home.dart';
+import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class NavigationPage extends StatelessWidget {
+  const NavigationPage({
+    super.key,
+    required this.child,
+  });
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit(),
-      child: const HomeView(),
-    );
-  }
-}
-
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    final selectedIndex =
-        context.select((HomeCubit cubit) => cubit.state.selectedIndex);
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMediumWidth = constraints.maxWidth > 640;
@@ -42,12 +32,12 @@ class HomeView extends StatelessWidget {
                       ),
                     ],
                     extended: isLargeWidth ? true : false,
-                    selectedIndex: selectedIndex,
+                    selectedIndex: _calculateSelectedIndex(context),
                     onDestinationSelected: (value) =>
-                        context.read<HomeCubit>().setIndex(value),
+                        _onDestinationSelected(value, context),
                   ),
                   Expanded(
-                    child: _DestinationView(index: selectedIndex),
+                    child: child,
                   ),
                 ],
               ),
@@ -65,35 +55,25 @@ class HomeView extends StatelessWidget {
                 ),
               ),
             ],
-            selectedIndex: selectedIndex,
+            selectedIndex: _calculateSelectedIndex(context),
             onDestinationSelected: (value) =>
-                context.read<HomeCubit>().setIndex(value),
+                _onDestinationSelected(value, context),
           ),
           body: SafeArea(
-            child: _DestinationView(index: selectedIndex),
+            child: child,
           ),
         );
       },
     );
   }
-}
 
-class _DestinationView extends StatelessWidget {
-  const _DestinationView({
-    required this.index,
-  });
+  int _calculateSelectedIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.path;
 
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 800),
-        child: NavDestinations.destinations
-            .map((destination) => destination.widget)
-            .toList()[index],
-      ),
-    );
+    return NavDestinations.destinations
+        .indexWhere((dest) => location.startsWith(dest.path));
   }
+
+  void _onDestinationSelected(int index, BuildContext context) =>
+      context.go(NavDestinations.destinations[index].path);
 }

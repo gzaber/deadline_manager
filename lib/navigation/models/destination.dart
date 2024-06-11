@@ -4,10 +4,10 @@ class Destination {
   const Destination({
     required this.label,
     required this.icon,
-    required this.widget,
+    required this.path,
   });
 
   final String label;
   final IconData icon;
-  final Widget widget;
+  final String path;
 }
