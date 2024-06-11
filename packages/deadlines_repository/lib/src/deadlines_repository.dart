@@ -24,4 +24,8 @@ class DeadlinesRepository {
 
   Stream<List<Deadline>> observeDeadlinesByCategory(String categoryId) =>
       _deadlinesApi.observeDeadlinesByCategory(categoryId);
+
+  Stream<List<Deadline>> observeDeadlinesByCategories(
+          List<String> categoryIds) =>
+      _deadlinesApi.observeDeadlinesByCategories(categoryIds);
 }

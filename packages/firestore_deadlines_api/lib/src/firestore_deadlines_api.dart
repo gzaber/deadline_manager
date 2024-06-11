@@ -54,4 +54,17 @@ class FirestoreDeadlinesApi implements DeadlinesApi {
                     .copyWith(id: doc.id),
               )
               .toList());
+
+  @override
+  Stream<List<Deadline>> observeDeadlinesByCategories(
+          List<String> categoryIds) =>
+      _deadlinesRef
+          .where(_categoryIdField, whereIn: categoryIds)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map(
+                (doc) => Deadline.fromJson(doc.data() as Map<String, dynamic>)
+                    .copyWith(id: doc.id),
+              )
+              .toList());
 }

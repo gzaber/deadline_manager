@@ -7,4 +7,5 @@ abstract interface class DeadlinesApi {
   Future<void> deleteDeadlinesByCategoryId(String categoryId);
   Future<Deadline> readDeadline(String id);
   Stream<List<Deadline>> observeDeadlinesByCategory(String categoryId);
+  Stream<List<Deadline>> observeDeadlinesByCategories(List<String> categoryIds);
 }
