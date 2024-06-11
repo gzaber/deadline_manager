@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 class NavDestinations {
   static const destinations = [
     Destination(
-      label: 'Home',
+      label: 'Summary',
       icon: Icons.list,
-      path: RouterConfiguration.homePath,
+      path: RouterConfiguration.summaryPath,
     ),
     Destination(
       label: 'Categories',

@@ -2,6 +2,7 @@ import 'package:deadline_manager/authentication/authentication.dart';
 import 'package:deadline_manager/categories/categories.dart';
 import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:deadline_manager/navigation/navigation.dart';
+import 'package:deadline_manager/summary/summary.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +14,7 @@ class RouterConfiguration {
   final bool isAuthenticated;
 
   static const authenticationPath = '/authentication';
-  static const homePath = '/home';
+  static const summaryPath = '/summary';
   static const categoriesPath = '/categories';
   static const categoryIdParameter = 'categoryId';
   static const categoryDetailsPath = 'category_details';
@@ -31,7 +32,7 @@ class RouterConfiguration {
 
   late final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: homePath,
+    initialLocation: summaryPath,
     redirect: (context, state) => !isAuthenticated ? authenticationPath : null,
     routes: [
       GoRoute(
@@ -43,8 +44,8 @@ class RouterConfiguration {
         builder: (context, state, child) => NavigationPage(child: child),
         routes: [
           GoRoute(
-            path: homePath,
-            builder: (context, state) => Container(color: Colors.orange),
+            path: summaryPath,
+            builder: (context, state) => const SummaryPage(),
           ),
           GoRoute(
             path: categoriesPath,
