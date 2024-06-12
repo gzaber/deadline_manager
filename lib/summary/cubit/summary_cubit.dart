@@ -24,20 +24,29 @@ class SummaryCubit extends Cubit<SummaryState> {
   late final StreamSubscription<List<Deadline>> _deadlinesSubscription;
 
   void _subscribeToDeadlines() async {
-    List<String> categoryIds = [];
-    await _categoriesRepository
+    final categories = await _categoriesRepository
         .observeCategoriesByUserEmail(state.user.email)
         .first
-        .then((value) {
-      categoryIds = value.map((category) => category.id ?? '').toList();
-    });
+        .onError(
+      (_, __) {
+        emit(
+          state.copyWith(status: SummaryStatus.failure),
+        );
+        return List.empty();
+      },
+    );
 
-    if (categoryIds.isNotEmpty) {
-      _deadlinesSubscription =
-          _deadlinesRepository.observeDeadlinesByCategories(categoryIds).listen(
+    if (categories.isNotEmpty) {
+      _deadlinesSubscription = _deadlinesRepository
+          .observeDeadlinesByCategories(
+              categories.map((c) => c.id ?? '').toList())
+          .listen(
         (deadlines) {
           emit(
-            state.copyWith(status: SummaryStatus.success, deadlines: deadlines),
+            state.copyWith(
+              status: SummaryStatus.success,
+              deadlines: deadlines,
+            ),
           );
         },
         onError: (_) {
