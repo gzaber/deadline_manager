@@ -40,7 +40,11 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   void deleteCategoryWithDeadlines(String id) async {
     try {
       await _categoriesRepository.deleteCategory(id);
-      await _deadlinesRepository.deleteDeadlinesByCategoryId(id);
+      final deadlines =
+          await _deadlinesRepository.observeDeadlinesByCategory(id).first;
+      for (final deadline in deadlines) {
+        await _deadlinesRepository.deleteDeadline(deadline.id ?? '');
+      }
       emit(state.copyWith(status: CategoriesStatus.success));
     } catch (_) {
       emit(state.copyWith(status: CategoriesStatus.failure));

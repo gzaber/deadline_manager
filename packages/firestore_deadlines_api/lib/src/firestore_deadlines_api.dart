@@ -27,17 +27,6 @@ class FirestoreDeadlinesApi implements DeadlinesApi {
       await _deadlinesRef.doc(id).delete();
 
   @override
-  Future<void> deleteDeadlinesByCategoryId(String categoryId) async =>
-      await _deadlinesRef
-          .where(_categoryIdField, isEqualTo: categoryId)
-          .get()
-          .then((querySnapshot) async {
-        for (var docSnapshot in querySnapshot.docs) {
-          await _deadlinesRef.doc(docSnapshot.id).delete();
-        }
-      });
-
-  @override
   Future<Deadline> readDeadline(String id) async => await _deadlinesRef
       .doc(id)
       .get()
