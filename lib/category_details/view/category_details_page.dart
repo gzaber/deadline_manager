@@ -1,9 +1,10 @@
 import 'package:categories_repository/categories_repository.dart';
+import 'package:deadline_manager/app/app.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:deadline_manager/add_edit_deadline/add_edit_deadline.dart';
 import 'package:deadline_manager/category_details/category_details.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryDetailsPage extends StatelessWidget {
   const CategoryDetailsPage({
@@ -48,9 +49,8 @@ class CategoryDetailsView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          AddEditDeadlinePage.show(
-            context: context,
-            categoryId: category.id ?? '',
+          context.go(
+            '${RouterConfiguration.categoriesToCategoryDetailsPath}/${category.id}/${RouterConfiguration.addEditDeadlinePath}/${category.id}',
           );
         },
         child: const Icon(Icons.add),
@@ -115,10 +115,9 @@ class _DeadlineItem extends StatelessWidget {
       subtitle: showFullScreenDialog ? Text(formattedDate) : null,
       trailing: _PopupMenuButton(
         onUpdateTap: () {
-          AddEditDeadlinePage.show(
-            context: context,
-            categoryId: deadline.categoryId,
-            deadline: deadline,
+          context.go(
+            '${RouterConfiguration.categoriesToCategoryDetailsPath}/${deadline.categoryId}/${RouterConfiguration.addEditDeadlinePath}',
+            extra: deadline,
           );
         },
         onDeleteTap: () async {

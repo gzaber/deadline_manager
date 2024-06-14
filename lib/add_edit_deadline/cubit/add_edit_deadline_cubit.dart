@@ -7,15 +7,15 @@ part 'add_edit_deadline_state.dart';
 class AddEditDeadlineCubit extends Cubit<AddEditDeadlineState> {
   AddEditDeadlineCubit({
     required DeadlinesRepository deadlinesRepository,
-    required String categoryId,
-    required Deadline? initialDeadline,
+    required String? categoryId,
+    required Deadline? deadline,
   })  : _deadlinesRepository = deadlinesRepository,
         super(
           AddEditDeadlineState(
-            initialDeadline: initialDeadline,
-            categoryId: categoryId,
-            name: initialDeadline?.name ?? '',
-            expirationDate: initialDeadline?.expirationDate ?? DateTime.now(),
+            initialDeadline: deadline,
+            categoryId: deadline?.categoryId ?? categoryId,
+            name: deadline?.name ?? '',
+            expirationDate: deadline?.expirationDate ?? DateTime.now(),
           ),
         );
 
@@ -35,18 +35,16 @@ class AddEditDeadlineCubit extends Cubit<AddEditDeadlineState> {
     );
 
     final deadline = Deadline(
-      id: state.initialDeadline?.id ?? '',
-      categoryId: state.initialDeadline?.categoryId ?? state.categoryId,
+      id: state.initialDeadline?.id,
+      categoryId: state.initialDeadline?.categoryId ?? state.categoryId ?? '',
       name: state.name,
       expirationDate: state.expirationDate,
     );
 
     try {
-      if (state.initialDeadline == null) {
-        await _deadlinesRepository.createDeadline(deadline);
-      } else {
-        await _deadlinesRepository.updateDeadline(deadline);
-      }
+      state.initialDeadline == null
+          ? await _deadlinesRepository.createDeadline(deadline)
+          : await _deadlinesRepository.updateDeadline(deadline);
       emit(state.copyWith(status: AddEditDeadlineStatus.success));
     } catch (_) {
       emit(state.copyWith(status: AddEditDeadlineStatus.failure));

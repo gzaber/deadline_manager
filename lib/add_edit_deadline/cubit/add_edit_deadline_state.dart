@@ -2,23 +2,24 @@ part of 'add_edit_deadline_cubit.dart';
 
 enum AddEditDeadlineStatus { initial, loading, success, failure }
 
-class AddEditDeadlineState extends Equatable {
+final class AddEditDeadlineState extends Equatable {
   const AddEditDeadlineState({
     this.status = AddEditDeadlineStatus.initial,
     this.initialDeadline,
-    required this.categoryId,
+    this.categoryId,
     required this.name,
     required this.expirationDate,
   });
 
   final AddEditDeadlineStatus status;
   final Deadline? initialDeadline;
-  final String categoryId;
+  final String? categoryId;
   final String name;
   final DateTime expirationDate;
 
   @override
-  List<Object?> get props => [status, initialDeadline, name, expirationDate];
+  List<Object?> get props =>
+      [status, initialDeadline, categoryId, name, expirationDate];
 
   AddEditDeadlineState copyWith({
     AddEditDeadlineStatus? status,

@@ -8,16 +8,16 @@ part 'add_edit_category_state.dart';
 class AddEditCategoryCubit extends Cubit<AddEditCategoryState> {
   AddEditCategoryCubit({
     required CategoriesRepository categoriesRepository,
-    required Category? initialCategory,
+    required Category? category,
     required User user,
   })  : _categoriesRepository = categoriesRepository,
         super(
           AddEditCategoryState(
-            initialCategory: initialCategory,
             user: user,
-            name: initialCategory?.name ?? '',
-            icon: initialCategory?.icon ?? 0,
-            color: initialCategory?.color ?? 0,
+            initialCategory: category,
+            name: category?.name ?? '',
+            color: category?.color ?? 0,
+            icon: category?.icon ?? 0,
           ),
         );
 
@@ -41,7 +41,7 @@ class AddEditCategoryCubit extends Cubit<AddEditCategoryState> {
     );
 
     final category = Category(
-      id: state.initialCategory?.id ?? '',
+      id: state.initialCategory?.id,
       userEmail: state.initialCategory?.userEmail ?? state.user.email,
       authorizedUserEmails:
           state.initialCategory?.authorizedUserEmails ?? const [],
@@ -51,11 +51,9 @@ class AddEditCategoryCubit extends Cubit<AddEditCategoryState> {
     );
 
     try {
-      if (state.initialCategory == null) {
-        await _categoriesRepository.createCategory(category);
-      } else {
-        await _categoriesRepository.updateCategory(category);
-      }
+      state.initialCategory == null
+          ? await _categoriesRepository.createCategory(category)
+          : await _categoriesRepository.updateCategory(category);
       emit(
         state.copyWith(status: AddEditCategoryStatus.success),
       );

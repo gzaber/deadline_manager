@@ -1,5 +1,4 @@
 import 'package:categories_repository/categories_repository.dart';
-import 'package:deadline_manager/add_edit_category/add_edit_category.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/categories/categories.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
@@ -36,7 +35,7 @@ class CategoriesView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          AddEditCategoryPage.show(context: context);
+          context.go(RouterConfiguration.categoriesToAddEditCategoryPath);
         },
         child: const Icon(Icons.add),
       ),
@@ -89,15 +88,17 @@ class _CategoryItem extends StatelessWidget {
     return ListTile(
       onTap: () {
         context.go(
-          '${RouterConfiguration.categoriesToDeadlinesPath}/${category.id}',
+          '${RouterConfiguration.categoriesToCategoryDetailsPath}/${category.id}',
         );
       },
       leading: Icon(IconData(category.icon)),
       trailing: _PopupMenuButton(
-        onUpdateTap: () => AddEditCategoryPage.show(
-          context: context,
-          category: category,
-        ),
+        onUpdateTap: () {
+          context.go(
+            '${RouterConfiguration.categoriesToAddEditCategoryPath}/${category.id}',
+            extra: category,
+          );
+        },
         onDeleteTap: () async {
           return await showDialog<bool>(
             context: context,
