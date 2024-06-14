@@ -5,7 +5,7 @@ part 'category.g.dart';
 
 @JsonSerializable()
 class Category extends Equatable {
-  Category({
+  const Category({
     this.id,
     required this.userEmail,
     required this.authorizedUserEmails,
