@@ -16,8 +16,8 @@ class DeadlinesRepository {
   Future<void> deleteDeadline(String id) async =>
       await _deadlinesApi.deleteDeadline(id);
 
-  Future<Deadline> readDeadline(String id) async =>
-      await _deadlinesApi.readDeadline(id);
+  Stream<Deadline> observeDeadlineById(String id) =>
+      _deadlinesApi.observeDeadlineById(id);
 
   Stream<List<Deadline>> observeDeadlinesByCategory(String categoryId) =>
       _deadlinesApi.observeDeadlinesByCategory(categoryId);

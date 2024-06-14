@@ -27,10 +27,12 @@ class FirestoreDeadlinesApi implements DeadlinesApi {
       await _deadlinesRef.doc(id).delete();
 
   @override
-  Future<Deadline> readDeadline(String id) async => await _deadlinesRef
-      .doc(id)
-      .get()
-      .then((snapshot) => Deadline.fromJson(snapshot as Map<String, dynamic>));
+  Stream<Deadline> observeDeadlineById(String id) =>
+      _deadlinesRef.doc(id).snapshots().map(
+            (snapshot) =>
+                Deadline.fromJson(snapshot.data() as Map<String, dynamic>)
+                    .copyWith(id: snapshot.id),
+          );
 
   @override
   Stream<List<Deadline>> observeDeadlinesByCategory(String categoryId) =>
