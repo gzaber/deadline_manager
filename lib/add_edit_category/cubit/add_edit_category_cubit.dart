@@ -43,8 +43,6 @@ class AddEditCategoryCubit extends Cubit<AddEditCategoryState> {
     final category = Category(
       id: state.initialCategory?.id,
       userEmail: state.initialCategory?.userEmail ?? state.user.email,
-      authorizedUserEmails:
-          state.initialCategory?.authorizedUserEmails ?? const [],
       name: state.name,
       icon: state.icon,
       color: state.color,

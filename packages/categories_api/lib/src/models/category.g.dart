@@ -9,9 +9,6 @@ part of 'category.dart';
 Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
       id: json['id'] as String?,
       userEmail: json['userEmail'] as String,
-      authorizedUserEmails: (json['authorizedUserEmails'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
       name: json['name'] as String,
       icon: (json['icon'] as num).toInt(),
       color: (json['color'] as num).toInt(),
@@ -20,7 +17,6 @@ Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
 Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'id': instance.id,
       'userEmail': instance.userEmail,
-      'authorizedUserEmails': instance.authorizedUserEmails,
       'name': instance.name,
       'icon': instance.icon,
       'color': instance.color,

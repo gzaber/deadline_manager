@@ -17,11 +17,11 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
         super(
           const CategoryDetailsState(
             category: Category(
-                userEmail: '',
-                authorizedUserEmails: [],
-                name: '',
-                icon: 0,
-                color: 0),
+              userEmail: '',
+              name: '',
+              icon: 0,
+              color: 0,
+            ),
           ),
         ) {
     _subscribeToCategory(categoryId);

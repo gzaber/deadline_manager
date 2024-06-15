@@ -8,7 +8,6 @@ class Category extends Equatable {
   const Category({
     this.id,
     required this.userEmail,
-    required this.authorizedUserEmails,
     required this.name,
     required this.icon,
     required this.color,
@@ -16,7 +15,6 @@ class Category extends Equatable {
 
   final String? id;
   final String userEmail;
-  final List<String> authorizedUserEmails;
   final String name;
   final int icon;
   final int color;
@@ -29,7 +27,6 @@ class Category extends Equatable {
   Category copyWith({
     String? id,
     String? userEmail,
-    List<String>? authorizedUserEmails,
     String? name,
     int? icon,
     int? color,
@@ -37,7 +34,6 @@ class Category extends Equatable {
     return Category(
       id: id ?? this.id,
       userEmail: userEmail ?? this.userEmail,
-      authorizedUserEmails: authorizedUserEmails ?? this.authorizedUserEmails,
       name: name ?? this.name,
       icon: icon ?? this.icon,
       color: color ?? this.color,
@@ -45,6 +41,5 @@ class Category extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [id, userEmail, authorizedUserEmails, name, icon, color];
+  List<Object?> get props => [id, userEmail, name, icon, color];
 }
