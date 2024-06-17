@@ -1,0 +1,15 @@
+name: permissions_repository
+description: A repository that handles permission related requests.
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  permissions_api:
+    path: ../permissions_api
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0
