@@ -5,6 +5,7 @@ import 'package:deadline_manager/authentication/authentication.dart';
 import 'package:deadline_manager/categories/categories.dart';
 import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:deadline_manager/navigation/navigation.dart';
+import 'package:deadline_manager/permissions/permissions.dart';
 import 'package:deadline_manager/summary/summary.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class RouterConfiguration {
   static const authenticationPath = '/authentication';
   static const summaryPath = '/summary';
   static const categoriesPath = '/categories';
-  static const sharePath = '/share';
+  static const permissionsPath = '/permissions';
   static const settingsPath = '/settings';
 
   static const categoryIdParameter = 'categoryId';
@@ -46,6 +47,8 @@ class RouterConfiguration {
       GlobalKey<NavigatorState>(debugLabel: 'root');
   final GlobalKey<NavigatorState> _shellNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'shell');
+
+  get router => _router;
 
   late final _router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -102,8 +105,8 @@ class RouterConfiguration {
             ],
           ),
           GoRoute(
-            path: sharePath,
-            builder: (context, state) => Container(color: Colors.indigo),
+            path: permissionsPath,
+            builder: (context, state) => const PermissionsPage(),
           ),
           GoRoute(
             path: settingsPath,
@@ -113,6 +116,4 @@ class RouterConfiguration {
       ),
     ],
   );
-
-  get router => _router;
 }

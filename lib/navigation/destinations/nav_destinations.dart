@@ -15,9 +15,9 @@ class NavDestinations {
       path: RouterConfiguration.categoriesPath,
     ),
     Destination(
-      label: 'Share',
-      icon: Icons.share,
-      path: RouterConfiguration.sharePath,
+      label: 'Permissions',
+      icon: Icons.lock,
+      path: RouterConfiguration.permissionsPath,
     ),
     Destination(
       label: 'Settings',
