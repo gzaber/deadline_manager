@@ -35,7 +35,7 @@ class CategoriesView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.go(RouterConfiguration.categoriesToAddEditCategoryPath);
+          context.go(AppRouter.categoriesToAddEditCategoryLocation);
         },
         child: const Icon(Icons.add),
       ),
@@ -88,14 +88,14 @@ class _CategoryItem extends StatelessWidget {
     return ListTile(
       onTap: () {
         context.go(
-          '${RouterConfiguration.categoriesToCategoryDetailsPath}/${category.id}',
+          '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}',
         );
       },
       leading: Icon(IconData(category.icon)),
       trailing: _PopupMenuButton(
         onUpdateTap: () {
           context.go(
-            '${RouterConfiguration.categoriesToAddEditCategoryPath}/${category.id}',
+            AppRouter.categoriesToAddEditCategoryLocation,
             extra: category,
           );
         },

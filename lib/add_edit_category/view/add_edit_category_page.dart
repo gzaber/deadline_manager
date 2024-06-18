@@ -8,11 +8,9 @@ import 'package:go_router/go_router.dart';
 class AddEditCategoryPage extends StatelessWidget {
   const AddEditCategoryPage({
     super.key,
-    this.categoryId,
     this.category,
   });
 
-  final String? categoryId;
   final Category? category;
 
   @override

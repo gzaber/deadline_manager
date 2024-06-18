@@ -7,22 +7,22 @@ class NavDestinations {
     Destination(
       label: 'Summary',
       icon: Icons.list,
-      path: RouterConfiguration.summaryPath,
+      path: AppRouter.summaryPath,
     ),
     Destination(
       label: 'Categories',
       icon: Icons.category,
-      path: RouterConfiguration.categoriesPath,
+      path: AppRouter.categoriesPath,
     ),
     Destination(
       label: 'Permissions',
       icon: Icons.lock,
-      path: RouterConfiguration.permissionsPath,
+      path: AppRouter.permissionsPath,
     ),
     Destination(
       label: 'Settings',
       icon: Icons.settings,
-      path: RouterConfiguration.settingsPath,
+      path: AppRouter.settingsPath,
     ),
   ];
 }

@@ -65,8 +65,7 @@ class AppView extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      routerConfig:
-          RouterConfiguration(isAuthenticated: isAuthenticated).router,
+      routerConfig: AppRouter(isAuthenticated: isAuthenticated).router,
     );
   }
 }

@@ -33,7 +33,7 @@ class PermissionsView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.go(RouterConfiguration.permissionsToAddEditPermissionsPath);
+          context.go(AppRouter.permissionsToAddEditPermissionsLocation);
         },
         child: const Icon(Icons.add),
       ),
@@ -77,7 +77,7 @@ class _PermissionItem extends StatelessWidget {
       trailing: _PopupMenuButton(
         onUpdateTap: () {
           context.go(
-            RouterConfiguration.permissionsToAddEditPermissionsPath,
+            AppRouter.permissionsToAddEditPermissionsLocation,
             extra: permission,
           );
         },

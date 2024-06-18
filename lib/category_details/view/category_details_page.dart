@@ -50,7 +50,7 @@ class CategoryDetailsView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.go(
-            '${RouterConfiguration.categoriesToCategoryDetailsPath}/${category.id}/${RouterConfiguration.addEditDeadlinePath}/${category.id}',
+            '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}/${AppRouter.addEditDeadlinePath}/${category.id}',
           );
         },
         child: const Icon(Icons.add),
@@ -116,7 +116,7 @@ class _DeadlineItem extends StatelessWidget {
       trailing: _PopupMenuButton(
         onUpdateTap: () {
           context.go(
-            '${RouterConfiguration.categoriesToCategoryDetailsPath}/${deadline.categoryId}/${RouterConfiguration.addEditDeadlinePath}',
+            '${AppRouter.categoriesToCategoryDetailsLocation}/${deadline.categoryId}/${AppRouter.addEditDeadlinePath}/${deadline.categoryId}',
             extra: deadline,
           );
         },

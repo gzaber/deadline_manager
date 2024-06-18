@@ -13,12 +13,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permissions_repository/permissions_repository.dart';
 
-class RouterConfiguration {
-  RouterConfiguration({
+class AppRouter {
+  AppRouter({
     required this.isAuthenticated,
   });
 
   final bool isAuthenticated;
+  final GlobalKey<NavigatorState> _rootNavigatorKey =
+      GlobalKey<NavigatorState>(debugLabel: 'root');
+  final GlobalKey<NavigatorState> _shellNavigatorKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shell');
 
   static const authenticationPath = '/authentication';
   static const summaryPath = '/summary';
@@ -26,33 +30,24 @@ class RouterConfiguration {
   static const permissionsPath = '/permissions';
   static const settingsPath = '/settings';
 
-  static const categoryIdParameter = 'categoryId';
-  static const deadlineIdParameter = 'deadlineId';
-
   static const categoryDetailsPath = 'category_details';
+  static const addEditCategoryPath = 'add_edit_category';
+  static const addEditDeadlinePath = 'add_edit_deadline';
+  static const addEditPermissionPath = 'add_edit_permission';
+
+  static const categoryIdParameter = 'categoryId';
+
   static const categoryDetailsWithCategoryIdPath =
       '$categoryDetailsPath/:$categoryIdParameter';
-  static const categoriesToCategoryDetailsPath =
-      '$categoriesPath/$categoryDetailsPath';
-
-  static const addEditCategoryPath = 'add_edit_category';
-  static const addEditCategoryWithCategoryIdPath =
-      '$addEditCategoryPath/:$categoryIdParameter';
-  static const categoriesToAddEditCategoryPath =
-      '$categoriesPath/$addEditCategoryPath';
-
-  static const addEditDeadlinePath = 'add_edit_deadline';
   static const addEditDeadlineWithCategoryIdPath =
       '$addEditDeadlinePath/:$categoryIdParameter';
 
-  static const addEditPermissionPath = 'add_edit_permission';
-  static const permissionsToAddEditPermissionsPath =
+  static const categoriesToCategoryDetailsLocation =
+      '$categoriesPath/$categoryDetailsPath';
+  static const categoriesToAddEditCategoryLocation =
+      '$categoriesPath/$addEditCategoryPath';
+  static const permissionsToAddEditPermissionsLocation =
       '$permissionsPath/$addEditPermissionPath';
-
-  final GlobalKey<NavigatorState> _rootNavigatorKey =
-      GlobalKey<NavigatorState>(debugLabel: 'root');
-  final GlobalKey<NavigatorState> _shellNavigatorKey =
-      GlobalKey<NavigatorState>(debugLabel: 'shell');
 
   get router => _router;
 
@@ -84,28 +79,18 @@ class RouterConfiguration {
                 ),
                 routes: [
                   GoRoute(
-                    path: addEditDeadlinePath,
-                    builder: (context, state) => AddEditDeadlinePage(
-                      deadline: state.extra as Deadline,
-                    ),
-                  ),
-                  GoRoute(
                     path: addEditDeadlineWithCategoryIdPath,
                     builder: (context, state) => AddEditDeadlinePage(
                       categoryId: state.pathParameters[categoryIdParameter],
+                      deadline: state.extra as Deadline?,
                     ),
                   ),
                 ],
               ),
               GoRoute(
                 path: addEditCategoryPath,
-                builder: (context, state) => const AddEditCategoryPage(),
-              ),
-              GoRoute(
-                path: addEditCategoryWithCategoryIdPath,
                 builder: (context, state) => AddEditCategoryPage(
-                  categoryId: state.pathParameters[categoryIdParameter],
-                  category: state.extra as Category,
+                  category: state.extra as Category?,
                 ),
               ),
             ],
