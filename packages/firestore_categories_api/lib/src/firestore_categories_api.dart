@@ -13,7 +13,6 @@ class FirestoreCategoriesApi implements CategoriesApi {
 
   static const String _categoriesCollection = 'categories';
   static const String _userEmailField = 'userEmail';
-  static const String _authorizedUserEmailsField = 'authorizedUserEmails';
 
   @override
   Future<void> createCategory(Category category) async =>
@@ -37,18 +36,6 @@ class FirestoreCategoriesApi implements CategoriesApi {
   Stream<List<Category>> observeCategoriesByUserEmail(String email) =>
       _categoriesRef
           .where(_userEmailField, isEqualTo: email)
-          .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map(
-                (doc) => Category.fromJson(doc.data() as Map<String, dynamic>)
-                    .copyWith(id: doc.id),
-              )
-              .toList());
-
-  @override
-  Stream<List<Category>> observeCategoriesByAuthorizedUserEmail(String email) =>
-      _categoriesRef
-          .where(_authorizedUserEmailsField, arrayContains: email)
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map(

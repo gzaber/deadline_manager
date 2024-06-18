@@ -21,7 +21,4 @@ class CategoriesRepository {
 
   Stream<List<Category>> observeCategoriesByUserEmail(String email) =>
       _categoriesApi.observeCategoriesByUserEmail(email);
-
-  Stream<List<Category>> observeCategoriesByAuthorizedUserEmail(String email) =>
-      _categoriesApi.observeCategoriesByAuthorizedUserEmail(email);
 }

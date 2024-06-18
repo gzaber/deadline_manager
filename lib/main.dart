@@ -5,7 +5,9 @@ import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firestore_categories_api/firestore_categories_api.dart';
 import 'package:firestore_deadlines_api/firestore_deadlines_api.dart';
+import 'package:firestore_permissions_api/firestore_permissions_api.dart';
 import 'package:flutter/material.dart';
+import 'package:permissions_repository/permissions_repository.dart';
 
 import 'app/app.dart';
 
@@ -22,12 +24,16 @@ void main() async {
   final deadlinesRepository = DeadlinesRepository(
     deadlinesApi: FirestoreDeadlinesApi(),
   );
+  final permissionsRepository = PermissionsRepository(
+    permissionsApi: FirestorePermissionsApi(),
+  );
 
   runApp(
     App(
       authenticationRepository: authenticationRepository,
       categoriesRepository: categoriesRepository,
       deadlinesRepository: deadlinesRepository,
+      permissionsRepository: permissionsRepository,
     ),
   );
 }

@@ -15,13 +15,13 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   })  : _categoriesRepository = categoriesRepository,
         _deadlinesRepository = deadlinesRepository,
         super(
-          CategoryDetailsState(
+          const CategoryDetailsState(
             category: Category(
-                userEmail: '',
-                authorizedUserEmails: const [],
-                name: '',
-                icon: 0,
-                color: 0),
+              userEmail: '',
+              name: '',
+              icon: 0,
+              color: 0,
+            ),
           ),
         ) {
     _subscribeToCategory(categoryId);

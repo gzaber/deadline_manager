@@ -4,20 +4,24 @@ import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deadline_manager/app/app.dart';
+import 'package:permissions_repository/permissions_repository.dart';
 
 class App extends StatelessWidget {
   const App({
     required AuthenticationRepository authenticationRepository,
     required CategoriesRepository categoriesRepository,
     required DeadlinesRepository deadlinesRepository,
+    required PermissionsRepository permissionsRepository,
     super.key,
   })  : _authenticationRepository = authenticationRepository,
         _categoriesRepository = categoriesRepository,
-        _deadlinesRepository = deadlinesRepository;
+        _deadlinesRepository = deadlinesRepository,
+        _permissionsRepository = permissionsRepository;
 
   final AuthenticationRepository _authenticationRepository;
   final CategoriesRepository _categoriesRepository;
   final DeadlinesRepository _deadlinesRepository;
+  final PermissionsRepository _permissionsRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider.value(
           value: _deadlinesRepository,
+        ),
+        RepositoryProvider.value(
+          value: _permissionsRepository,
         ),
       ],
       child: BlocProvider(
@@ -58,8 +65,7 @@ class AppView extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      routerConfig:
-          RouterConfiguration(isAuthenticated: isAuthenticated).router,
+      routerConfig: AppRouter(isAuthenticated: isAuthenticated).router,
     );
   }
 }
