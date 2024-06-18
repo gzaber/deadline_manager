@@ -1,6 +1,7 @@
 import 'package:categories_repository/categories_repository.dart';
 import 'package:deadline_manager/add_edit_category/add_edit_category.dart';
 import 'package:deadline_manager/add_edit_deadline/add_edit_deadline.dart';
+import 'package:deadline_manager/add_edit_permission/add_edit_permission.dart';
 import 'package:deadline_manager/authentication/authentication.dart';
 import 'package:deadline_manager/categories/categories.dart';
 import 'package:deadline_manager/category_details/category_details.dart';
@@ -10,6 +11,7 @@ import 'package:deadline_manager/summary/summary.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permissions_repository/permissions_repository.dart';
 
 class RouterConfiguration {
   RouterConfiguration({
@@ -42,6 +44,10 @@ class RouterConfiguration {
   static const addEditDeadlinePath = 'add_edit_deadline';
   static const addEditDeadlineWithCategoryIdPath =
       '$addEditDeadlinePath/:$categoryIdParameter';
+
+  static const addEditPermissionPath = 'add_edit_permission';
+  static const permissionsToAddEditPermissionsPath =
+      '$permissionsPath/$addEditPermissionPath';
 
   final GlobalKey<NavigatorState> _rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -107,6 +113,14 @@ class RouterConfiguration {
           GoRoute(
             path: permissionsPath,
             builder: (context, state) => const PermissionsPage(),
+            routes: [
+              GoRoute(
+                path: addEditPermissionPath,
+                builder: (context, state) => AddEditPermissionPage(
+                  permission: state.extra as Permission?,
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: settingsPath,

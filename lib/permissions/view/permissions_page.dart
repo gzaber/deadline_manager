@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permissions_repository/permissions_repository.dart';
 
 import 'package:deadline_manager/app/app.dart';
@@ -31,7 +32,9 @@ class PermissionsView extends StatelessWidget {
         title: const Text('Permissions'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.go(RouterConfiguration.permissionsToAddEditPermissionsPath);
+        },
         child: const Icon(Icons.add),
       ),
       body: BlocConsumer<PermissionsCubit, PermissionsState>(
@@ -72,7 +75,12 @@ class _PermissionItem extends StatelessWidget {
       leading: const Icon(Icons.person),
       title: Text(permission.receiver),
       trailing: _PopupMenuButton(
-        onUpdateTap: () {},
+        onUpdateTap: () {
+          context.go(
+            RouterConfiguration.permissionsToAddEditPermissionsPath,
+            extra: permission,
+          );
+        },
         onDeleteTap: () async {
           return await showDialog<bool>(
             context: context,
