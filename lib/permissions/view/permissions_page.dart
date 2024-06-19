@@ -82,27 +82,12 @@ class _PermissionItem extends StatelessWidget {
           );
         },
         onDeleteTap: () async {
-          return await showDialog<bool>(
+          await ConfirmationAlertDialog.show(
             context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Delete'),
-              content: const Text('Delete this permission?'),
-              actionsAlignment: MainAxisAlignment.spaceBetween,
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, false);
-                  },
-                  child: const Text('No'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  child: const Text('Yes'),
-                ),
-              ],
-            ),
+            title: 'Delete',
+            content: 'Delete this permission?',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
           ).then(
             (value) {
               if (value == true) {
