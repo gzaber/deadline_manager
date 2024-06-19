@@ -104,7 +104,9 @@ class _DeadlineItem extends StatelessWidget {
               ],
             ),
       subtitle: showFullScreenDialog ? Text(formattedDate) : null,
-      trailing: _PopupMenuButton(
+      trailing: UpdateDeleteMenuButton(
+        updateText: 'Update',
+        deleteText: 'Delete',
         onUpdateTap: () {
           context.go(
             '${AppRouter.categoriesToCategoryDetailsLocation}/${deadline.categoryId}/${AppRouter.addEditDeadlinePath}/${deadline.categoryId}',
@@ -144,26 +146,6 @@ class _DeadlineItem extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class _PopupMenuButton extends StatelessWidget {
-  const _PopupMenuButton({
-    required this.onUpdateTap,
-    required this.onDeleteTap,
-  });
-
-  final Function() onUpdateTap;
-  final Function() onDeleteTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton(
-      itemBuilder: (_) => [
-        PopupMenuItem(onTap: onUpdateTap, child: const Text('Update')),
-        PopupMenuItem(onTap: onDeleteTap, child: const Text('Delete')),
-      ],
     );
   }
 }

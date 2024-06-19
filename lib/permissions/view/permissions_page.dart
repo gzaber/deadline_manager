@@ -72,7 +72,9 @@ class _PermissionItem extends StatelessWidget {
     return ListTile(
       leading: const Icon(Icons.person),
       title: Text(permission.receiver),
-      trailing: _PopupMenuButton(
+      trailing: UpdateDeleteMenuButton(
+        updateText: 'Update',
+        deleteText: 'Delete',
         onUpdateTap: () {
           context.go(
             AppRouter.permissionsToAddEditPermissionsLocation,
@@ -112,26 +114,6 @@ class _PermissionItem extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class _PopupMenuButton extends StatelessWidget {
-  const _PopupMenuButton({
-    required this.onUpdateTap,
-    required this.onDeleteTap,
-  });
-
-  final Function() onUpdateTap;
-  final Function() onDeleteTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton(
-      itemBuilder: (_) => [
-        PopupMenuItem(onTap: onUpdateTap, child: const Text('Update')),
-        PopupMenuItem(onTap: onDeleteTap, child: const Text('Delete')),
-      ],
     );
   }
 }
