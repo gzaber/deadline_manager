@@ -1,6 +1,7 @@
 import 'package:categories_repository/categories_repository.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/categories/categories.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,19 +44,9 @@ class CategoriesView extends StatelessWidget {
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == CategoriesStatus.failure) {
-            showDialog(
+            FailureSnackBar.show(
               context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Error'),
-                content: const Text('Something went wrong with categories'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      child: const Text('OK')),
-                ],
-              ),
+              text: 'Something went wrong',
             );
           }
         },

@@ -1,3 +1,4 @@
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -41,13 +42,10 @@ class PermissionsView extends StatelessWidget {
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == PermissionsStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Something went wrong'),
-                ),
-              );
+            FailureSnackBar.show(
+              context: context,
+              text: 'Something went wrong',
+            );
           }
         },
         builder: (context, state) {

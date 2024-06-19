@@ -1,6 +1,7 @@
 import 'package:categories_repository/categories_repository.dart';
 import 'package:deadline_manager/add_edit_category/add_edit_category.dart';
 import 'package:deadline_manager/app/app.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -48,20 +49,9 @@ class AddEditCategoryView extends StatelessWidget {
             context.pop();
           }
           if (state.status == AddEditCategoryStatus.failure) {
-            showDialog(
+            FailureSnackBar.show(
               context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Error'),
-                content:
-                    const Text('Something went wrong during saving category'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('OK')),
-                ],
-              ),
+              text: 'Something went wrong',
             );
           }
         },

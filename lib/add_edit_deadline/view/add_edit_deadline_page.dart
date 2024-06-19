@@ -1,4 +1,5 @@
 import 'package:deadline_manager/add_edit_deadline/add_edit_deadline.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,20 +50,9 @@ class AddEditDeadlineView extends StatelessWidget {
             context.pop();
           }
           if (state.status == AddEditDeadlineStatus.failure) {
-            showDialog(
+            FailureSnackBar.show(
               context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Error'),
-                content:
-                    const Text('Something went wrong during saving deadline'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('OK')),
-                ],
-              ),
+              text: 'Something went wrong',
             );
           }
         },

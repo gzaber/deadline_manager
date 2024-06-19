@@ -1,4 +1,5 @@
 import 'package:categories_repository/categories_repository.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -51,13 +52,10 @@ class AddEditPermissionView extends StatelessWidget {
             context.pop();
           }
           if (state.status == AddEditPermissionStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Something went wrong'),
-                ),
-              );
+            FailureSnackBar.show(
+              context: context,
+              text: 'Something went wrong',
+            );
           }
         },
         child: const Padding(
