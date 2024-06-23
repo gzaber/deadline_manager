@@ -4,6 +4,7 @@ import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class AddEditDeadlinePage extends StatelessWidget {
   const AddEditDeadlinePage({
@@ -117,18 +118,19 @@ class _DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final date = context.select(
+    final stateDate = context.select(
       (AddEditDeadlineCubit cubit) => cubit.state.expirationDate,
     );
-    final formattedDate = '${date.day}-${date.month}-${date.year}';
+    final currentDate = DateTime.now();
+    final formattedDate = DateFormat('dd-MM-yyyy').format(stateDate);
 
     return OutlinedButton(
       onPressed: () async {
         await showDatePicker(
           context: context,
-          initialDate: DateTime(date.year, date.month, date.day),
-          firstDate: DateTime.now(),
-          lastDate: DateTime(DateTime.now().year + 10),
+          initialDate: DateTime(stateDate.year, stateDate.month, stateDate.day),
+          firstDate: DateTime(currentDate.year - 10),
+          lastDate: DateTime(currentDate.year + 10),
         ).then((value) {
           if (value != null) {
             context.read<AddEditDeadlineCubit>().onDateTimeChanged(value);
