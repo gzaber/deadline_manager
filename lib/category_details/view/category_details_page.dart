@@ -44,7 +44,13 @@ class CategoryDetailsView extends StatelessWidget {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(IconData(category.icon)),
+            Icon(
+              IconData(
+                category.icon,
+                fontFamily: 'MaterialIcons',
+              ),
+            ),
+            const SizedBox(width: 15),
             Text(category.name),
           ],
         ),

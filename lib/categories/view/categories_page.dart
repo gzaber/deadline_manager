@@ -82,7 +82,12 @@ class _CategoryItem extends StatelessWidget {
           '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}',
         );
       },
-      leading: Icon(IconData(category.icon)),
+      leading: Icon(
+        IconData(
+          category.icon,
+          fontFamily: 'MaterialIcons',
+        ),
+      ),
       trailing: UpdateDeleteMenuButton(
         updateText: 'Update',
         deleteText: 'Delete',
