@@ -1,11 +1,12 @@
 import 'package:categories_repository/categories_repository.dart';
-import 'package:deadline_manager/app/app.dart';
-import 'package:deadline_manager/ui/ui.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:deadline_manager/app/app.dart';
+import 'package:deadline_manager/category_details/category_details.dart';
+import 'package:deadline_manager/ui/ui.dart';
 
 class CategoryDetailsPage extends StatelessWidget {
   const CategoryDetailsPage({
@@ -33,6 +34,7 @@ class CategoryDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentDate = DateTime.now();
     final category =
         context.select((CategoryDetailsCubit cubit) => cubit.state.category);
 
@@ -70,7 +72,10 @@ class CategoryDetailsView extends StatelessWidget {
           return ListView.builder(
             itemCount: state.deadlines.length,
             itemBuilder: (_, index) {
-              return _DeadlineItem(deadline: state.deadlines[index]);
+              return _DeadlineItem(
+                deadline: state.deadlines[index],
+                currentDate: currentDate,
+              );
             },
           );
         },
@@ -82,28 +87,17 @@ class CategoryDetailsView extends StatelessWidget {
 class _DeadlineItem extends StatelessWidget {
   const _DeadlineItem({
     required this.deadline,
+    required this.currentDate,
   });
 
   final Deadline deadline;
+  final DateTime currentDate;
 
   @override
   Widget build(BuildContext context) {
-    final showFullScreenDialog = MediaQuery.sizeOf(context).width < 640;
-    final date = deadline.expirationDate;
-    final formattedDate = '${date.day}-${date.month}-${date.year}';
-
-    return ListTile(
-      leading: const Icon(Icons.description),
-      title: showFullScreenDialog
-          ? Text(deadline.name)
-          : Row(
-              children: [
-                Text(deadline.name),
-                const Spacer(),
-                Text(formattedDate)
-              ],
-            ),
-      subtitle: showFullScreenDialog ? Text(formattedDate) : null,
+    return DeadlineListTile(
+      deadline: deadline,
+      currentDate: currentDate,
       trailing: UpdateDeleteMenuButton(
         updateText: 'Update',
         deleteText: 'Delete',

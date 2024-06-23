@@ -27,6 +27,8 @@ class SummaryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentDate = DateTime.now();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -46,40 +48,14 @@ class SummaryView extends StatelessWidget {
           return ListView.builder(
             itemCount: state.deadlines.length,
             itemBuilder: (_, index) {
-              return _DeadlineItem(deadline: state.deadlines[index]);
+              return DeadlineListTile(
+                deadline: state.deadlines[index],
+                currentDate: currentDate,
+              );
             },
           );
         },
       ),
-    );
-  }
-}
-
-class _DeadlineItem extends StatelessWidget {
-  const _DeadlineItem({
-    required this.deadline,
-  });
-
-  final Deadline deadline;
-
-  @override
-  Widget build(BuildContext context) {
-    final showFullScreenDialog = MediaQuery.sizeOf(context).width < 640;
-    final date = deadline.expirationDate;
-    final formattedDate = '${date.day}-${date.month}-${date.year}';
-
-    return ListTile(
-      leading: const Icon(Icons.description),
-      title: showFullScreenDialog
-          ? Text(deadline.name)
-          : Row(
-              children: [
-                Text(deadline.name),
-                const Spacer(),
-                Text(formattedDate)
-              ],
-            ),
-      subtitle: showFullScreenDialog ? Text(formattedDate) : null,
     );
   }
 }
