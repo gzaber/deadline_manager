@@ -62,10 +62,21 @@ class AddEditCategoryView extends StatelessWidget {
             children: [
               _NameField(),
               SizedBox(height: 10),
-              _IconSelector(icons: [Icons.share, Icons.edit, Icons.alarm]),
+              _IconSelector(icons: [
+                Icons.share,
+                Icons.edit,
+                Icons.alarm,
+                Icons.dock,
+                Icons.podcasts
+              ]),
               SizedBox(height: 10),
-              _ColorSelector(
-                  colors: [Colors.indigo, Colors.orange, Colors.purple]),
+              _ColorSelector(colors: [
+                Colors.indigo,
+                Colors.orange,
+                Colors.purple,
+                Colors.pink,
+                Colors.greenAccent
+              ]),
             ],
           ),
         ),
@@ -126,16 +137,19 @@ class _IconSelector extends StatelessWidget {
     final stateIcon =
         context.select((AddEditCategoryCubit cubit) => cubit.state.icon);
 
-    return ToggleButtons(
-      onPressed: (index) => context
-          .read<AddEditCategoryCubit>()
-          .onIconChanged(icons[index].codePoint),
-      isSelected: List.of(
-        icons.map((icon) => icon.codePoint == stateIcon),
-      ),
+    return Wrap(
+      spacing: 8,
       children: [
         ...icons.map(
-          (icon) => Icon(icon),
+          (icon) => ChoiceChip(
+            onSelected: (_) {
+              context
+                  .read<AddEditCategoryCubit>()
+                  .onIconChanged(icon.codePoint);
+            },
+            selected: icon.codePoint == stateIcon,
+            label: Icon(icon),
+          ),
         ),
       ],
     );
@@ -154,16 +168,17 @@ class _ColorSelector extends StatelessWidget {
     final stateColor =
         context.select((AddEditCategoryCubit cubit) => cubit.state.color);
 
-    return ToggleButtons(
-      onPressed: (index) => context
-          .read<AddEditCategoryCubit>()
-          .onColorChanged(colors[index].value),
-      isSelected: List.of(
-        colors.map((color) => color.value == stateColor),
-      ),
+    return Wrap(
+      spacing: 8,
       children: [
         ...colors.map(
-          (color) => CircleAvatar(backgroundColor: color),
+          (color) => ChoiceChip(
+            onSelected: (_) {
+              context.read<AddEditCategoryCubit>().onColorChanged(color.value);
+            },
+            selected: color.value == stateColor,
+            label: CircleAvatar(backgroundColor: color),
+          ),
         ),
       ],
     );
