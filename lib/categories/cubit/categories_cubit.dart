@@ -28,6 +28,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         .observeCategoriesByUserEmail(state.user.email)
         .listen(
       (categories) {
+        categories.sort((a, b) => a.name.compareTo(b.name));
         emit(state.copyWith(
             categories: categories, status: CategoriesStatus.success));
       },

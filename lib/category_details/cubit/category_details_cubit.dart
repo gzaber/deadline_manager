@@ -48,6 +48,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     _deadlinesSubscription = _deadlinesRepository
         .observeDeadlinesByCategory(categoryId)
         .listen((deadlines) {
+      deadlines.sort((a, b) => a.expirationDate.compareTo(b.expirationDate));
       emit(state.copyWith(
           status: CategoryDetailsStatus.success, deadlines: deadlines));
     }, onError: (_) {

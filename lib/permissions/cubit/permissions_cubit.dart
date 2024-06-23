@@ -24,6 +24,7 @@ class PermissionsCubit extends Cubit<PermissionsState> {
         .observePermissionsByGiver(state.user.email)
         .listen(
       (permissions) {
+        permissions.sort((a, b) => a.receiver.compareTo(b.receiver));
         emit(
           state.copyWith(
               status: PermissionsStatus.success, permissions: permissions),

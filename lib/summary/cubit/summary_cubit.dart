@@ -42,6 +42,8 @@ class SummaryCubit extends Cubit<SummaryState> {
               categories.map((c) => c.id ?? '').toList())
           .listen(
         (deadlines) {
+          deadlines
+              .sort((a, b) => a.expirationDate.compareTo(b.expirationDate));
           emit(
             state.copyWith(
               status: SummaryStatus.success,
