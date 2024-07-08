@@ -1,3 +1,4 @@
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,9 +25,9 @@ class DeadlineListTile extends StatelessWidget {
       leading: Icon(Icons.description,
           color: switch (
               deadline.expirationDate.difference(currentDate).inDays) {
-            <= 7 => Colors.red,
-            > 7 && <= 30 => Colors.orange,
-            _ => Colors.green,
+            <= 7 => AppColors.shortExpirationDateColor,
+            > 7 && <= 30 => AppColors.mediumExpirationDateColor,
+            _ => AppColors.longExpirationDateColor,
           }),
       title: isSmallWidth
           ? Text(deadline.name)

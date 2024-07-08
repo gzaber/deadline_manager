@@ -70,13 +70,7 @@ class AddEditCategoryView extends StatelessWidget {
                 Icons.podcasts
               ]),
               SizedBox(height: 10),
-              _ColorSelector(colors: [
-                Colors.indigo,
-                Colors.orange,
-                Colors.purple,
-                Colors.pink,
-                Colors.greenAccent
-              ]),
+              _ColorSelector(colors: AppColors.categoryColors),
             ],
           ),
         ),
