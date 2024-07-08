@@ -47,7 +47,7 @@ class CategoryDetailsView extends StatelessWidget {
             Icon(
               IconData(
                 category.icon,
-                fontFamily: 'MaterialIcons',
+                fontFamily: AppIcons.iconFontFamily,
               ),
             ),
             const SizedBox(width: 15),
@@ -62,7 +62,7 @@ class CategoryDetailsView extends StatelessWidget {
             '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}/${AppRouter.addEditDeadlinePath}/${category.id}',
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(AppIcons.fabIcon),
       ),
       body: BlocConsumer<CategoryDetailsCubit, CategoryDetailsState>(
         listenWhen: (previous, current) => previous.status != current.status,

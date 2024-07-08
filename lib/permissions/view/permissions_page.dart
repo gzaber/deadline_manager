@@ -36,7 +36,7 @@ class PermissionsView extends StatelessWidget {
         onPressed: () {
           context.go(AppRouter.permissionsToAddEditPermissionsLocation);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(AppIcons.fabIcon),
       ),
       body: BlocConsumer<PermissionsCubit, PermissionsState>(
         listenWhen: (previous, current) => previous.status != current.status,
@@ -70,7 +70,7 @@ class _PermissionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.person),
+      leading: const Icon(AppIcons.permissionItemIcon),
       title: Text(permission.receiver),
       trailing: UpdateDeleteMenuButton(
         updateText: 'Update',

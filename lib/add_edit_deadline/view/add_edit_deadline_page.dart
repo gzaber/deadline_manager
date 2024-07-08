@@ -87,7 +87,7 @@ class _SaveButton extends StatelessWidget {
       },
       icon: stateStatus == AddEditDeadlineStatus.loading
           ? const CircularProgressIndicator()
-          : const Icon(Icons.save),
+          : const Icon(AppIcons.saveIcon),
     );
   }
 }
@@ -140,7 +140,7 @@ class _DatePicker extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.date_range),
+          const Icon(AppIcons.calendarIcon),
           const SizedBox(width: 10),
           Text(formattedDate),
         ],

@@ -38,7 +38,7 @@ class CategoriesView extends StatelessWidget {
         onPressed: () {
           context.go(AppRouter.categoriesToAddEditCategoryLocation);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(AppIcons.fabIcon),
       ),
       body: BlocConsumer<CategoriesCubit, CategoriesState>(
         listenWhen: (previous, current) => previous.status != current.status,
@@ -85,7 +85,7 @@ class _CategoryItem extends StatelessWidget {
       leading: Icon(
         IconData(
           category.icon,
-          fontFamily: 'MaterialIcons',
+          fontFamily: AppIcons.iconFontFamily,
         ),
       ),
       trailing: UpdateDeleteMenuButton(

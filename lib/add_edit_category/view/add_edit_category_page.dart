@@ -62,13 +62,7 @@ class AddEditCategoryView extends StatelessWidget {
             children: [
               _NameField(),
               SizedBox(height: 10),
-              _IconSelector(icons: [
-                Icons.share,
-                Icons.edit,
-                Icons.alarm,
-                Icons.dock,
-                Icons.podcasts
-              ]),
+              _IconSelector(icons: AppIcons.categoryIcons),
               SizedBox(height: 10),
               _ColorSelector(colors: AppColors.categoryColors),
             ],
@@ -93,7 +87,7 @@ class _SaveButton extends StatelessWidget {
       },
       icon: stateStatus == AddEditCategoryStatus.loading
           ? const CircularProgressIndicator()
-          : const Icon(Icons.save),
+          : const Icon(AppIcons.saveIcon),
     );
   }
 }

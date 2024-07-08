@@ -88,7 +88,7 @@ class _SaveButton extends StatelessWidget {
       },
       icon: stateStatus == AddEditPermissionStatus.loading
           ? const CircularProgressIndicator()
-          : const Icon(Icons.save),
+          : const Icon(AppIcons.saveIcon),
     );
   }
 }
