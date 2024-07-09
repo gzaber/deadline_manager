@@ -115,7 +115,6 @@ class _CategoryItem extends StatelessWidget {
         },
       ),
       title: Text(category.name),
-      subtitle: Text(category.userEmail),
       tileColor: Color(category.color),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),
