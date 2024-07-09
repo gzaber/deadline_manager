@@ -62,10 +62,7 @@ class AppView extends StatelessWidget {
     return MaterialApp.router(
       title: 'Deadline Manager',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.seedColor),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.theme,
       routerConfig: AppRouter(isAuthenticated: isAuthenticated).router,
     );
   }

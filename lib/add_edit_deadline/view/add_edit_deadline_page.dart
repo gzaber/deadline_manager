@@ -36,7 +36,6 @@ class AddEditDeadlineView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           context.read<AddEditDeadlineCubit>().state.initialDeadline == null
               ? 'Create deadline'
@@ -105,10 +104,7 @@ class _NameField extends StatelessWidget {
       onChanged: (value) {
         context.read<AddEditDeadlineCubit>().onNameChanged(value);
       },
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
+      decoration: const InputDecoration(labelText: 'Deadline name'),
     );
   }
 }

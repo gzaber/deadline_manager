@@ -31,7 +31,6 @@ class SummaryView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: const Text('Summary'),
       ),
       body: BlocConsumer<SummaryCubit, SummaryState>(

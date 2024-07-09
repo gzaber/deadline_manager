@@ -34,7 +34,6 @@ class AddEditCategoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           context.read<AddEditCategoryCubit>().state.initialCategory == null
               ? 'Create category'
@@ -105,10 +104,7 @@ class _NameField extends StatelessWidget {
       onChanged: (value) {
         context.read<AddEditCategoryCubit>().onNameChanged(value);
       },
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
+      decoration: const InputDecoration(labelText: 'Category name'),
     );
   }
 }

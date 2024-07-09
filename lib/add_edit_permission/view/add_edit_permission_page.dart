@@ -37,7 +37,6 @@ class AddEditPermissionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           context.read<AddEditPermissionCubit>().state.initialPermission == null
               ? 'Create permission'
@@ -106,10 +105,7 @@ class _ReceiverField extends StatelessWidget {
       onChanged: (value) {
         context.read<AddEditPermissionCubit>().onReceiverChanged(value);
       },
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
+      decoration: const InputDecoration(labelText: 'User email'),
     );
   }
 }

@@ -40,7 +40,6 @@ class CategoryDetailsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
