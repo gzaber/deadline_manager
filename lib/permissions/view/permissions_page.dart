@@ -1,4 +1,4 @@
-import 'package:deadline_manager/ui/ui.dart';
+import 'package:categories_repository/categories_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +6,7 @@ import 'package:permissions_repository/permissions_repository.dart';
 
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/permissions/permissions.dart';
+import 'package:deadline_manager/ui/ui.dart';
 
 class PermissionsPage extends StatelessWidget {
   const PermissionsPage({super.key});
@@ -14,6 +15,7 @@ class PermissionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PermissionsCubit(
+        categoriesRepository: context.read<CategoriesRepository>(),
         permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
       ),
@@ -70,8 +72,23 @@ class _PermissionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(AppIcons.permissionItemIcon),
+      leading: const CircleAvatar(
+        child: Icon(AppIcons.permissionItemIcon),
+      ),
       title: Text(permission.receiver),
+      subtitle: Wrap(
+        children: [
+          ...permission.categoryIds
+              .map((id) => context
+                  .read<PermissionsCubit>()
+                  .state
+                  .categories
+                  .firstWhere((c) => c.id == id))
+              .map(
+                (category) => _PermissionsCategoryItem(category: category),
+              ),
+        ],
+      ),
       trailing: UpdateDeleteMenuButton(
         updateText: 'Update',
         deleteText: 'Delete',
@@ -98,6 +115,37 @@ class _PermissionItem extends StatelessWidget {
             },
           );
         },
+      ),
+    );
+  }
+}
+
+class _PermissionsCategoryItem extends StatelessWidget {
+  const _PermissionsCategoryItem({
+    required this.category,
+  });
+
+  final Category category;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.permissionsCategoryBorderColor),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            IconData(category.icon, fontFamily: AppIcons.iconFontFamily),
+            size: 15,
+          ),
+          const SizedBox(width: 5),
+          Text(category.name)
+        ],
       ),
     );
   }
