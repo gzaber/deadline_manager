@@ -44,7 +44,8 @@ class SummaryView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return ListView.builder(
+          return ListView.separated(
+            separatorBuilder: (_, __) => const Divider(),
             itemCount: state.deadlines.length,
             itemBuilder: (_, index) {
               return DeadlineListTile(

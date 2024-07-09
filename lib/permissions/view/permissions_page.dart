@@ -48,7 +48,8 @@ class PermissionsView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return ListView.builder(
+          return ListView.separated(
+            separatorBuilder: (_, __) => const Divider(),
             itemCount: state.permissions.length,
             itemBuilder: (_, index) =>
                 _PermissionItem(permission: state.permissions[index]),
