@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permissions_repository/permissions_repository.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});
@@ -17,6 +18,7 @@ class CategoriesPage extends StatelessWidget {
       create: (context) => CategoriesCubit(
         categoriesRepository: context.read<CategoriesRepository>(),
         deadlinesRepository: context.read<DeadlinesRepository>(),
+        permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
       ),
       child: const CategoriesView(),
@@ -108,7 +110,7 @@ class _CategoryItem extends StatelessWidget {
               if (value == true) {
                 context
                     .read<CategoriesCubit>()
-                    .deleteCategoryWithDeadlines(category.id ?? '');
+                    .deleteCategory(category.id ?? '');
               }
             },
           );
