@@ -1,10 +1,12 @@
 import 'package:categories_repository/categories_repository.dart';
-import 'package:deadline_manager/app/app.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:deadline_manager/app/app.dart';
+import 'package:deadline_manager/category_details/category_details.dart';
+import 'package:deadline_manager/ui/ui.dart';
 
 class CategoryDetailsPage extends StatelessWidget {
   const CategoryDetailsPage({
@@ -32,16 +34,22 @@ class CategoryDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentDate = DateTime.now();
     final category =
         context.select((CategoryDetailsCubit cubit) => cubit.state.category);
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(IconData(category.icon)),
+            Icon(
+              IconData(
+                category.icon,
+                fontFamily: AppIcons.iconFontFamily,
+              ),
+            ),
+            const SizedBox(width: 15),
             Text(category.name),
           ],
         ),
@@ -53,33 +61,27 @@ class CategoryDetailsView extends StatelessWidget {
             '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}/${AppRouter.addEditDeadlinePath}/${category.id}',
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(AppIcons.fabIcon),
       ),
       body: BlocConsumer<CategoryDetailsCubit, CategoryDetailsState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == CategoryDetailsStatus.failure) {
-            showDialog(
+            FailureSnackBar.show(
               context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Error'),
-                content: const Text('Something went wrong'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('OK')),
-                ],
-              ),
+              text: 'Something went wrong',
             );
           }
         },
         builder: (context, state) {
-          return ListView.builder(
+          return ListView.separated(
+            separatorBuilder: (_, __) => const Divider(),
             itemCount: state.deadlines.length,
             itemBuilder: (_, index) {
-              return _DeadlineItem(deadline: state.deadlines[index]);
+              return _DeadlineItem(
+                deadline: state.deadlines[index],
+                currentDate: currentDate,
+              );
             },
           );
         },
@@ -91,29 +93,20 @@ class CategoryDetailsView extends StatelessWidget {
 class _DeadlineItem extends StatelessWidget {
   const _DeadlineItem({
     required this.deadline,
+    required this.currentDate,
   });
 
   final Deadline deadline;
+  final DateTime currentDate;
 
   @override
   Widget build(BuildContext context) {
-    final showFullScreenDialog = MediaQuery.sizeOf(context).width < 640;
-    final date = deadline.expirationDate;
-    final formattedDate = '${date.day}-${date.month}-${date.year}';
-
-    return ListTile(
-      leading: const Icon(Icons.description),
-      title: showFullScreenDialog
-          ? Text(deadline.name)
-          : Row(
-              children: [
-                Text(deadline.name),
-                const Spacer(),
-                Text(formattedDate)
-              ],
-            ),
-      subtitle: showFullScreenDialog ? Text(formattedDate) : null,
-      trailing: _PopupMenuButton(
+    return DeadlineListTile(
+      deadline: deadline,
+      currentDate: currentDate,
+      trailing: UpdateDeleteMenuButton(
+        updateText: 'Update',
+        deleteText: 'Delete',
         onUpdateTap: () {
           context.go(
             '${AppRouter.categoriesToCategoryDetailsLocation}/${deadline.categoryId}/${AppRouter.addEditDeadlinePath}/${deadline.categoryId}',
@@ -121,27 +114,12 @@ class _DeadlineItem extends StatelessWidget {
           );
         },
         onDeleteTap: () async {
-          return await showDialog<bool>(
+          await ConfirmationAlertDialog.show(
             context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Delete'),
-              content: const Text('Delete this deadline?'),
-              actionsAlignment: MainAxisAlignment.spaceBetween,
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, false);
-                  },
-                  child: const Text('No'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  child: const Text('Yes'),
-                ),
-              ],
-            ),
+            title: 'Delete',
+            content: 'Delete this deadline?',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
           ).then(
             (value) {
               if (value == true) {
@@ -153,26 +131,6 @@ class _DeadlineItem extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class _PopupMenuButton extends StatelessWidget {
-  const _PopupMenuButton({
-    required this.onUpdateTap,
-    required this.onDeleteTap,
-  });
-
-  final Function() onUpdateTap;
-  final Function() onDeleteTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton(
-      itemBuilder: (_) => [
-        PopupMenuItem(onTap: onUpdateTap, child: const Text('Update')),
-        PopupMenuItem(onTap: onDeleteTap, child: const Text('Delete')),
-      ],
     );
   }
 }

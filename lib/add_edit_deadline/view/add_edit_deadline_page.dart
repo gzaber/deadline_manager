@@ -1,8 +1,10 @@
 import 'package:deadline_manager/add_edit_deadline/add_edit_deadline.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class AddEditDeadlinePage extends StatelessWidget {
   const AddEditDeadlinePage({
@@ -34,7 +36,6 @@ class AddEditDeadlineView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           context.read<AddEditDeadlineCubit>().state.initialDeadline == null
               ? 'Create deadline'
@@ -49,20 +50,9 @@ class AddEditDeadlineView extends StatelessWidget {
             context.pop();
           }
           if (state.status == AddEditDeadlineStatus.failure) {
-            showDialog(
+            FailureSnackBar.show(
               context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Error'),
-                content:
-                    const Text('Something went wrong during saving deadline'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('OK')),
-                ],
-              ),
+              text: 'Something went wrong',
             );
           }
         },
@@ -96,7 +86,7 @@ class _SaveButton extends StatelessWidget {
       },
       icon: stateStatus == AddEditDeadlineStatus.loading
           ? const CircularProgressIndicator()
-          : const Icon(Icons.save),
+          : const Icon(AppIcons.saveIcon),
     );
   }
 }
@@ -114,10 +104,7 @@ class _NameField extends StatelessWidget {
       onChanged: (value) {
         context.read<AddEditDeadlineCubit>().onNameChanged(value);
       },
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
+      decoration: const InputDecoration(labelText: 'Deadline name'),
     );
   }
 }
@@ -127,18 +114,19 @@ class _DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final date = context.select(
+    final stateDate = context.select(
       (AddEditDeadlineCubit cubit) => cubit.state.expirationDate,
     );
-    final formattedDate = '${date.day}-${date.month}-${date.year}';
+    final currentDate = DateTime.now();
+    final formattedDate = DateFormat('dd-MM-yyyy').format(stateDate);
 
     return OutlinedButton(
       onPressed: () async {
         await showDatePicker(
           context: context,
-          initialDate: DateTime(date.year, date.month, date.day),
-          firstDate: DateTime.now(),
-          lastDate: DateTime(DateTime.now().year + 10),
+          initialDate: DateTime(stateDate.year, stateDate.month, stateDate.day),
+          firstDate: DateTime(currentDate.year - 10),
+          lastDate: DateTime(currentDate.year + 10),
         ).then((value) {
           if (value != null) {
             context.read<AddEditDeadlineCubit>().onDateTimeChanged(value);
@@ -148,7 +136,7 @@ class _DatePicker extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.date_range),
+          const Icon(AppIcons.calendarIcon),
           const SizedBox(width: 10),
           Text(formattedDate),
         ],

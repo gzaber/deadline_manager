@@ -16,6 +16,9 @@ class PermissionsRepository {
   Future<void> deletePermission(String id) async =>
       await _permissionsApi.deletePermission(id);
 
+  Stream<List<Permission>> observePermissionsByCategory(String categoryId) =>
+      _permissionsApi.observePermissionsByCategory(categoryId);
+
   Stream<List<Permission>> observePermissionsByGiver(String email) =>
       _permissionsApi.observePermissionsByGiver(email);
 

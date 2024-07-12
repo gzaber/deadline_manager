@@ -1,6 +1,7 @@
 import 'package:categories_repository/categories_repository.dart';
 import 'package:deadline_manager/add_edit_category/add_edit_category.dart';
 import 'package:deadline_manager/app/app.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +34,6 @@ class AddEditCategoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           context.read<AddEditCategoryCubit>().state.initialCategory == null
               ? 'Create category'
@@ -48,20 +48,9 @@ class AddEditCategoryView extends StatelessWidget {
             context.pop();
           }
           if (state.status == AddEditCategoryStatus.failure) {
-            showDialog(
+            FailureSnackBar.show(
               context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Error'),
-                content:
-                    const Text('Something went wrong during saving category'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('OK')),
-                ],
-              ),
+              text: 'Something went wrong',
             );
           }
         },
@@ -72,10 +61,9 @@ class AddEditCategoryView extends StatelessWidget {
             children: [
               _NameField(),
               SizedBox(height: 10),
-              _IconSelector(icons: [Icons.share, Icons.edit, Icons.alarm]),
+              _IconSelector(icons: AppIcons.categoryIcons),
               SizedBox(height: 10),
-              _ColorSelector(
-                  colors: [Colors.indigo, Colors.orange, Colors.purple]),
+              _ColorSelector(colors: AppColors.categoryColors),
             ],
           ),
         ),
@@ -98,7 +86,7 @@ class _SaveButton extends StatelessWidget {
       },
       icon: stateStatus == AddEditCategoryStatus.loading
           ? const CircularProgressIndicator()
-          : const Icon(Icons.save),
+          : const Icon(AppIcons.saveIcon),
     );
   }
 }
@@ -116,10 +104,7 @@ class _NameField extends StatelessWidget {
       onChanged: (value) {
         context.read<AddEditCategoryCubit>().onNameChanged(value);
       },
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
+      decoration: const InputDecoration(labelText: 'Category name'),
     );
   }
 }
@@ -136,16 +121,19 @@ class _IconSelector extends StatelessWidget {
     final stateIcon =
         context.select((AddEditCategoryCubit cubit) => cubit.state.icon);
 
-    return ToggleButtons(
-      onPressed: (index) => context
-          .read<AddEditCategoryCubit>()
-          .onIconChanged(icons[index].codePoint),
-      isSelected: List.of(
-        icons.map((icon) => icon.codePoint == stateIcon),
-      ),
+    return Wrap(
+      spacing: 8,
       children: [
         ...icons.map(
-          (icon) => Icon(icon),
+          (icon) => ChoiceChip(
+            onSelected: (_) {
+              context
+                  .read<AddEditCategoryCubit>()
+                  .onIconChanged(icon.codePoint);
+            },
+            selected: icon.codePoint == stateIcon,
+            label: Icon(icon),
+          ),
         ),
       ],
     );
@@ -164,16 +152,17 @@ class _ColorSelector extends StatelessWidget {
     final stateColor =
         context.select((AddEditCategoryCubit cubit) => cubit.state.color);
 
-    return ToggleButtons(
-      onPressed: (index) => context
-          .read<AddEditCategoryCubit>()
-          .onColorChanged(colors[index].value),
-      isSelected: List.of(
-        colors.map((color) => color.value == stateColor),
-      ),
+    return Wrap(
+      spacing: 8,
       children: [
         ...colors.map(
-          (color) => CircleAvatar(backgroundColor: color),
+          (color) => ChoiceChip(
+            onSelected: (_) {
+              context.read<AddEditCategoryCubit>().onColorChanged(color.value);
+            },
+            selected: color.value == stateColor,
+            label: CircleAvatar(backgroundColor: color),
+          ),
         ),
       ],
     );

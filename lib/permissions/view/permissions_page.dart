@@ -1,3 +1,4 @@
+import 'package:categories_repository/categories_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +6,7 @@ import 'package:permissions_repository/permissions_repository.dart';
 
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/permissions/permissions.dart';
+import 'package:deadline_manager/ui/ui.dart';
 
 class PermissionsPage extends StatelessWidget {
   const PermissionsPage({super.key});
@@ -13,6 +15,7 @@ class PermissionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PermissionsCubit(
+        categoriesRepository: context.read<CategoriesRepository>(),
         permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
       ),
@@ -28,30 +31,27 @@ class PermissionsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: const Text('Permissions'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.go(AppRouter.permissionsToAddEditPermissionsLocation);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(AppIcons.fabIcon),
       ),
       body: BlocConsumer<PermissionsCubit, PermissionsState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == PermissionsStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Something went wrong'),
-                ),
-              );
+            FailureSnackBar.show(
+              context: context,
+              text: 'Something went wrong',
+            );
           }
         },
         builder: (context, state) {
-          return ListView.builder(
+          return ListView.separated(
+            separatorBuilder: (_, __) => const Divider(),
             itemCount: state.permissions.length,
             itemBuilder: (_, index) =>
                 _PermissionItem(permission: state.permissions[index]),
@@ -72,9 +72,26 @@ class _PermissionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.person),
+      leading: const CircleAvatar(
+        child: Icon(AppIcons.permissionItemIcon),
+      ),
       title: Text(permission.receiver),
-      trailing: _PopupMenuButton(
+      subtitle: Wrap(
+        children: [
+          ...permission.categoryIds
+              .map((id) => context
+                  .read<PermissionsCubit>()
+                  .state
+                  .categories
+                  .firstWhere((c) => c.id == id))
+              .map(
+                (category) => _PermissionsCategoryItem(category: category),
+              ),
+        ],
+      ),
+      trailing: UpdateDeleteMenuButton(
+        updateText: 'Update',
+        deleteText: 'Delete',
         onUpdateTap: () {
           context.go(
             AppRouter.permissionsToAddEditPermissionsLocation,
@@ -82,27 +99,12 @@ class _PermissionItem extends StatelessWidget {
           );
         },
         onDeleteTap: () async {
-          return await showDialog<bool>(
+          await ConfirmationAlertDialog.show(
             context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Delete'),
-              content: const Text('Delete this permission?'),
-              actionsAlignment: MainAxisAlignment.spaceBetween,
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, false);
-                  },
-                  child: const Text('No'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  child: const Text('Yes'),
-                ),
-              ],
-            ),
+            title: 'Delete',
+            content: 'Delete this permission?',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
           ).then(
             (value) {
               if (value == true) {
@@ -118,22 +120,33 @@ class _PermissionItem extends StatelessWidget {
   }
 }
 
-class _PopupMenuButton extends StatelessWidget {
-  const _PopupMenuButton({
-    required this.onUpdateTap,
-    required this.onDeleteTap,
+class _PermissionsCategoryItem extends StatelessWidget {
+  const _PermissionsCategoryItem({
+    required this.category,
   });
 
-  final Function() onUpdateTap;
-  final Function() onDeleteTap;
+  final Category category;
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
-      itemBuilder: (_) => [
-        PopupMenuItem(onTap: onUpdateTap, child: const Text('Update')),
-        PopupMenuItem(onTap: onDeleteTap, child: const Text('Delete')),
-      ],
+    return Container(
+      padding: const EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.permissionsCategoryBorderColor),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            IconData(category.icon, fontFamily: AppIcons.iconFontFamily),
+            size: 15,
+          ),
+          const SizedBox(width: 5),
+          Text(category.name)
+        ],
+      ),
     );
   }
 }

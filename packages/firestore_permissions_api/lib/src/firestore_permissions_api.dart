@@ -12,6 +12,7 @@ class FirestorePermissionsApi implements PermissionsApi {
   late final CollectionReference _permissionsRef;
 
   static const String _permissionsPath = 'permissions';
+  static const String _categoryIdsField = 'categoryIds';
   static const String _giverField = 'giver';
   static const String _receiverField = 'receiver';
 
@@ -26,6 +27,18 @@ class FirestorePermissionsApi implements PermissionsApi {
   @override
   Future<void> deletePermission(String id) async =>
       await _permissionsRef.doc(id).delete();
+
+  @override
+  Stream<List<Permission>> observePermissionsByCategory(String categoryId) =>
+      _permissionsRef
+          .where(_categoryIdsField, arrayContains: categoryId)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map(
+                (doc) => Permission.fromJson(doc.data() as Map<String, dynamic>)
+                    .copyWith(id: doc.id),
+              )
+              .toList());
 
   @override
   Stream<List<Permission>> observePermissionsByGiver(String email) =>

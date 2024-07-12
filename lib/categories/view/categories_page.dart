@@ -1,11 +1,13 @@
 import 'package:categories_repository/categories_repository.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/categories/categories.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permissions_repository/permissions_repository.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});
@@ -16,6 +18,7 @@ class CategoriesPage extends StatelessWidget {
       create: (context) => CategoriesCubit(
         categoriesRepository: context.read<CategoriesRepository>(),
         deadlinesRepository: context.read<DeadlinesRepository>(),
+        permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
       ),
       child: const CategoriesView(),
@@ -30,32 +33,21 @@ class CategoriesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: const Text('Categories'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.go(AppRouter.categoriesToAddEditCategoryLocation);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(AppIcons.fabIcon),
       ),
       body: BlocConsumer<CategoriesCubit, CategoriesState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == CategoriesStatus.failure) {
-            showDialog(
+            FailureSnackBar.show(
               context: context,
-              builder: (_) => AlertDialog(
-                title: const Text('Error'),
-                content: const Text('Something went wrong with categories'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      child: const Text('OK')),
-                ],
-              ),
+              text: 'Something went wrong',
             );
           }
         },
@@ -91,8 +83,15 @@ class _CategoryItem extends StatelessWidget {
           '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}',
         );
       },
-      leading: Icon(IconData(category.icon)),
-      trailing: _PopupMenuButton(
+      leading: Icon(
+        IconData(
+          category.icon,
+          fontFamily: AppIcons.iconFontFamily,
+        ),
+      ),
+      trailing: UpdateDeleteMenuButton(
+        updateText: 'Update',
+        deleteText: 'Delete',
         onUpdateTap: () {
           context.go(
             AppRouter.categoriesToAddEditCategoryLocation,
@@ -100,64 +99,28 @@ class _CategoryItem extends StatelessWidget {
           );
         },
         onDeleteTap: () async {
-          return await showDialog<bool>(
+          await ConfirmationAlertDialog.show(
             context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Delete'),
-              content: const Text('Delete this category?'),
-              actionsAlignment: MainAxisAlignment.spaceBetween,
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, false);
-                  },
-                  child: const Text('No'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  child: const Text('Yes'),
-                ),
-              ],
-            ),
+            title: 'Delete',
+            content: 'Delete this category?',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
           ).then(
             (value) {
               if (value == true) {
                 context
                     .read<CategoriesCubit>()
-                    .deleteCategoryWithDeadlines(category.id ?? '');
+                    .deleteCategory(category.id ?? '');
               }
             },
           );
         },
       ),
       title: Text(category.name),
-      subtitle: Text(category.userEmail),
       tileColor: Color(category.color),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
-    );
-  }
-}
-
-class _PopupMenuButton extends StatelessWidget {
-  const _PopupMenuButton({
-    required this.onUpdateTap,
-    required this.onDeleteTap,
-  });
-
-  final Function() onUpdateTap;
-  final Function() onDeleteTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton(
-      itemBuilder: (_) => [
-        PopupMenuItem(onTap: onUpdateTap, child: const Text('Update')),
-        PopupMenuItem(onTap: onDeleteTap, child: const Text('Delete')),
-      ],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:categories_repository/categories_repository.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -36,7 +37,6 @@ class AddEditPermissionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           context.read<AddEditPermissionCubit>().state.initialPermission == null
               ? 'Create permission'
@@ -51,13 +51,10 @@ class AddEditPermissionView extends StatelessWidget {
             context.pop();
           }
           if (state.status == AddEditPermissionStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Something went wrong'),
-                ),
-              );
+            FailureSnackBar.show(
+              context: context,
+              text: 'Something went wrong',
+            );
           }
         },
         child: const Padding(
@@ -90,7 +87,7 @@ class _SaveButton extends StatelessWidget {
       },
       icon: stateStatus == AddEditPermissionStatus.loading
           ? const CircularProgressIndicator()
-          : const Icon(Icons.save),
+          : const Icon(AppIcons.saveIcon),
     );
   }
 }
@@ -108,10 +105,7 @@ class _ReceiverField extends StatelessWidget {
       onChanged: (value) {
         context.read<AddEditPermissionCubit>().onReceiverChanged(value);
       },
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
+      decoration: const InputDecoration(labelText: 'User email'),
     );
   }
 }
