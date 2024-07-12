@@ -5,6 +5,7 @@ import 'package:deadline_manager/ui/ui.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permissions_repository/permissions_repository.dart';
 
 class SummaryPage extends StatelessWidget {
   const SummaryPage({super.key});
@@ -15,6 +16,7 @@ class SummaryPage extends StatelessWidget {
       create: (context) => SummaryCubit(
         categoriesRepository: context.read<CategoriesRepository>(),
         deadlinesRepository: context.read<DeadlinesRepository>(),
+        permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
       ),
       child: const SummaryView(),
