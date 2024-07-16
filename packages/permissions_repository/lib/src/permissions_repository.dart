@@ -16,12 +16,13 @@ class PermissionsRepository {
   Future<void> deletePermission(String id) async =>
       await _permissionsApi.deletePermission(id);
 
-  Stream<List<Permission>> observePermissionsByCategory(String categoryId) =>
-      _permissionsApi.observePermissionsByCategory(categoryId);
+  Future<List<Permission>> readPermissionsByCategoryId(
+          String categoryId) async =>
+      await _permissionsApi.readPermissionsByCategoryId(categoryId);
+
+  Future<List<String>> readCategoryIdsByReceiver(String email) async =>
+      await _permissionsApi.readCategoryIdsByReceiver(email);
 
   Stream<List<Permission>> observePermissionsByGiver(String email) =>
       _permissionsApi.observePermissionsByGiver(email);
-
-  Stream<List<Permission>> observePermissionsByReceiver(String email) =>
-      _permissionsApi.observePermissionsByReceiver(email);
 }

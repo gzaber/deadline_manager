@@ -27,20 +27,30 @@ class FirestoreCategoriesApi implements CategoriesApi {
       await _categoriesRef.doc(id).delete();
 
   @override
-  Stream<Category> observeCategoryById(String id) =>
-      _categoriesRef.doc(id).snapshots().map((snapshot) =>
+  Future<Category> readCategoryById(String id) async =>
+      await _categoriesRef.doc(id).get().then((snapshot) =>
           Category.fromJson(snapshot.data() as Map<String, dynamic>)
               .copyWith(id: snapshot.id));
 
   @override
-  Stream<List<Category>> observeCategoriesByUserEmail(String email) =>
-      _categoriesRef
+  Future<List<Category>> readCategoriesByUserEmail(String email) async =>
+      await _categoriesRef
           .where(_userEmailField, isEqualTo: email)
-          .snapshots()
-          .map((snapshot) => snapshot.docs
+          .get()
+          .then((snapshot) => snapshot.docs
               .map(
                 (doc) => Category.fromJson(doc.data() as Map<String, dynamic>)
                     .copyWith(id: doc.id),
               )
               .toList());
+
+  @override
+  Stream<List<Category>> observeCategoriesByUserEmail(String email) =>
+      _categoriesRef.where(_userEmailField, isEqualTo: email).snapshots().map(
+            (snapshot) => snapshot.docs
+                .map((doc) =>
+                    Category.fromJson(doc.data() as Map<String, dynamic>)
+                        .copyWith(id: doc.id))
+                .toList(),
+          );
 }

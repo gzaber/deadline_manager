@@ -16,13 +16,12 @@ class DeadlinesRepository {
   Future<void> deleteDeadline(String id) async =>
       await _deadlinesApi.deleteDeadline(id);
 
-  Stream<Deadline> observeDeadlineById(String id) =>
-      _deadlinesApi.observeDeadlineById(id);
+  Future<List<Deadline>> readDeadlinesByCategoryId(String categoryId) =>
+      _deadlinesApi.readDeadlinesByCategoryId(categoryId);
 
-  Stream<List<Deadline>> observeDeadlinesByCategory(String categoryId) =>
-      _deadlinesApi.observeDeadlinesByCategory(categoryId);
+  Future<List<Deadline>> readDeadlinesByCategoryIds(List<String> categoryIds) =>
+      _deadlinesApi.readDeadlinesByCategoryIds(categoryIds);
 
-  Stream<List<Deadline>> observeDeadlinesByCategories(
-          List<String> categoryIds) =>
-      _deadlinesApi.observeDeadlinesByCategories(categoryIds);
+  Stream<List<Deadline>> observeDeadlinesByCategoryId(String categoryId) =>
+      _deadlinesApi.observeDeadlinesByCategoryId(categoryId);
 }

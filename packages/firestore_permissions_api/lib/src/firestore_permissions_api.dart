@@ -29,33 +29,35 @@ class FirestorePermissionsApi implements PermissionsApi {
       await _permissionsRef.doc(id).delete();
 
   @override
-  Stream<List<Permission>> observePermissionsByCategory(String categoryId) =>
-      _permissionsRef
+  Future<List<Permission>> readPermissionsByCategoryId(
+          String categoryId) async =>
+      await _permissionsRef
           .where(_categoryIdsField, arrayContains: categoryId)
-          .snapshots()
-          .map((snapshot) => snapshot.docs
+          .get()
+          .then((snapshot) => snapshot.docs
               .map(
                 (doc) => Permission.fromJson(doc.data() as Map<String, dynamic>)
                     .copyWith(id: doc.id),
               )
               .toList());
+
+  @override
+  Future<List<String>> readCategoryIdsByReceiver(String email) async =>
+      await _permissionsRef
+          .where(_receiverField, isEqualTo: email)
+          .get()
+          .then(((snapshot) => snapshot.docs
+              .map(
+                (doc) => Permission.fromJson(doc.data() as Map<String, dynamic>)
+                    .categoryIds,
+              )
+              .expand((id) => id)
+              .toList()));
 
   @override
   Stream<List<Permission>> observePermissionsByGiver(String email) =>
       _permissionsRef
           .where(_giverField, isEqualTo: email)
-          .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map(
-                (doc) => Permission.fromJson(doc.data() as Map<String, dynamic>)
-                    .copyWith(id: doc.id),
-              )
-              .toList());
-
-  @override
-  Stream<List<Permission>> observePermissionsByReceiver(String email) =>
-      _permissionsRef
-          .where(_receiverField, isEqualTo: email)
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map(
