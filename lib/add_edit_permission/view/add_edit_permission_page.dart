@@ -44,7 +44,7 @@ class AddEditPermissionView extends StatelessWidget {
         ),
         actions: const [_SaveButton()],
       ),
-      body: BlocListener<AddEditPermissionCubit, AddEditPermissionState>(
+      body: BlocConsumer<AddEditPermissionCubit, AddEditPermissionState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == AddEditPermissionStatus.saved) {
@@ -57,17 +57,24 @@ class AddEditPermissionView extends StatelessWidget {
             );
           }
         },
-        child: const Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _ReceiverField(),
-              SizedBox(height: 10),
-              _CategorySelector(),
-            ],
-          ),
-        ),
+        builder: (context, state) {
+          if (state.status == AddEditPermissionStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return const Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _ReceiverField(),
+                SizedBox(height: 10),
+                _CategorySelector(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

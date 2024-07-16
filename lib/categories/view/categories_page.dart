@@ -52,6 +52,11 @@ class CategoriesView extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          if (state.status == CategoriesStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return MasonryGridView.extent(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             maxCrossAxisExtent: 400,

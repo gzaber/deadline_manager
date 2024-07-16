@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:categories_repository/categories_repository.dart';
@@ -24,22 +22,26 @@ class AddEditPermissionCubit extends Cubit<AddEditPermissionState> {
             categoryIds: permission?.categoryIds ?? const [],
           ),
         ) {
-    _subscribeToCategories();
+    _readCategories();
   }
 
   final CategoriesRepository _categoriesRepository;
   final PermissionsRepository _permissionsRepository;
-  late final StreamSubscription<List<Category>> _categoriesSubscription;
 
-  void _subscribeToCategories() {
-    _categoriesSubscription = _categoriesRepository
-        .observeCategoriesByUserEmail(state.user.email)
-        .listen((categories) {
-      emit(state.copyWith(
-          status: AddEditPermissionStatus.success, categories: categories));
-    }, onError: (_) {
+  void _readCategories() async {
+    emit(state.copyWith(status: AddEditPermissionStatus.loading));
+    try {
+      final categories = await _categoriesRepository
+          .readCategoriesByUserEmail(state.user.email);
+      emit(
+        state.copyWith(
+          status: AddEditPermissionStatus.success,
+          categories: categories,
+        ),
+      );
+    } catch (_) {
       emit(state.copyWith(status: AddEditPermissionStatus.failure));
-    });
+    }
   }
 
   void onReceiverChanged(String receiver) {
@@ -73,11 +75,5 @@ class AddEditPermissionCubit extends Cubit<AddEditPermissionState> {
     } catch (_) {
       emit(state.copyWith(status: AddEditPermissionStatus.failure));
     }
-  }
-
-  @override
-  Future<void> close() {
-    _categoriesSubscription.cancel();
-    return super.close();
   }
 }

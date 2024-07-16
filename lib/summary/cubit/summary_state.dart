@@ -1,6 +1,6 @@
 part of 'summary_cubit.dart';
 
-enum SummaryStatus { initial, success, failure }
+enum SummaryStatus { initial, loading, success, failure }
 
 final class SummaryState extends Equatable {
   const SummaryState({

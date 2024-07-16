@@ -24,39 +24,48 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
             ),
           ),
         ) {
-    _subscribeToCategory(categoryId);
+    _readCategory(categoryId);
     _subscribeToDeadlines(categoryId);
   }
 
   final CategoriesRepository _categoriesRepository;
   final DeadlinesRepository _deadlinesRepository;
-  late final StreamSubscription<Category> _categorySubscription;
   late final StreamSubscription<List<Deadline>> _deadlinesSubscription;
 
-  void _subscribeToCategory(String categoryId) {
-    _categorySubscription = _categoriesRepository
-        .observeCategoryById(categoryId)
-        .listen((category) {
-      emit(state.copyWith(
-          status: CategoryDetailsStatus.success, category: category));
-    }, onError: (_) {
+  void _readCategory(String categoryId) async {
+    emit(state.copyWith(status: CategoryDetailsStatus.loading));
+    try {
+      final category = await _categoriesRepository.readCategoryById(categoryId);
+      emit(
+        state.copyWith(
+          status: CategoryDetailsStatus.success,
+          category: category,
+        ),
+      );
+    } catch (_) {
       emit(state.copyWith(status: CategoryDetailsStatus.failure));
-    });
+    }
   }
 
   void _subscribeToDeadlines(String categoryId) {
+    emit(state.copyWith(status: CategoryDetailsStatus.loading));
     _deadlinesSubscription = _deadlinesRepository
-        .observeDeadlinesByCategory(categoryId)
+        .observeDeadlinesByCategoryId(categoryId)
         .listen((deadlines) {
       deadlines.sort((a, b) => a.expirationDate.compareTo(b.expirationDate));
-      emit(state.copyWith(
-          status: CategoryDetailsStatus.success, deadlines: deadlines));
+      emit(
+        state.copyWith(
+          status: CategoryDetailsStatus.success,
+          deadlines: deadlines,
+        ),
+      );
     }, onError: (_) {
       emit(state.copyWith(status: CategoryDetailsStatus.failure));
     });
   }
 
   void deleteDeadline(String id) async {
+    emit(state.copyWith(status: CategoryDetailsStatus.loading));
     try {
       await _deadlinesRepository.deleteDeadline(id);
       emit(
@@ -71,7 +80,6 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
 
   @override
   Future<void> close() {
-    _categorySubscription.cancel();
     _deadlinesSubscription.cancel();
     return super.close();
   }

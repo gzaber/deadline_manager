@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:categories_repository/categories_repository.dart';
@@ -19,51 +17,36 @@ class SummaryCubit extends Cubit<SummaryState> {
         _deadlinesRepository = deadlinesRepository,
         _permissionsRepository = permissionsRepository,
         super(SummaryState(user: user)) {
-    _subscribeToDeadlines();
+    _readDeadlines();
   }
 
   final CategoriesRepository _categoriesRepository;
   final DeadlinesRepository _deadlinesRepository;
   final PermissionsRepository _permissionsRepository;
-  late final StreamSubscription<List<Deadline>> _deadlinesSubscription;
 
-  void _subscribeToDeadlines() async {
+  void _readDeadlines() async {
+    emit(state.copyWith(status: SummaryStatus.loading));
     try {
-      final categories = await _categoriesRepository
-          .observeCategoriesByUserEmail(state.user.email)
-          .first;
-      final permissions = await _permissionsRepository
-          .observePermissionsByReceiver(state.user.email)
-          .first;
-
-      final categoryIds = <String>[];
-      categoryIds.addAll(categories.map((c) => c.id ?? ''));
-      for (final permission in permissions) {
-        categoryIds.addAll(permission.categoryIds);
-      }
+      final userCategories = await _categoriesRepository
+          .readCategoriesByUserEmail(state.user.email);
+      final sharedCategoryIds = await _permissionsRepository
+          .readCategoryIdsByReceiver(state.user.email);
+      final categoryIds = sharedCategoryIds;
+      categoryIds.addAll(userCategories.map((c) => c.id ?? ''));
 
       if (categoryIds.isNotEmpty) {
-        _deadlinesSubscription = _deadlinesRepository
-            .observeDeadlinesByCategories(categoryIds)
-            .listen(
-          (deadlines) {
-            deadlines
-                .sort((a, b) => a.expirationDate.compareTo(b.expirationDate));
-            emit(
-              state.copyWith(
-                  status: SummaryStatus.success, deadlines: deadlines),
-            );
-          },
+        final deadlines =
+            await _deadlinesRepository.readDeadlinesByCategoryIds(categoryIds);
+        deadlines.sort((a, b) => a.expirationDate.compareTo(b.expirationDate));
+        emit(
+          state.copyWith(
+            status: SummaryStatus.success,
+            deadlines: deadlines,
+          ),
         );
       }
     } catch (_) {
       emit(state.copyWith(status: SummaryStatus.failure));
     }
-  }
-
-  @override
-  Future<void> close() {
-    _deadlinesSubscription.cancel();
-    return super.close();
   }
 }

@@ -50,6 +50,11 @@ class PermissionsView extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          if (state.status == PermissionsStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
             itemCount: state.permissions.length,
