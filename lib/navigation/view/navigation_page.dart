@@ -1,4 +1,5 @@
 import 'package:deadline_manager/navigation/navigation.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,10 +15,9 @@ class NavigationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isMediumWidth = constraints.maxWidth > 640;
-        final isLargeWidth = constraints.maxWidth > 960;
+        final screenSize = AppScreenSize.getSize(context);
 
-        if (isMediumWidth) {
+        if (screenSize != ScreenSize.mobile) {
           return Scaffold(
             body: SafeArea(
               child: Row(
@@ -31,13 +31,19 @@ class NavigationPage extends StatelessWidget {
                         ),
                       ),
                     ],
-                    extended: isLargeWidth ? true : false,
+                    extended: screenSize == ScreenSize.desktop,
                     selectedIndex: _calculateSelectedIndex(context),
                     onDestinationSelected: (value) =>
                         _onDestinationSelected(value, context),
                   ),
                   Expanded(
-                    child: child,
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                            maxWidth: AppScreenSize.desktopBreakpoint),
+                        child: child,
+                      ),
+                    ),
                   ),
                 ],
               ),

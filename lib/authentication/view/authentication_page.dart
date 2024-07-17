@@ -1,3 +1,4 @@
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class AuthenticationPage extends StatelessWidget {
       providers: [EmailAuthProvider()],
       headerBuilder: (context, constraints, shrinkOffset) => const _AppLogo(),
       sideBuilder: (context, constraints) => const _AppLogo(),
-      breakpoint: 640,
+      breakpoint: AppScreenSize.desktopBreakpoint,
     );
   }
 }
