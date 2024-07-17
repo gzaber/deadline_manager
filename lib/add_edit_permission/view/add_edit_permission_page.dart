@@ -69,7 +69,7 @@ class AddEditPermissionView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _ReceiverField(),
-                SizedBox(height: 10),
+                DescriptionText(description: 'Select category to share:'),
                 _CategorySelector(),
               ],
             ),

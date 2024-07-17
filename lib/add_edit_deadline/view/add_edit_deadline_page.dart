@@ -62,7 +62,7 @@ class AddEditDeadlineView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _NameField(),
-              SizedBox(height: 10),
+              DescriptionText(description: 'Select expiration date:'),
               _DatePicker(),
             ],
           ),

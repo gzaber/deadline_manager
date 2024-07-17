@@ -60,10 +60,10 @@ class AddEditCategoryView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _NameField(),
-              SizedBox(height: 10),
-              _IconSelector(icons: AppIcons.categoryIcons),
-              SizedBox(height: 10),
+              DescriptionText(description: 'Select color:'),
               _ColorSelector(colors: AppColors.categoryColors),
+              DescriptionText(description: 'Select icon:'),
+              _IconSelector(icons: AppIcons.categoryIcons),
             ],
           ),
         ),
