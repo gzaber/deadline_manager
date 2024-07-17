@@ -57,7 +57,7 @@ class AddEditDeadlineView extends StatelessWidget {
           }
         },
         child: const Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(AppInsets.xLarge),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -137,7 +137,7 @@ class _DatePicker extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(AppIcons.calendarIcon),
-          const SizedBox(width: 10),
+          const SizedBox(width: AppInsets.medium),
           Text(formattedDate),
         ],
       ),

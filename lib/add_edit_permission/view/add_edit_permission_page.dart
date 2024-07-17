@@ -64,7 +64,7 @@ class AddEditPermissionView extends StatelessWidget {
             );
           }
           return const Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(AppInsets.xLarge),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -128,7 +128,7 @@ class _CategorySelector extends StatelessWidget {
         .select((AddEditPermissionCubit cubit) => cubit.state.categoryIds);
 
     return Wrap(
-      spacing: 8,
+      spacing: AppInsets.medium,
       children: [
         ...stateCategories.map(
           (category) => ChoiceChip(

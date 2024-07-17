@@ -55,7 +55,7 @@ class AddEditCategoryView extends StatelessWidget {
           }
         },
         child: const Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(AppInsets.xLarge),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -122,7 +122,7 @@ class _IconSelector extends StatelessWidget {
         context.select((AddEditCategoryCubit cubit) => cubit.state.icon);
 
     return Wrap(
-      spacing: 8,
+      spacing: AppInsets.medium,
       children: [
         ...icons.map(
           (icon) => ChoiceChip(
@@ -153,7 +153,7 @@ class _ColorSelector extends StatelessWidget {
         context.select((AddEditCategoryCubit cubit) => cubit.state.color);
 
     return Wrap(
-      spacing: 8,
+      spacing: AppInsets.medium,
       children: [
         ...colors.map(
           (color) => ChoiceChip(

@@ -1,3 +1,4 @@
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class DescriptionText extends StatelessWidget {
@@ -11,7 +12,7 @@ class DescriptionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: AppInsets.medium),
       child: Text(
         description,
         style: Theme.of(context).textTheme.bodyLarge,

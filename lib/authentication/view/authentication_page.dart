@@ -22,16 +22,16 @@ class _AppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(AppInsets.xLarge),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
             'assets/images/deadline.png',
-            width: 40,
-            height: 40,
+            width: AppInsets.xxLarge,
+            height: AppInsets.xxLarge,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppInsets.medium),
           Text(
             'Deadline Manager',
             style: Theme.of(context).textTheme.displaySmall,

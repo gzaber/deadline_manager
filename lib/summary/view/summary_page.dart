@@ -53,7 +53,6 @@ class SummaryView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-
           final deadlines =
               state.showShared ? state.summaryDeadlines : state.userDeadlines;
           return ListView.separated(
@@ -88,7 +87,7 @@ class _DeadlineListTileSubtitle extends StatelessWidget {
     return Row(
       children: [
         Text(deadline.isShared ? 'shared by:' : 'category:'),
-        const SizedBox(width: 5),
+        const SizedBox(width: AppInsets.small),
         Icon(
           deadline.isShared
               ? Icons.person
@@ -96,9 +95,9 @@ class _DeadlineListTileSubtitle extends StatelessWidget {
                   deadline.categoryIcon,
                   fontFamily: AppIcons.iconFontFamily,
                 ),
-          size: 15,
+          size: AppInsets.large,
         ),
-        const SizedBox(width: 5),
+        const SizedBox(width: AppInsets.small),
         Text(deadline.isShared ? deadline.sharedBy : deadline.categoryName),
       ],
     );
@@ -118,7 +117,7 @@ class _FilterDeadlinesMenuButton extends StatelessWidget {
           child: Row(
             children: [
               const Padding(
-                padding: EdgeInsets.only(right: 8),
+                padding: EdgeInsets.only(right: AppInsets.medium),
                 child: Text('Show details'),
               ),
               summaryCubit.state.showDetails
@@ -132,7 +131,7 @@ class _FilterDeadlinesMenuButton extends StatelessWidget {
           child: Row(
             children: [
               const Padding(
-                padding: EdgeInsets.only(right: 8),
+                padding: EdgeInsets.only(right: AppInsets.medium),
                 child: Text('Show shared'),
               ),
               summaryCubit.state.showShared
