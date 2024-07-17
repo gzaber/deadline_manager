@@ -2,33 +2,53 @@ part of 'summary_cubit.dart';
 
 enum SummaryStatus { initial, loading, success, failure }
 
-final class SummaryState extends Equatable {
+class SummaryState extends Equatable {
   const SummaryState({
     this.status = SummaryStatus.initial,
     required this.user,
     this.categories = const [],
-    this.deadlines = const [],
+    this.userDeadlines = const [],
+    this.summaryDeadlines = const [],
+    this.showDetails = true,
+    this.showShared = true,
   });
 
   final SummaryStatus status;
   final User user;
   final List<Category> categories;
-  final List<SummaryDeadline> deadlines;
+  final List<SummaryDeadline> userDeadlines;
+  final List<SummaryDeadline> summaryDeadlines;
+  final bool showDetails;
+  final bool showShared;
 
   @override
-  List<Object> get props => [status, user, categories, deadlines];
+  List<Object> get props => [
+        status,
+        user,
+        categories,
+        userDeadlines,
+        summaryDeadlines,
+        showDetails,
+        showShared,
+      ];
 
   SummaryState copyWith({
     SummaryStatus? status,
     User? user,
     List<Category>? categories,
-    List<SummaryDeadline>? deadlines,
+    List<SummaryDeadline>? userDeadlines,
+    List<SummaryDeadline>? summaryDeadlines,
+    bool? showDetails,
+    bool? showShared,
   }) {
     return SummaryState(
       status: status ?? this.status,
       user: user ?? this.user,
       categories: categories ?? this.categories,
-      deadlines: deadlines ?? this.deadlines,
+      userDeadlines: userDeadlines ?? this.userDeadlines,
+      summaryDeadlines: summaryDeadlines ?? this.summaryDeadlines,
+      showDetails: showDetails ?? this.showDetails,
+      showShared: showShared ?? this.showShared,
     );
   }
 }

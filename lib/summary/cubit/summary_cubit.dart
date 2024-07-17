@@ -25,6 +25,22 @@ class SummaryCubit extends Cubit<SummaryState> {
   final DeadlinesRepository _deadlinesRepository;
   final PermissionsRepository _permissionsRepository;
 
+  void toggleShowDetails() {
+    emit(
+      state.copyWith(
+        showDetails: !state.showDetails,
+      ),
+    );
+  }
+
+  void toggleShowShared() {
+    emit(
+      state.copyWith(
+        showShared: !state.showShared,
+      ),
+    );
+  }
+
   void _readDeadlines() async {
     emit(state.copyWith(status: SummaryStatus.loading));
     try {
@@ -70,10 +86,13 @@ class SummaryCubit extends Cubit<SummaryState> {
           )
           .toList();
 
+      final userDeadlines = summaryDeadlines.where((d) => !d.isShared).toList();
+
       emit(
         state.copyWith(
           status: SummaryStatus.success,
-          deadlines: summaryDeadlines,
+          userDeadlines: userDeadlines,
+          summaryDeadlines: summaryDeadlines,
         ),
       );
     } catch (_) {

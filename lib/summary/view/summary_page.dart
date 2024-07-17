@@ -35,6 +35,7 @@ class SummaryView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Summary'),
+        actions: const [_FilterDeadlinesMenuButton()],
       ),
       body: BlocConsumer<SummaryCubit, SummaryState>(
         listenWhen: (previous, current) => previous.status != current.status,
@@ -52,15 +53,20 @@ class SummaryView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+
+          final deadlines =
+              state.showShared ? state.summaryDeadlines : state.userDeadlines;
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
-            itemCount: state.deadlines.length,
+            itemCount: deadlines.length,
             itemBuilder: (_, index) {
-              final summaryDeadline = state.deadlines[index];
+              final summaryDeadline = deadlines[index];
               return DeadlineListTile(
                 deadline: summaryDeadline.toDeadline(),
                 currentDate: currentDate,
-                subtitle: _DeadlineListTileSubtitle(deadline: summaryDeadline),
+                subtitle: state.showDetails
+                    ? _DeadlineListTileSubtitle(deadline: summaryDeadline)
+                    : null,
               );
             },
           );
@@ -94,6 +100,47 @@ class _DeadlineListTileSubtitle extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         Text(deadline.isShared ? deadline.sharedBy : deadline.categoryName),
+      ],
+    );
+  }
+}
+
+class _FilterDeadlinesMenuButton extends StatelessWidget {
+  const _FilterDeadlinesMenuButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final summaryCubit = context.read<SummaryCubit>();
+    return PopupMenuButton(
+      itemBuilder: (_) => [
+        PopupMenuItem(
+          onTap: () => summaryCubit.toggleShowDetails(),
+          child: Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: Text('Show details'),
+              ),
+              summaryCubit.state.showDetails
+                  ? const Icon(Icons.check)
+                  : const SizedBox(),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          onTap: () => context.read<SummaryCubit>().toggleShowShared(),
+          child: Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: Text('Show shared'),
+              ),
+              summaryCubit.state.showShared
+                  ? const Icon(Icons.check)
+                  : const SizedBox(),
+            ],
+          ),
+        ),
       ],
     );
   }
