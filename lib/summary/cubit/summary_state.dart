@@ -13,7 +13,7 @@ final class SummaryState extends Equatable {
   final SummaryStatus status;
   final User user;
   final List<Category> categories;
-  final List<Deadline> deadlines;
+  final List<SummaryDeadline> deadlines;
 
   @override
   List<Object> get props => [status, user, categories, deadlines];
@@ -22,7 +22,7 @@ final class SummaryState extends Equatable {
     SummaryStatus? status,
     User? user,
     List<Category>? categories,
-    List<Deadline>? deadlines,
+    List<SummaryDeadline>? deadlines,
   }) {
     return SummaryState(
       status: status ?? this.status,
