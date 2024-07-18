@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:categories_repository/categories_repository.dart';
+import 'package:deadline_manager/ui/ui.dart';
 import 'package:equatable/equatable.dart';
 
 part 'add_edit_category_state.dart';
@@ -16,8 +17,8 @@ class AddEditCategoryCubit extends Cubit<AddEditCategoryState> {
             user: user,
             initialCategory: category,
             name: category?.name ?? '',
-            color: category?.color ?? 0,
-            icon: category?.icon ?? 0,
+            color: category?.color ?? AppColors.categoryColors.first.value,
+            icon: category?.icon ?? AppIcons.categoryIcons.first.codePoint,
           ),
         );
 
