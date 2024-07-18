@@ -54,17 +54,19 @@ class AddEditCategoryView extends StatelessWidget {
             );
           }
         },
-        child: const Padding(
-          padding: EdgeInsets.all(AppInsets.xLarge),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _NameField(),
-              DescriptionText(description: 'Select color:'),
-              _ColorSelector(colors: AppColors.categoryColors),
-              DescriptionText(description: 'Select icon:'),
-              _IconSelector(icons: AppIcons.categoryIcons),
-            ],
+        child: const SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(AppInsets.xLarge),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _NameField(),
+                DescriptionText(description: 'Select color:'),
+                _ColorSelector(colors: AppColors.categoryColors),
+                DescriptionText(description: 'Select icon:'),
+                _IconSelector(icons: AppIcons.categoryIcons),
+              ],
+            ),
           ),
         ),
       ),

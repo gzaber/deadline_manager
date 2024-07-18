@@ -56,15 +56,17 @@ class AddEditDeadlineView extends StatelessWidget {
             );
           }
         },
-        child: const Padding(
-          padding: EdgeInsets.all(AppInsets.xLarge),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _NameField(),
-              DescriptionText(description: 'Select expiration date:'),
-              _DatePicker(),
-            ],
+        child: const SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(AppInsets.xLarge),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _NameField(),
+                DescriptionText(description: 'Select expiration date:'),
+                _DatePicker(),
+              ],
+            ),
           ),
         ),
       ),

@@ -63,15 +63,17 @@ class AddEditPermissionView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return const Padding(
-            padding: EdgeInsets.all(AppInsets.xLarge),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _ReceiverField(),
-                DescriptionText(description: 'Select category to share:'),
-                _CategorySelector(),
-              ],
+          return const SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(AppInsets.xLarge),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _ReceiverField(),
+                  DescriptionText(description: 'Select category to share:'),
+                  _CategorySelector(),
+                ],
+              ),
             ),
           );
         },
