@@ -81,10 +81,14 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final stateStatus =
         context.select((AddEditDeadlineCubit cubit) => cubit.state.status);
+    final stateEmptyName = context
+        .select((AddEditDeadlineCubit cubit) => cubit.state.name.isEmpty);
 
     return IconButton(
       onPressed: () {
-        context.read<AddEditDeadlineCubit>().saveDeadline();
+        stateEmptyName
+            ? null
+            : context.read<AddEditDeadlineCubit>().saveDeadline();
       },
       icon: stateStatus == AddEditDeadlineStatus.loading
           ? const CircularProgressIndicator()
