@@ -7,6 +7,7 @@ import 'package:deadline_manager/categories/categories.dart';
 import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:deadline_manager/permissions/permissions.dart';
+import 'package:deadline_manager/profile/profile.dart';
 import 'package:deadline_manager/summary/summary.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class AppRouter {
   static const summaryPath = '/summary';
   static const categoriesPath = '/categories';
   static const permissionsPath = '/permissions';
-  static const settingsPath = '/settings';
+  static const profilePath = '/profile';
 
   static const categoryDetailsPath = 'category_details';
   static const addEditCategoryPath = 'add_edit_category';
@@ -108,8 +109,8 @@ class AppRouter {
             ],
           ),
           GoRoute(
-            path: settingsPath,
-            builder: (context, state) => Container(color: Colors.purpleAccent),
+            path: profilePath,
+            builder: (context, state) => const ProfilePage(),
           ),
         ],
       ),

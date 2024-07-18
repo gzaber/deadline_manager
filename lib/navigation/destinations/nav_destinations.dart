@@ -20,9 +20,9 @@ class NavDestinations {
       path: AppRouter.permissionsPath,
     ),
     Destination(
-      label: 'Settings',
-      icon: AppIcons.settingsDestinationIcon,
-      path: AppRouter.settingsPath,
+      label: 'Profile',
+      icon: AppIcons.profileDestinationIcon,
+      path: AppRouter.profilePath,
     ),
   ];
 }

@@ -6,7 +6,7 @@ class AppIcons {
   static const summaryDestinationIcon = Icons.list;
   static const categoriesDesitinationIcon = Icons.category;
   static const permissionsDestinationIcon = Icons.lock;
-  static const settingsDestinationIcon = Icons.settings;
+  static const profileDestinationIcon = Icons.account_circle;
 
   static const saveIcon = Icons.save;
   static const calendarIcon = Icons.date_range;
