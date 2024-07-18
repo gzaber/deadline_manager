@@ -123,6 +123,7 @@ class _IconSelector extends StatelessWidget {
 
     return Wrap(
       spacing: AppInsets.medium,
+      runSpacing: AppInsets.medium,
       children: [
         ...icons.map(
           (icon) => ChoiceChip(
@@ -154,6 +155,7 @@ class _ColorSelector extends StatelessWidget {
 
     return Wrap(
       spacing: AppInsets.medium,
+      runSpacing: AppInsets.medium,
       children: [
         ...colors.map(
           (color) => ChoiceChip(
