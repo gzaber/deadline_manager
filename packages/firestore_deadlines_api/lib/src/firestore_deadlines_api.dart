@@ -27,19 +27,11 @@ class FirestoreDeadlinesApi implements DeadlinesApi {
       await _deadlinesRef.doc(id).delete();
 
   @override
-  Stream<Deadline> observeDeadlineById(String id) =>
-      _deadlinesRef.doc(id).snapshots().map(
-            (snapshot) =>
-                Deadline.fromJson(snapshot.data() as Map<String, dynamic>)
-                    .copyWith(id: snapshot.id),
-          );
-
-  @override
-  Stream<List<Deadline>> observeDeadlinesByCategory(String categoryId) =>
-      _deadlinesRef
+  Future<List<Deadline>> readDeadlinesByCategoryId(String categoryId) async =>
+      await _deadlinesRef
           .where(_categoryIdField, isEqualTo: categoryId)
-          .snapshots()
-          .map((snapshot) => snapshot.docs
+          .get()
+          .then((snapshot) => snapshot.docs
               .map(
                 (doc) => Deadline.fromJson(doc.data() as Map<String, dynamic>)
                     .copyWith(id: doc.id),
@@ -47,10 +39,22 @@ class FirestoreDeadlinesApi implements DeadlinesApi {
               .toList());
 
   @override
-  Stream<List<Deadline>> observeDeadlinesByCategories(
-          List<String> categoryIds) =>
-      _deadlinesRef
+  Future<List<Deadline>> readDeadlinesByCategoryIds(
+          List<String> categoryIds) async =>
+      await _deadlinesRef
           .where(_categoryIdField, whereIn: categoryIds)
+          .get()
+          .then((snapshot) => snapshot.docs
+              .map(
+                (doc) => Deadline.fromJson(doc.data() as Map<String, dynamic>)
+                    .copyWith(id: doc.id),
+              )
+              .toList());
+
+  @override
+  Stream<List<Deadline>> observeDeadlinesByCategoryId(String categoryId) =>
+      _deadlinesRef
+          .where(_categoryIdField, isEqualTo: categoryId)
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map(

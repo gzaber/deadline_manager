@@ -16,8 +16,11 @@ class CategoriesRepository {
   Future<void> deleteCategory(String id) async =>
       await _categoriesApi.deleteCategory(id);
 
-  Stream<Category> observeCategoryById(String id) =>
-      _categoriesApi.observeCategoryById(id);
+  Future<Category> readCategoryById(String id) async =>
+      await _categoriesApi.readCategoryById(id);
+
+  Future<List<Category>> readCategoriesByUserEmail(String email) async =>
+      await _categoriesApi.readCategoriesByUserEmail(email);
 
   Stream<List<Category>> observeCategoriesByUserEmail(String email) =>
       _categoriesApi.observeCategoriesByUserEmail(email);

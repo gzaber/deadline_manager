@@ -49,7 +49,7 @@ class CategoryDetailsView extends StatelessWidget {
                 fontFamily: AppIcons.iconFontFamily,
               ),
             ),
-            const SizedBox(width: 15),
+            const SizedBox(width: AppInsets.large),
             Text(category.name),
           ],
         ),

@@ -50,6 +50,11 @@ class PermissionsView extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          if (state.status == PermissionsStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
             itemCount: state.permissions.length,
@@ -130,20 +135,20 @@ class _PermissionsCategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(5),
-      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(AppInsets.small),
+      margin: const EdgeInsets.all(AppInsets.small),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.permissionsCategoryBorderColor),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(AppInsets.small),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             IconData(category.icon, fontFamily: AppIcons.iconFontFamily),
-            size: 15,
+            size: AppInsets.large,
           ),
-          const SizedBox(width: 5),
+          const SizedBox(width: AppInsets.small),
           Text(category.name)
         ],
       ),

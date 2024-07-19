@@ -44,7 +44,7 @@ class AddEditPermissionView extends StatelessWidget {
         ),
         actions: const [_SaveButton()],
       ),
-      body: BlocListener<AddEditPermissionCubit, AddEditPermissionState>(
+      body: BlocConsumer<AddEditPermissionCubit, AddEditPermissionState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == AddEditPermissionStatus.saved) {
@@ -57,17 +57,26 @@ class AddEditPermissionView extends StatelessWidget {
             );
           }
         },
-        child: const Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _ReceiverField(),
-              SizedBox(height: 10),
-              _CategorySelector(),
-            ],
-          ),
-        ),
+        builder: (context, state) {
+          if (state.status == AddEditPermissionStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return const SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(AppInsets.xLarge),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _ReceiverField(),
+                  DescriptionText(description: 'Select category to share:'),
+                  _CategorySelector(),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -80,10 +89,14 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final stateStatus =
         context.select((AddEditPermissionCubit cubit) => cubit.state.status);
+    final stateEmptyReceiver = context
+        .select((AddEditPermissionCubit cubit) => cubit.state.receiver.isEmpty);
 
     return IconButton(
       onPressed: () {
-        context.read<AddEditPermissionCubit>().savePermission();
+        stateEmptyReceiver
+            ? null
+            : context.read<AddEditPermissionCubit>().savePermission();
       },
       icon: stateStatus == AddEditPermissionStatus.loading
           ? const CircularProgressIndicator()
@@ -121,7 +134,7 @@ class _CategorySelector extends StatelessWidget {
         .select((AddEditPermissionCubit cubit) => cubit.state.categoryIds);
 
     return Wrap(
-      spacing: 8,
+      spacing: AppInsets.medium,
       children: [
         ...stateCategories.map(
           (category) => ChoiceChip(

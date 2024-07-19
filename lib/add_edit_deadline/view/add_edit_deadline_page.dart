@@ -56,15 +56,17 @@ class AddEditDeadlineView extends StatelessWidget {
             );
           }
         },
-        child: const Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _NameField(),
-              SizedBox(height: 10),
-              _DatePicker(),
-            ],
+        child: const SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(AppInsets.xLarge),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _NameField(),
+                DescriptionText(description: 'Select expiration date:'),
+                _DatePicker(),
+              ],
+            ),
           ),
         ),
       ),
@@ -79,10 +81,14 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final stateStatus =
         context.select((AddEditDeadlineCubit cubit) => cubit.state.status);
+    final stateEmptyName = context
+        .select((AddEditDeadlineCubit cubit) => cubit.state.name.isEmpty);
 
     return IconButton(
       onPressed: () {
-        context.read<AddEditDeadlineCubit>().saveDeadline();
+        stateEmptyName
+            ? null
+            : context.read<AddEditDeadlineCubit>().saveDeadline();
       },
       icon: stateStatus == AddEditDeadlineStatus.loading
           ? const CircularProgressIndicator()
@@ -137,7 +143,7 @@ class _DatePicker extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(AppIcons.calendarIcon),
-          const SizedBox(width: 10),
+          const SizedBox(width: AppInsets.medium),
           Text(formattedDate),
         ],
       ),

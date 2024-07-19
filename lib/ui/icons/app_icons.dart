@@ -6,7 +6,7 @@ class AppIcons {
   static const summaryDestinationIcon = Icons.list;
   static const categoriesDesitinationIcon = Icons.category;
   static const permissionsDestinationIcon = Icons.lock;
-  static const settingsDestinationIcon = Icons.settings;
+  static const profileDestinationIcon = Icons.account_circle;
 
   static const saveIcon = Icons.save;
   static const calendarIcon = Icons.date_range;
@@ -14,10 +14,21 @@ class AppIcons {
   static const permissionItemIcon = Icons.person;
 
   static const categoryIcons = [
-    Icons.share,
-    Icons.edit,
-    Icons.alarm,
-    Icons.dock,
-    Icons.podcasts,
+    Icons.folder,
+    Icons.people,
+    Icons.home,
+    Icons.account_balance,
+    Icons.payments,
+    Icons.health_and_safety,
+    Icons.shopping_cart,
+    Icons.restaurant,
+    Icons.language,
+    Icons.build,
+    Icons.mail,
+    Icons.phone,
+    Icons.directions_car,
+    Icons.local_shipping,
+    Icons.airport_shuttle,
+    Icons.flight,
   ];
 }

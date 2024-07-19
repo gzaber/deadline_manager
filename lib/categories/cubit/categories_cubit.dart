@@ -28,13 +28,19 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   late final StreamSubscription<List<Category>> _categoriesSubscription;
 
   void _subscribeToCategories() {
+    emit(state.copyWith(status: CategoriesStatus.loading));
+
     _categoriesSubscription = _categoriesRepository
         .observeCategoriesByUserEmail(state.user.email)
         .listen(
       (categories) {
         categories.sort((a, b) => a.name.compareTo(b.name));
-        emit(state.copyWith(
-            categories: categories, status: CategoriesStatus.success));
+        emit(
+          state.copyWith(
+            status: CategoriesStatus.success,
+            categories: categories,
+          ),
+        );
       },
       onError: (e) {
         emit(state.copyWith(status: CategoriesStatus.failure));
@@ -43,15 +49,17 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   }
 
   void deleteCategory(String id) async {
+    emit(state.copyWith(status: CategoriesStatus.loading));
+
     try {
       await _categoriesRepository.deleteCategory(id);
       final deadlines =
-          await _deadlinesRepository.observeDeadlinesByCategory(id).first;
+          await _deadlinesRepository.readDeadlinesByCategoryId(id);
       for (final deadline in deadlines) {
         await _deadlinesRepository.deleteDeadline(deadline.id ?? '');
       }
       final permissions =
-          await _permissionsRepository.observePermissionsByCategory(id).first;
+          await _permissionsRepository.readPermissionsByCategoryId(id);
       for (final permission in permissions) {
         var categoryIds = permission.categoryIds;
         categoryIds.remove(id);

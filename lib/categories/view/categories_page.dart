@@ -52,11 +52,16 @@ class CategoriesView extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          if (state.status == CategoriesStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return MasonryGridView.extent(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            maxCrossAxisExtent: 400,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
+            padding: const EdgeInsets.symmetric(horizontal: AppInsets.medium),
+            maxCrossAxisExtent: AppInsets.xxxLarge,
+            mainAxisSpacing: AppInsets.medium,
+            crossAxisSpacing: AppInsets.medium,
             itemCount: state.categories.length,
             itemBuilder: (context, index) {
               return _CategoryItem(category: state.categories[index]);
@@ -119,7 +124,9 @@ class _CategoryItem extends StatelessWidget {
       title: Text(category.name),
       tileColor: Color(category.color),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppInsets.large),
+        ),
       ),
     );
   }

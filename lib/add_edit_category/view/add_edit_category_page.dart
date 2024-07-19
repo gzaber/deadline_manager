@@ -54,17 +54,19 @@ class AddEditCategoryView extends StatelessWidget {
             );
           }
         },
-        child: const Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _NameField(),
-              SizedBox(height: 10),
-              _IconSelector(icons: AppIcons.categoryIcons),
-              SizedBox(height: 10),
-              _ColorSelector(colors: AppColors.categoryColors),
-            ],
+        child: const SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(AppInsets.xLarge),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _NameField(),
+                DescriptionText(description: 'Select color:'),
+                _ColorSelector(colors: AppColors.categoryColors),
+                DescriptionText(description: 'Select icon:'),
+                _IconSelector(icons: AppIcons.categoryIcons),
+              ],
+            ),
           ),
         ),
       ),
@@ -79,10 +81,14 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final stateStatus =
         context.select((AddEditCategoryCubit cubit) => cubit.state.status);
+    final stateEmptyName = context
+        .select((AddEditCategoryCubit cubit) => cubit.state.name.isEmpty);
 
     return IconButton(
       onPressed: () {
-        context.read<AddEditCategoryCubit>().saveCategory();
+        stateEmptyName
+            ? null
+            : context.read<AddEditCategoryCubit>().saveCategory();
       },
       icon: stateStatus == AddEditCategoryStatus.loading
           ? const CircularProgressIndicator()
@@ -122,7 +128,8 @@ class _IconSelector extends StatelessWidget {
         context.select((AddEditCategoryCubit cubit) => cubit.state.icon);
 
     return Wrap(
-      spacing: 8,
+      spacing: AppInsets.medium,
+      runSpacing: AppInsets.medium,
       children: [
         ...icons.map(
           (icon) => ChoiceChip(
@@ -153,7 +160,8 @@ class _ColorSelector extends StatelessWidget {
         context.select((AddEditCategoryCubit cubit) => cubit.state.color);
 
     return Wrap(
-      spacing: 8,
+      spacing: AppInsets.medium,
+      runSpacing: AppInsets.medium,
       children: [
         ...colors.map(
           (color) => ChoiceChip(

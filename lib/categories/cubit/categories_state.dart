@@ -1,6 +1,6 @@
 part of 'categories_cubit.dart';
 
-enum CategoriesStatus { initial, success, failure }
+enum CategoriesStatus { initial, loading, success, failure }
 
 final class CategoriesState extends Equatable {
   const CategoriesState({

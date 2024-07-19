@@ -8,7 +8,7 @@ class AppTheme {
     appBarTheme: const AppBarTheme(centerTitle: true),
     inputDecorationTheme: const InputDecorationTheme(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: BorderRadius.all(Radius.circular(AppInsets.medium)),
       ),
     ),
   );
