@@ -83,15 +83,10 @@ class _PermissionItem extends StatelessWidget {
       title: Text(permission.receiver),
       subtitle: Wrap(
         children: [
-          ...permission.categoryIds
-              .map((id) => context
-                  .read<PermissionsCubit>()
-                  .state
-                  .categories
-                  .firstWhere((c) => c.id == id))
-              .map(
-                (category) => _PermissionsCategoryItem(category: category),
-              ),
+          ...context
+              .read<PermissionsCubit>()
+              .getPermissionCategories(permission)
+              .map((category) => _PermissionsCategoryItem(category: category)),
         ],
       ),
       trailing: UpdateDeleteMenuButton(
