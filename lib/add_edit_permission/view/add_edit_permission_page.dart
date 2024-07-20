@@ -1,12 +1,11 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:categories_repository/categories_repository.dart';
-import 'package:deadline_manager/ui/ui.dart';
+import 'package:deadline_manager/add_edit_permission/add_edit_permission.dart';
+import 'package:deadline_manager/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permissions_repository/permissions_repository.dart';
-
-import 'package:deadline_manager/add_edit_permission/add_edit_permission.dart';
-import 'package:deadline_manager/app/app.dart';
 
 class AddEditPermissionPage extends StatelessWidget {
   const AddEditPermissionPage({

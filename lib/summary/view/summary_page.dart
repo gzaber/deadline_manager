@@ -1,12 +1,11 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:categories_repository/categories_repository.dart';
+import 'package:deadline_manager/app/app.dart';
+import 'package:deadline_manager/summary/summary.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permissions_repository/permissions_repository.dart';
-
-import 'package:deadline_manager/app/app.dart';
-import 'package:deadline_manager/summary/summary.dart';
-import 'package:deadline_manager/ui/ui.dart';
 
 class SummaryPage extends StatelessWidget {
   const SummaryPage({super.key});

@@ -1,7 +1,7 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:categories_repository/categories_repository.dart';
-import 'package:deadline_manager/ui/ui.dart';
 import 'package:equatable/equatable.dart';
 
 part 'add_edit_category_state.dart';

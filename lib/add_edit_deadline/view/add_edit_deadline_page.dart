@@ -1,5 +1,5 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:deadline_manager/add_edit_deadline/add_edit_deadline.dart';
-import 'package:deadline_manager/ui/ui.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

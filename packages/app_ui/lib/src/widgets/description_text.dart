@@ -1,4 +1,4 @@
-import 'package:deadline_manager/ui/ui.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class DescriptionText extends StatelessWidget {
