@@ -9,8 +9,8 @@ class SummaryState extends Equatable {
     this.categories = const [],
     this.userDeadlines = const [],
     this.summaryDeadlines = const [],
-    this.showDetails = true,
-    this.showShared = true,
+    this.showDetails = false,
+    this.showShared = false,
   });
 
   final SummaryStatus status;
