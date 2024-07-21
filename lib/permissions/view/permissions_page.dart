@@ -54,6 +54,9 @@ class PermissionsView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          if (state.permissions.isEmpty) {
+            return const EmptyListInfo(text: 'Your list is empty.');
+          }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
             itemCount: state.permissions.length,

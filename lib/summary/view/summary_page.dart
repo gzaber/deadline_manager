@@ -54,6 +54,9 @@ class SummaryView extends StatelessWidget {
           }
           final deadlines =
               state.showShared ? state.summaryDeadlines : state.userDeadlines;
+          if (deadlines.isEmpty) {
+            return const EmptyListInfo(text: 'Your list is empty.');
+          }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
             itemCount: deadlines.length,

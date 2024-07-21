@@ -6,6 +6,7 @@ class AppColors {
   static const mediumExpirationDateColor = Colors.orange;
   static const longExpirationDateColor = Colors.green;
   static const permissionsCategoryBorderColor = Colors.grey;
+  static const emptyListInfoIconColor = Colors.grey;
   static const categoryColors = [
     Color(0xffff8a80),
     Color(0xffff80ab),

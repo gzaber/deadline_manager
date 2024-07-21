@@ -73,6 +73,9 @@ class CategoryDetailsView extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          if (state.deadlines.isEmpty) {
+            return const EmptyListInfo(text: 'Your list is empty.');
+          }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
             itemCount: state.deadlines.length,

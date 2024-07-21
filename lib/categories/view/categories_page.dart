@@ -57,6 +57,9 @@ class CategoriesView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          if (state.categories.isEmpty) {
+            return const EmptyListInfo(text: 'Your list is empty.');
+          }
           return MasonryGridView.extent(
             padding: const EdgeInsets.symmetric(horizontal: AppInsets.medium),
             maxCrossAxisExtent: AppInsets.xxxLarge,
