@@ -55,6 +55,18 @@ class FirestorePermissionsApi implements PermissionsApi {
               .toList()));
 
   @override
+  Future<List<Permission>> readPermissionsByGiver(String email) async =>
+      _permissionsRef
+          .where(_giverField, isEqualTo: email)
+          .get()
+          .then((snapshot) => snapshot.docs
+              .map(
+                (doc) => Permission.fromJson(doc.data() as Map<String, dynamic>)
+                    .copyWith(id: doc.id),
+              )
+              .toList());
+
+  @override
   Stream<List<Permission>> observePermissionsByGiver(String email) =>
       _permissionsRef
           .where(_giverField, isEqualTo: email)
