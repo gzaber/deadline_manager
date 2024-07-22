@@ -12,6 +12,7 @@ class AppIcons {
   static const calendarIcon = Icons.date_range;
   static const fabIcon = Icons.add;
   static const permissionItemIcon = Icons.person;
+  static const emptyListInfoIcon = Icons.info;
 
   static const categoryIcons = [
     Icons.folder,

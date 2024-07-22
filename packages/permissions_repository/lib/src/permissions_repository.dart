@@ -23,6 +23,9 @@ class PermissionsRepository {
   Future<List<String>> readCategoryIdsByReceiver(String email) async =>
       await _permissionsApi.readCategoryIdsByReceiver(email);
 
+  Future<List<Permission>> readPermissionsByGiver(String email) =>
+      _permissionsApi.readPermissionsByGiver(email);
+
   Stream<List<Permission>> observePermissionsByGiver(String email) =>
       _permissionsApi.observePermissionsByGiver(email);
 }

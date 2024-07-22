@@ -1,12 +1,11 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:categories_repository/categories_repository.dart';
+import 'package:deadline_manager/app/app.dart';
+import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:deadline_manager/app/app.dart';
-import 'package:deadline_manager/category_details/category_details.dart';
-import 'package:deadline_manager/ui/ui.dart';
 
 class CategoryDetailsPage extends StatelessWidget {
   const CategoryDetailsPage({
@@ -74,6 +73,9 @@ class CategoryDetailsView extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          if (state.deadlines.isEmpty) {
+            return const EmptyListInfo(text: 'Your list is empty.');
+          }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
             itemCount: state.deadlines.length,

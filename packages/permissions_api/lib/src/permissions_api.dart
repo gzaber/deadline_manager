@@ -6,5 +6,6 @@ abstract interface class PermissionsApi {
   Future<void> deletePermission(String id);
   Future<List<Permission>> readPermissionsByCategoryId(String categoryId);
   Future<List<String>> readCategoryIdsByReceiver(String email);
+  Future<List<Permission>> readPermissionsByGiver(String email);
   Stream<List<Permission>> observePermissionsByGiver(String email);
 }

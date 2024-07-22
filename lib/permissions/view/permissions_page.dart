@@ -1,12 +1,11 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:categories_repository/categories_repository.dart';
+import 'package:deadline_manager/app/app.dart';
+import 'package:deadline_manager/permissions/permissions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permissions_repository/permissions_repository.dart';
-
-import 'package:deadline_manager/app/app.dart';
-import 'package:deadline_manager/permissions/permissions.dart';
-import 'package:deadline_manager/ui/ui.dart';
 
 class PermissionsPage extends StatelessWidget {
   const PermissionsPage({super.key});
@@ -55,6 +54,9 @@ class PermissionsView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          if (state.permissions.isEmpty) {
+            return const EmptyListInfo(text: 'Your list is empty.');
+          }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
             itemCount: state.permissions.length,
@@ -83,15 +85,10 @@ class _PermissionItem extends StatelessWidget {
       title: Text(permission.receiver),
       subtitle: Wrap(
         children: [
-          ...permission.categoryIds
-              .map((id) => context
-                  .read<PermissionsCubit>()
-                  .state
-                  .categories
-                  .firstWhere((c) => c.id == id))
-              .map(
-                (category) => _PermissionsCategoryItem(category: category),
-              ),
+          ...context
+              .read<PermissionsCubit>()
+              .getPermissionCategories(permission)
+              .map((category) => _PermissionsCategoryItem(category: category)),
         ],
       ),
       trailing: UpdateDeleteMenuButton(

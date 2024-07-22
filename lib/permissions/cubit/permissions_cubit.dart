@@ -29,6 +29,7 @@ class PermissionsCubit extends Cubit<PermissionsState> {
     try {
       final categories = await _categoriesRepository
           .readCategoriesByUserEmail(state.user.email);
+      categories.sort((a, b) => a.name.compareTo(b.name));
       emit(
         state.copyWith(
           status: PermissionsStatus.success,
@@ -58,6 +59,15 @@ class PermissionsCubit extends Cubit<PermissionsState> {
         emit(state.copyWith(status: PermissionsStatus.failure));
       },
     );
+  }
+
+  List<Category> getPermissionCategories(Permission permission) {
+    final categories = permission.categoryIds
+        .map((id) => state.categories.firstWhere((c) => c.id == id))
+        .toList();
+    categories.sort((a, b) => a.name.compareTo(b.name));
+
+    return categories;
   }
 
   void deletePermission(String id) async {

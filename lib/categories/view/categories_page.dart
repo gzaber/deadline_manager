@@ -1,7 +1,7 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:categories_repository/categories_repository.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/categories/categories.dart';
-import 'package:deadline_manager/ui/ui.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +56,9 @@ class CategoriesView extends StatelessWidget {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          }
+          if (state.categories.isEmpty) {
+            return const EmptyListInfo(text: 'Your list is empty.');
           }
           return MasonryGridView.extent(
             padding: const EdgeInsets.symmetric(horizontal: AppInsets.medium),

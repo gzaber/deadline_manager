@@ -57,6 +57,11 @@ class SummaryCubit extends Cubit<SummaryState> {
       final categoryIds = List<String>.from(sharedCategoryIds);
       categoryIds.addAll(userCategories.map((c) => c.id ?? ''));
 
+      if (categoryIds.isEmpty) {
+        emit(state.copyWith(status: SummaryStatus.initial));
+        return;
+      }
+
       final deadlines =
           await _deadlinesRepository.readDeadlinesByCategoryIds(categoryIds);
       deadlines.sort((a, b) => a.expirationDate.compareTo(b.expirationDate));

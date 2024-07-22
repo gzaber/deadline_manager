@@ -33,6 +33,7 @@ class AddEditPermissionCubit extends Cubit<AddEditPermissionState> {
     try {
       final categories = await _categoriesRepository
           .readCategoriesByUserEmail(state.user.email);
+      categories.sort((a, b) => a.name.compareTo(b.name));
       emit(
         state.copyWith(
           status: AddEditPermissionStatus.success,

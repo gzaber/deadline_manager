@@ -1,6 +1,6 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/navigation/navigation.dart';
-import 'package:deadline_manager/ui/ui.dart';
 
 class NavDestinations {
   static const destinations = [
