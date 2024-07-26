@@ -60,9 +60,12 @@ class ProfileView extends StatelessWidget {
             actions: [
               const Icon(AppIcons.profileDestinationIcon),
               const SizedBox(
-                width: AppInsets.medium,
+                width: AppInsets.small,
               ),
               Text(context.read<AppCubit>().state.user.email),
+              const SizedBox(
+                width: AppInsets.small,
+              ),
             ],
           ),
           showDeleteConfirmationDialog: true,
