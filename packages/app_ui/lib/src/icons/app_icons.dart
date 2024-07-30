@@ -14,6 +14,8 @@ class AppIcons {
   static const fabIcon = Icons.add;
   static const permissionItemIcon = Icons.person;
   static const emptyListInfoIcon = Icons.info;
+  static const signOutIcon = Icons.logout;
+  static const deleteAccountIcon = Icons.delete;
 
   static const categoryIcons = [
     Icons.folder,
