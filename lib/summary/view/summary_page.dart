@@ -5,6 +5,7 @@ import 'package:deadline_manager/summary/summary.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:permissions_repository/permissions_repository.dart';
 
 class SummaryPage extends StatelessWidget {
@@ -62,8 +63,8 @@ class SummaryView extends StatelessWidget {
             itemCount: deadlines.length,
             itemBuilder: (_, index) {
               final summaryDeadline = deadlines[index];
-              return DeadlineListTile(
-                deadline: summaryDeadline.toDeadline(),
+              return _DeadlineListTile(
+                deadline: summaryDeadline,
                 currentDate: currentDate,
                 subtitle: state.showDetails
                     ? _DeadlineListTileSubtitle(deadline: summaryDeadline)
@@ -73,6 +74,34 @@ class SummaryView extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _DeadlineListTile extends StatelessWidget {
+  const _DeadlineListTile({
+    required this.deadline,
+    required this.currentDate,
+    this.subtitle,
+  });
+
+  final SummaryDeadline deadline;
+  final DateTime currentDate;
+  final Widget? subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final formattedDate =
+        DateFormat('dd-MM-yyyy').format(deadline.expirationDate);
+
+    return ListTile(
+      leading: AppIcons.getDeadlineIcon(currentDate, deadline.expirationDate),
+      title: Text(deadline.name),
+      trailing: Text(
+        formattedDate,
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
+      subtitle: subtitle,
     );
   }
 }

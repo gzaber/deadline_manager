@@ -1,11 +1,13 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:categories_repository/categories_repository.dart';
-import 'package:deadline_manager/app/app.dart';
-import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+
+import 'package:deadline_manager/app/app.dart';
+import 'package:deadline_manager/category_details/category_details.dart';
 
 class CategoryDetailsPage extends StatelessWidget {
   const CategoryDetailsPage({
@@ -80,7 +82,7 @@ class CategoryDetailsView extends StatelessWidget {
             separatorBuilder: (_, __) => const Divider(),
             itemCount: state.deadlines.length,
             itemBuilder: (_, index) {
-              return _DeadlineItem(
+              return _DeadlineListTile(
                 deadline: state.deadlines[index],
                 currentDate: currentDate,
               );
@@ -92,8 +94,8 @@ class CategoryDetailsView extends StatelessWidget {
   }
 }
 
-class _DeadlineItem extends StatelessWidget {
-  const _DeadlineItem({
+class _DeadlineListTile extends StatelessWidget {
+  const _DeadlineListTile({
     required this.deadline,
     required this.currentDate,
   });
@@ -103,36 +105,66 @@ class _DeadlineItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DeadlineListTile(
-      deadline: deadline,
-      currentDate: currentDate,
-      trailing: UpdateDeleteMenuButton(
-        updateText: 'Update',
-        deleteText: 'Delete',
-        onUpdateTap: () {
-          context.go(
-            '${AppRouter.categoriesToCategoryDetailsLocation}/${deadline.categoryId}/${AppRouter.addEditDeadlinePath}/${deadline.categoryId}',
-            extra: deadline,
-          );
-        },
-        onDeleteTap: () async {
-          await ConfirmationAlertDialog.show(
-            context: context,
-            title: 'Delete',
-            content: 'Delete this deadline?',
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
-          ).then(
-            (value) {
-              if (value == true) {
-                context
-                    .read<CategoryDetailsCubit>()
-                    .deleteDeadline(deadline.id ?? '');
-              }
-            },
-          );
-        },
-      ),
+    final formattedDate =
+        DateFormat('dd-MM-yyyy').format(deadline.expirationDate);
+    final screenSize = AppScreenSize.getSize(context);
+
+    return ListTile(
+      leading: AppIcons.getDeadlineIcon(currentDate, deadline.expirationDate),
+      title: Text(deadline.name),
+      subtitle: screenSize == ScreenSize.mobile ? Text(formattedDate) : null,
+      trailing: screenSize == ScreenSize.mobile
+          ? _DeadlineMenuButton(deadline: deadline)
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  formattedDate,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(width: AppInsets.medium),
+                _DeadlineMenuButton(deadline: deadline)
+              ],
+            ),
+    );
+  }
+}
+
+class _DeadlineMenuButton extends StatelessWidget {
+  const _DeadlineMenuButton({
+    required this.deadline,
+  });
+
+  final Deadline deadline;
+
+  @override
+  Widget build(BuildContext context) {
+    return UpdateDeleteMenuButton(
+      updateText: 'Update',
+      deleteText: 'Delete',
+      onUpdateTap: () {
+        context.go(
+          '${AppRouter.categoriesToCategoryDetailsLocation}/${deadline.categoryId}/${AppRouter.addEditDeadlinePath}/${deadline.categoryId}',
+          extra: deadline,
+        );
+      },
+      onDeleteTap: () async {
+        await ConfirmationAlertDialog.show(
+          context: context,
+          title: 'Delete',
+          content: 'Delete this deadline?',
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+        ).then(
+          (value) {
+            if (value == true) {
+              context
+                  .read<CategoryDetailsCubit>()
+                  .deleteDeadline(deadline.id ?? '');
+            }
+          },
+        );
+      },
     );
   }
 }

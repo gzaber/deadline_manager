@@ -1,3 +1,4 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class AppIcons {
@@ -13,6 +14,8 @@ class AppIcons {
   static const fabIcon = Icons.add;
   static const permissionItemIcon = Icons.person;
   static const emptyListInfoIcon = Icons.info;
+  static const signOutIcon = Icons.logout;
+  static const deleteAccountIcon = Icons.delete;
 
   static const categoryIcons = [
     Icons.folder,
@@ -32,4 +35,13 @@ class AppIcons {
     Icons.airport_shuttle,
     Icons.flight,
   ];
+
+  static Icon getDeadlineIcon(DateTime currentDate, DateTime expirationDate) {
+    return Icon(Icons.description,
+        color: switch (expirationDate.difference(currentDate).inDays) {
+          <= 7 => AppColors.shortExpirationDateColor,
+          > 7 && <= 30 => AppColors.mediumExpirationDateColor,
+          _ => AppColors.longExpirationDateColor,
+        });
+  }
 }

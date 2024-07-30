@@ -23,16 +23,6 @@ class AppCubit extends Cubit<AppState> {
   final AuthenticationRepository _authenticationRepository;
   late final StreamSubscription<User> _userSubscription;
 
-  void signOut() async {
-    try {
-      await _authenticationRepository.signOut();
-    } catch (_) {
-      emit(
-        state.copyWith(isSignOutError: true),
-      );
-    }
-  }
-
   @override
   Future<void> close() {
     _userSubscription.cancel();
