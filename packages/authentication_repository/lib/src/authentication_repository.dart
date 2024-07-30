@@ -16,6 +16,8 @@ class AuthenticationRepository {
       );
 
   Future<void> signOut() async => await _firebaseAuth.signOut();
+
+  Future<void> deleteUser() async => await _firebaseAuth.currentUser?.delete();
 }
 
 extension on firebase_auth.User {
