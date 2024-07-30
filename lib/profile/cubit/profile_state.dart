@@ -1,6 +1,12 @@
 part of 'profile_cubit.dart';
 
-enum ProfileStatus { initial, loading, success, failure }
+enum ProfileStatus {
+  initial,
+  loading,
+  success,
+  deleteUserFailure,
+  signOutFailure,
+}
 
 final class ProfileState extends Equatable {
   const ProfileState({
