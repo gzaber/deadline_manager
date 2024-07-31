@@ -2,7 +2,7 @@ part of 'add_edit_permission_cubit.dart';
 
 enum AddEditPermissionStatus { initial, loading, success, failure, saved }
 
-class AddEditPermissionState extends Equatable {
+final class AddEditPermissionState extends Equatable {
   const AddEditPermissionState({
     this.status = AddEditPermissionStatus.initial,
     this.initialPermission,
@@ -18,10 +18,6 @@ class AddEditPermissionState extends Equatable {
   final String receiver;
   final List<String> categoryIds;
   final List<Category> categories;
-
-  @override
-  List<Object?> get props =>
-      [status, initialPermission, user, receiver, categoryIds, categories];
 
   AddEditPermissionState copyWith({
     AddEditPermissionStatus? status,
@@ -40,4 +36,8 @@ class AddEditPermissionState extends Equatable {
       categories: categories ?? this.categories,
     );
   }
+
+  @override
+  List<Object?> get props =>
+      [status, initialPermission, user, receiver, categoryIds, categories];
 }

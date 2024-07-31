@@ -82,7 +82,8 @@ class AppRouter {
                   GoRoute(
                     path: addEditDeadlineWithCategoryIdPath,
                     builder: (context, state) => AddEditDeadlinePage(
-                      categoryId: state.pathParameters[categoryIdParameter],
+                      categoryId:
+                          state.pathParameters[categoryIdParameter] ?? '',
                       deadline: state.extra as Deadline?,
                     ),
                   ),

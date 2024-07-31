@@ -1,18 +1,19 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 part 'permission.g.dart';
 
 @JsonSerializable()
 class Permission extends Equatable {
-  const Permission({
-    required this.id,
+  Permission({
+    String? id,
     required this.giver,
     required this.receiver,
     required this.categoryIds,
-  });
+  }) : id = id ?? const Uuid().v1();
 
-  final String? id;
+  final String id;
   final String giver;
   final String receiver;
   final List<String> categoryIds;
@@ -21,9 +22,6 @@ class Permission extends Equatable {
       _$PermissionFromJson(json);
 
   Map<String, dynamic> toJson() => _$PermissionToJson(this);
-
-  @override
-  List<Object?> get props => [id, giver, receiver, categoryIds];
 
   Permission copyWith({
     String? id,
@@ -38,4 +36,7 @@ class Permission extends Equatable {
       categoryIds: categoryIds ?? this.categoryIds,
     );
   }
+
+  @override
+  List<Object> get props => [id, giver, receiver, categoryIds];
 }

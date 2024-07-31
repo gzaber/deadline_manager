@@ -17,7 +17,9 @@ class PermissionsPage extends StatelessWidget {
         categoriesRepository: context.read<CategoriesRepository>(),
         permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
-      ),
+      )
+        ..readCategories()
+        ..subscribeToPermissions(),
       child: const PermissionsView(),
     );
   }
@@ -112,7 +114,7 @@ class _PermissionItem extends StatelessWidget {
               if (value == true) {
                 context
                     .read<PermissionsCubit>()
-                    .deletePermission(permission.id ?? '');
+                    .deletePermission(permission.id);
               }
             },
           );

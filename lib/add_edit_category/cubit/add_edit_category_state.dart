@@ -6,10 +6,10 @@ final class AddEditCategoryState extends Equatable {
   const AddEditCategoryState({
     this.status = AddEditCategoryStatus.initial,
     this.initialCategory,
-    required this.user,
-    required this.name,
-    required this.icon,
-    required this.color,
+    this.user = User.empty,
+    this.name = '',
+    this.icon = 0,
+    this.color = 0,
   });
 
   final AddEditCategoryStatus status;
@@ -18,9 +18,6 @@ final class AddEditCategoryState extends Equatable {
   final String name;
   final int icon;
   final int color;
-
-  @override
-  List<Object?> get props => [status, initialCategory, user, name, icon, color];
 
   AddEditCategoryState copyWith({
     AddEditCategoryStatus? status,
@@ -39,4 +36,7 @@ final class AddEditCategoryState extends Equatable {
       color: color ?? this.color,
     );
   }
+
+  @override
+  List<Object?> get props => [status, initialCategory, user, name, icon, color];
 }

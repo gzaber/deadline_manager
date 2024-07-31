@@ -21,17 +21,6 @@ class SummaryState extends Equatable {
   final bool showDetails;
   final bool showShared;
 
-  @override
-  List<Object> get props => [
-        status,
-        user,
-        categories,
-        userDeadlines,
-        summaryDeadlines,
-        showDetails,
-        showShared,
-      ];
-
   SummaryState copyWith({
     SummaryStatus? status,
     User? user,
@@ -51,4 +40,15 @@ class SummaryState extends Equatable {
       showShared: showShared ?? this.showShared,
     );
   }
+
+  @override
+  List<Object> get props => [
+        status,
+        user,
+        categories,
+        userDeadlines,
+        summaryDeadlines,
+        showDetails,
+        showShared,
+      ];
 }

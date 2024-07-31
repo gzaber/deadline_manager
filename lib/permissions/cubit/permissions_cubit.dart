@@ -15,20 +15,17 @@ class PermissionsCubit extends Cubit<PermissionsState> {
     required User user,
   })  : _categoriesRepository = categoriesRepository,
         _permissionsRepository = permissionsRepository,
-        super(PermissionsState(user: user)) {
-    _readCategories();
-    _subscribeToPermissions();
-  }
+        super(PermissionsState(user: user));
 
   final CategoriesRepository _categoriesRepository;
   final PermissionsRepository _permissionsRepository;
   late final StreamSubscription<List<Permission>> _permissionsSubscription;
 
-  void _readCategories() async {
+  void readCategories() async {
     emit(state.copyWith(status: PermissionsStatus.loading));
     try {
-      final categories = await _categoriesRepository
-          .readCategoriesByUserEmail(state.user.email);
+      final categories =
+          await _categoriesRepository.readCategoriesByOwner(state.user.email);
       categories.sort((a, b) => a.name.compareTo(b.name));
       emit(
         state.copyWith(
@@ -41,7 +38,7 @@ class PermissionsCubit extends Cubit<PermissionsState> {
     }
   }
 
-  void _subscribeToPermissions() {
+  void subscribeToPermissions() {
     emit(state.copyWith(status: PermissionsStatus.loading));
     _permissionsSubscription = _permissionsRepository
         .observePermissionsByGiver(state.user.email)

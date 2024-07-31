@@ -14,25 +14,13 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     required String categoryId,
   })  : _categoriesRepository = categoriesRepository,
         _deadlinesRepository = deadlinesRepository,
-        super(
-          const CategoryDetailsState(
-            category: Category(
-              userEmail: '',
-              name: '',
-              icon: 0,
-              color: 0,
-            ),
-          ),
-        ) {
-    _readCategory(categoryId);
-    _subscribeToDeadlines(categoryId);
-  }
+        super(CategoryDetailsState());
 
   final CategoriesRepository _categoriesRepository;
   final DeadlinesRepository _deadlinesRepository;
   late final StreamSubscription<List<Deadline>> _deadlinesSubscription;
 
-  void _readCategory(String categoryId) async {
+  void readCategory(String categoryId) async {
     emit(state.copyWith(status: CategoryDetailsStatus.loading));
     try {
       final category = await _categoriesRepository.readCategoryById(categoryId);
@@ -47,7 +35,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     }
   }
 
-  void _subscribeToDeadlines(String categoryId) {
+  void subscribeToDeadlines(String categoryId) {
     emit(state.copyWith(status: CategoryDetailsStatus.loading));
     _deadlinesSubscription = _deadlinesRepository
         .observeDeadlinesByCategoryId(categoryId)

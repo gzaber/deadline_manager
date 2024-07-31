@@ -16,7 +16,7 @@ class FirestoreDeadlinesApi implements DeadlinesApi {
 
   @override
   Future<void> createDeadline(Deadline deadline) async =>
-      await _deadlinesRef.add(deadline.toJson());
+      await _deadlinesRef.doc(deadline.id).set(deadline.toJson());
 
   @override
   Future<void> updateDeadline(Deadline deadline) async =>
@@ -33,8 +33,7 @@ class FirestoreDeadlinesApi implements DeadlinesApi {
           .get()
           .then((snapshot) => snapshot.docs
               .map(
-                (doc) => Deadline.fromJson(doc.data() as Map<String, dynamic>)
-                    .copyWith(id: doc.id),
+                (doc) => Deadline.fromJson(doc.data() as Map<String, dynamic>),
               )
               .toList());
 
@@ -46,8 +45,7 @@ class FirestoreDeadlinesApi implements DeadlinesApi {
           .get()
           .then((snapshot) => snapshot.docs
               .map(
-                (doc) => Deadline.fromJson(doc.data() as Map<String, dynamic>)
-                    .copyWith(id: doc.id),
+                (doc) => Deadline.fromJson(doc.data() as Map<String, dynamic>),
               )
               .toList());
 
@@ -58,8 +56,7 @@ class FirestoreDeadlinesApi implements DeadlinesApi {
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map(
-                (doc) => Deadline.fromJson(doc.data() as Map<String, dynamic>)
-                    .copyWith(id: doc.id),
+                (doc) => Deadline.fromJson(doc.data() as Map<String, dynamic>),
               )
               .toList());
 }

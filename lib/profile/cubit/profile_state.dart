@@ -17,9 +17,6 @@ final class ProfileState extends Equatable {
   final ProfileStatus status;
   final User user;
 
-  @override
-  List<Object> get props => [status, user];
-
   ProfileState copyWith({
     ProfileStatus? status,
     User? user,
@@ -29,4 +26,7 @@ final class ProfileState extends Equatable {
       user: user ?? this.user,
     );
   }
+
+  @override
+  List<Object> get props => [status, user];
 }

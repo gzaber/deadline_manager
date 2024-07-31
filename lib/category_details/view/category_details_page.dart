@@ -24,7 +24,9 @@ class CategoryDetailsPage extends StatelessWidget {
         categoriesRepository: context.read<CategoriesRepository>(),
         deadlinesRepository: context.read<DeadlinesRepository>(),
         categoryId: categoryId,
-      ),
+      )
+        ..readCategory(categoryId)
+        ..subscribeToDeadlines(categoryId),
       child: const CategoryDetailsView(),
     );
   }
@@ -158,9 +160,7 @@ class _DeadlineMenuButton extends StatelessWidget {
         ).then(
           (value) {
             if (value == true) {
-              context
-                  .read<CategoryDetailsCubit>()
-                  .deleteDeadline(deadline.id ?? '');
+              context.read<CategoryDetailsCubit>().deleteDeadline(deadline.id);
             }
           },
         );

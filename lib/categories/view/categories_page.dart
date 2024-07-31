@@ -20,7 +20,7 @@ class CategoriesPage extends StatelessWidget {
         deadlinesRepository: context.read<DeadlinesRepository>(),
         permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
-      ),
+      )..subscribeToCategories(),
       child: const CategoriesView(),
     );
   }
@@ -116,9 +116,7 @@ class _CategoryItem extends StatelessWidget {
           ).then(
             (value) {
               if (value == true) {
-                context
-                    .read<CategoriesCubit>()
-                    .deleteCategory(category.id ?? '');
+                context.read<CategoriesCubit>().deleteCategory(category.id);
               }
             },
           );
