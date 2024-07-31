@@ -21,14 +21,12 @@ class AddEditPermissionCubit extends Cubit<AddEditPermissionState> {
             receiver: permission?.receiver ?? '',
             categoryIds: permission?.categoryIds ?? const [],
           ),
-        ) {
-    _readCategories();
-  }
+        );
 
   final CategoriesRepository _categoriesRepository;
   final PermissionsRepository _permissionsRepository;
 
-  void _readCategories() async {
+  void readCategories() async {
     emit(state.copyWith(status: AddEditPermissionStatus.loading));
     try {
       final categories =

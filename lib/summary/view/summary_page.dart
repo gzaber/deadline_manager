@@ -19,7 +19,7 @@ class SummaryPage extends StatelessWidget {
         deadlinesRepository: context.read<DeadlinesRepository>(),
         permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
-      ),
+      )..readDeadlines(),
       child: const SummaryView(),
     );
   }

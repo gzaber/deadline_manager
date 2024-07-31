@@ -24,7 +24,9 @@ class CategoryDetailsPage extends StatelessWidget {
         categoriesRepository: context.read<CategoriesRepository>(),
         deadlinesRepository: context.read<DeadlinesRepository>(),
         categoryId: categoryId,
-      ),
+      )
+        ..readCategory(categoryId)
+        ..subscribeToDeadlines(categoryId),
       child: const CategoryDetailsView(),
     );
   }

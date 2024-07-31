@@ -17,7 +17,9 @@ class PermissionsPage extends StatelessWidget {
         categoriesRepository: context.read<CategoriesRepository>(),
         permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
-      ),
+      )
+        ..readCategories()
+        ..subscribeToPermissions(),
       child: const PermissionsView(),
     );
   }

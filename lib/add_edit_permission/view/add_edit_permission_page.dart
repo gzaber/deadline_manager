@@ -23,7 +23,7 @@ class AddEditPermissionPage extends StatelessWidget {
         permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
         permission: permission,
-      ),
+      )..readCategories(),
       child: const AddEditPermissionView(),
     );
   }

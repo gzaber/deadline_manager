@@ -20,7 +20,7 @@ class CategoriesPage extends StatelessWidget {
         deadlinesRepository: context.read<DeadlinesRepository>(),
         permissionsRepository: context.read<PermissionsRepository>(),
         user: context.read<AppCubit>().state.user,
-      ),
+      )..subscribeToCategories(),
       child: const CategoriesView(),
     );
   }

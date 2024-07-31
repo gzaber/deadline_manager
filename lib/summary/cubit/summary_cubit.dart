@@ -17,9 +17,7 @@ class SummaryCubit extends Cubit<SummaryState> {
   })  : _categoriesRepository = categoriesRepository,
         _deadlinesRepository = deadlinesRepository,
         _permissionsRepository = permissionsRepository,
-        super(SummaryState(user: user)) {
-    _readDeadlines();
-  }
+        super(SummaryState(user: user));
 
   final CategoriesRepository _categoriesRepository;
   final DeadlinesRepository _deadlinesRepository;
@@ -41,7 +39,7 @@ class SummaryCubit extends Cubit<SummaryState> {
     );
   }
 
-  void _readDeadlines() async {
+  void readDeadlines() async {
     emit(state.copyWith(status: SummaryStatus.loading));
     try {
       final userCategories =
