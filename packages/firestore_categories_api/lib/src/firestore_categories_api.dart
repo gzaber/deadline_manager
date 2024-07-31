@@ -12,11 +12,11 @@ class FirestoreCategoriesApi implements CategoriesApi {
   late final CollectionReference _categoriesRef;
 
   static const String _categoriesCollection = 'categories';
-  static const String _userEmailField = 'userEmail';
+  static const String _ownerField = 'owner';
 
   @override
   Future<void> createCategory(Category category) async =>
-      await _categoriesRef.add(category.toJson());
+      await _categoriesRef.doc(category.id).set(category.toJson());
 
   @override
   Future<void> updateCategory(Category category) async =>
@@ -29,28 +29,25 @@ class FirestoreCategoriesApi implements CategoriesApi {
   @override
   Future<Category> readCategoryById(String id) async =>
       await _categoriesRef.doc(id).get().then((snapshot) =>
-          Category.fromJson(snapshot.data() as Map<String, dynamic>)
-              .copyWith(id: snapshot.id));
+          Category.fromJson(snapshot.data() as Map<String, dynamic>));
 
   @override
-  Future<List<Category>> readCategoriesByUserEmail(String email) async =>
+  Future<List<Category>> readCategoriesByOwner(String owner) async =>
       await _categoriesRef
-          .where(_userEmailField, isEqualTo: email)
+          .where(_ownerField, isEqualTo: owner)
           .get()
           .then((snapshot) => snapshot.docs
               .map(
-                (doc) => Category.fromJson(doc.data() as Map<String, dynamic>)
-                    .copyWith(id: doc.id),
+                (doc) => Category.fromJson(doc.data() as Map<String, dynamic>),
               )
               .toList());
 
   @override
-  Stream<List<Category>> observeCategoriesByUserEmail(String email) =>
-      _categoriesRef.where(_userEmailField, isEqualTo: email).snapshots().map(
+  Stream<List<Category>> observeCategoriesByOwner(String owner) =>
+      _categoriesRef.where(_ownerField, isEqualTo: owner).snapshots().map(
             (snapshot) => snapshot.docs
                 .map((doc) =>
-                    Category.fromJson(doc.data() as Map<String, dynamic>)
-                        .copyWith(id: doc.id))
+                    Category.fromJson(doc.data() as Map<String, dynamic>))
                 .toList(),
           );
 }

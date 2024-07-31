@@ -158,9 +158,7 @@ class _DeadlineMenuButton extends StatelessWidget {
         ).then(
           (value) {
             if (value == true) {
-              context
-                  .read<CategoryDetailsCubit>()
-                  .deleteDeadline(deadline.id ?? '');
+              context.read<CategoryDetailsCubit>().deleteDeadline(deadline.id);
             }
           },
         );

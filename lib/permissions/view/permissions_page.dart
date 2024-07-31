@@ -112,7 +112,7 @@ class _PermissionItem extends StatelessWidget {
               if (value == true) {
                 context
                     .read<PermissionsCubit>()
-                    .deletePermission(permission.id ?? '');
+                    .deletePermission(permission.id);
               }
             },
           );

@@ -30,9 +30,8 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   void _subscribeToCategories() {
     emit(state.copyWith(status: CategoriesStatus.loading));
 
-    _categoriesSubscription = _categoriesRepository
-        .observeCategoriesByUserEmail(state.user.email)
-        .listen(
+    _categoriesSubscription =
+        _categoriesRepository.observeCategoriesByOwner(state.user.email).listen(
       (categories) {
         categories.sort((a, b) => a.name.compareTo(b.name));
         emit(
@@ -56,7 +55,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       final deadlines =
           await _deadlinesRepository.readDeadlinesByCategoryId(id);
       for (final deadline in deadlines) {
-        await _deadlinesRepository.deleteDeadline(deadline.id ?? '');
+        await _deadlinesRepository.deleteDeadline(deadline.id);
       }
       final permissions =
           await _permissionsRepository.readPermissionsByCategoryId(id);

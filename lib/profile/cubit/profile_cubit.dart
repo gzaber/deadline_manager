@@ -28,9 +28,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   void deleteUser() async {
     emit(state.copyWith(status: ProfileStatus.loading));
     try {
-      final categories = await _categoriesRepository
-          .readCategoriesByUserEmail(state.user.email);
-      final categoryIds = categories.map((c) => c.id ?? '').toList();
+      final categories =
+          await _categoriesRepository.readCategoriesByOwner(state.user.email);
+      final categoryIds = categories.map((c) => c.id).toList();
       for (final id in categoryIds) {
         await _categoriesRepository.deleteCategory(id);
       }
@@ -38,13 +38,13 @@ class ProfileCubit extends Cubit<ProfileState> {
       final deadlines =
           await _deadlinesRepository.readDeadlinesByCategoryIds(categoryIds);
       for (final deadline in deadlines) {
-        await _deadlinesRepository.deleteDeadline(deadline.id ?? '');
+        await _deadlinesRepository.deleteDeadline(deadline.id);
       }
 
       final permissions =
           await _permissionsRepository.readPermissionsByGiver(state.user.email);
       for (final permission in permissions) {
-        await _permissionsRepository.deletePermission(permission.id ?? '');
+        await _permissionsRepository.deletePermission(permission.id);
       }
 
       await _authenticationRepository.deleteUser();

@@ -19,9 +19,9 @@ class CategoriesRepository {
   Future<Category> readCategoryById(String id) async =>
       await _categoriesApi.readCategoryById(id);
 
-  Future<List<Category>> readCategoriesByUserEmail(String email) async =>
-      await _categoriesApi.readCategoriesByUserEmail(email);
+  Future<List<Category>> readCategoriesByOwner(String owner) async =>
+      await _categoriesApi.readCategoriesByOwner(owner);
 
-  Stream<List<Category>> observeCategoriesByUserEmail(String email) =>
-      _categoriesApi.observeCategoriesByUserEmail(email);
+  Stream<List<Category>> observeCategoriesByOwner(String owner) =>
+      _categoriesApi.observeCategoriesByOwner(owner);
 }

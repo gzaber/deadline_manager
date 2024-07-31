@@ -15,9 +15,9 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   })  : _categoriesRepository = categoriesRepository,
         _deadlinesRepository = deadlinesRepository,
         super(
-          const CategoryDetailsState(
+          CategoryDetailsState(
             category: Category(
-              userEmail: '',
+              owner: '',
               name: '',
               icon: 0,
               color: 0,

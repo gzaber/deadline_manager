@@ -27,8 +27,8 @@ class PermissionsCubit extends Cubit<PermissionsState> {
   void _readCategories() async {
     emit(state.copyWith(status: PermissionsStatus.loading));
     try {
-      final categories = await _categoriesRepository
-          .readCategoriesByUserEmail(state.user.email);
+      final categories =
+          await _categoriesRepository.readCategoriesByOwner(state.user.email);
       categories.sort((a, b) => a.name.compareTo(b.name));
       emit(
         state.copyWith(

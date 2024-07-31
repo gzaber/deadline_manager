@@ -140,7 +140,7 @@ class _CategorySelector extends StatelessWidget {
             onSelected: (_) {
               context
                   .read<AddEditPermissionCubit>()
-                  .onCategoryChanged(category.id ?? '');
+                  .onCategoryChanged(category.id);
             },
             selected: stateCategoryIds.contains(category.id),
             label: Text(category.name),

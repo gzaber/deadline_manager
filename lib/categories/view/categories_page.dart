@@ -116,9 +116,7 @@ class _CategoryItem extends StatelessWidget {
           ).then(
             (value) {
               if (value == true) {
-                context
-                    .read<CategoriesCubit>()
-                    .deleteCategory(category.id ?? '');
+                context.read<CategoriesCubit>().deleteCategory(category.id);
               }
             },
           );

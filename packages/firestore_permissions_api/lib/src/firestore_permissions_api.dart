@@ -18,7 +18,7 @@ class FirestorePermissionsApi implements PermissionsApi {
 
   @override
   Future<void> createPermission(Permission permission) async =>
-      await _permissionsRef.add(permission.toJson());
+      await _permissionsRef.doc(permission.id).set(permission.toJson());
 
   @override
   Future<void> updatePermission(Permission permission) async =>
@@ -36,8 +36,8 @@ class FirestorePermissionsApi implements PermissionsApi {
           .get()
           .then((snapshot) => snapshot.docs
               .map(
-                (doc) => Permission.fromJson(doc.data() as Map<String, dynamic>)
-                    .copyWith(id: doc.id),
+                (doc) =>
+                    Permission.fromJson(doc.data() as Map<String, dynamic>),
               )
               .toList());
 
@@ -61,8 +61,8 @@ class FirestorePermissionsApi implements PermissionsApi {
           .get()
           .then((snapshot) => snapshot.docs
               .map(
-                (doc) => Permission.fromJson(doc.data() as Map<String, dynamic>)
-                    .copyWith(id: doc.id),
+                (doc) =>
+                    Permission.fromJson(doc.data() as Map<String, dynamic>),
               )
               .toList());
 
@@ -73,8 +73,8 @@ class FirestorePermissionsApi implements PermissionsApi {
           .snapshots()
           .map((snapshot) => snapshot.docs
               .map(
-                (doc) => Permission.fromJson(doc.data() as Map<String, dynamic>)
-                    .copyWith(id: doc.id),
+                (doc) =>
+                    Permission.fromJson(doc.data() as Map<String, dynamic>),
               )
               .toList());
 }

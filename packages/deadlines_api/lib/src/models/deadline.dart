@@ -1,18 +1,19 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 part 'deadline.g.dart';
 
 @JsonSerializable()
 class Deadline extends Equatable {
-  const Deadline({
-    this.id,
+  Deadline({
+    String? id,
     required this.categoryId,
     required this.name,
     required this.expirationDate,
-  });
+  }) : id = id ?? const Uuid().v1();
 
-  final String? id;
+  final String id;
   final String categoryId;
   final String name;
   final DateTime expirationDate;
@@ -37,5 +38,5 @@ class Deadline extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, categoryId, name, expirationDate];
+  List<Object> get props => [id, categoryId, name, expirationDate];
 }

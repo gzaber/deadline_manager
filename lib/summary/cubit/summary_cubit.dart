@@ -44,8 +44,8 @@ class SummaryCubit extends Cubit<SummaryState> {
   void _readDeadlines() async {
     emit(state.copyWith(status: SummaryStatus.loading));
     try {
-      final userCategories = await _categoriesRepository
-          .readCategoriesByUserEmail(state.user.email);
+      final userCategories =
+          await _categoriesRepository.readCategoriesByOwner(state.user.email);
       final sharedCategoryIds = await _permissionsRepository
           .readCategoryIdsByReceiver(state.user.email);
       final sharedCategories = <Category>[];
@@ -55,7 +55,7 @@ class SummaryCubit extends Cubit<SummaryState> {
 
       final categories = [...userCategories, ...sharedCategories];
       final categoryIds = List<String>.from(sharedCategoryIds);
-      categoryIds.addAll(userCategories.map((c) => c.id ?? ''));
+      categoryIds.addAll(userCategories.map((c) => c.id));
 
       if (categoryIds.isEmpty) {
         emit(state.copyWith(status: SummaryStatus.initial));
@@ -66,8 +66,7 @@ class SummaryCubit extends Cubit<SummaryState> {
           await _deadlinesRepository.readDeadlinesByCategoryIds(categoryIds);
       deadlines.sort((a, b) => a.expirationDate.compareTo(b.expirationDate));
 
-      const emptyCategory =
-          Category(userEmail: '', name: '', icon: 0, color: 0);
+      final emptyCategory = Category(owner: '', name: '', icon: 0, color: 0);
 
       final summaryDeadlines = deadlines
           .map(
@@ -86,7 +85,7 @@ class SummaryCubit extends Cubit<SummaryState> {
               sharedBy: categories
                   .firstWhere((c) => c.id == d.categoryId,
                       orElse: () => emptyCategory)
-                  .userEmail,
+                  .owner,
             ),
           )
           .toList();
