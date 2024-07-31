@@ -6,15 +6,12 @@ final class CategoriesState extends Equatable {
   const CategoriesState({
     this.status = CategoriesStatus.initial,
     this.categories = const [],
-    required this.user,
+    this.user = User.empty,
   });
 
   final CategoriesStatus status;
   final List<Category> categories;
   final User user;
-
-  @override
-  List<Object> get props => [status, categories, user];
 
   CategoriesState copyWith({
     CategoriesStatus? status,
@@ -27,4 +24,7 @@ final class CategoriesState extends Equatable {
       user: user ?? this.user,
     );
   }
+
+  @override
+  List<Object> get props => [status, categories, user];
 }

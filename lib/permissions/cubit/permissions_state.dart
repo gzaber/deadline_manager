@@ -15,9 +15,6 @@ final class PermissionsState extends Equatable {
   final List<Category> categories;
   final User user;
 
-  @override
-  List<Object> get props => [status, permissions, user];
-
   PermissionsState copyWith({
     PermissionsStatus? status,
     List<Permission>? permissions,
@@ -31,4 +28,7 @@ final class PermissionsState extends Equatable {
       user: user ?? this.user,
     );
   }
+
+  @override
+  List<Object> get props => [status, permissions, categories, user];
 }

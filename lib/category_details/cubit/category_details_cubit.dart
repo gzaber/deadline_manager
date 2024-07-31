@@ -14,16 +14,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     required String categoryId,
   })  : _categoriesRepository = categoriesRepository,
         _deadlinesRepository = deadlinesRepository,
-        super(
-          CategoryDetailsState(
-            category: Category(
-              owner: '',
-              name: '',
-              icon: 0,
-              color: 0,
-            ),
-          ),
-        ) {
+        super(CategoryDetailsState()) {
     _readCategory(categoryId);
     _subscribeToDeadlines(categoryId);
   }

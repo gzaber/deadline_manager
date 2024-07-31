@@ -9,11 +9,11 @@ import 'package:intl/intl.dart';
 class AddEditDeadlinePage extends StatelessWidget {
   const AddEditDeadlinePage({
     super.key,
+    required this.categoryId,
     this.deadline,
-    this.categoryId,
   });
 
-  final String? categoryId;
+  final String categoryId;
   final Deadline? deadline;
 
   @override

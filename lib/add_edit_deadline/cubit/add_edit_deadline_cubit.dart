@@ -7,7 +7,7 @@ part 'add_edit_deadline_state.dart';
 class AddEditDeadlineCubit extends Cubit<AddEditDeadlineState> {
   AddEditDeadlineCubit({
     required DeadlinesRepository deadlinesRepository,
-    required String? categoryId,
+    required String categoryId,
     required Deadline? deadline,
   })  : _deadlinesRepository = deadlinesRepository,
         super(
@@ -36,7 +36,7 @@ class AddEditDeadlineCubit extends Cubit<AddEditDeadlineState> {
 
     final deadline = Deadline(
       id: state.initialDeadline?.id,
-      categoryId: state.initialDeadline?.categoryId ?? state.categoryId ?? '',
+      categoryId: state.initialDeadline?.categoryId ?? state.categoryId,
       name: state.name,
       expirationDate: state.expirationDate,
     );
