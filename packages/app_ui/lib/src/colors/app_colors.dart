@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+abstract class AppColors {
   static const seedColor = Colors.deepPurple;
   static const shortExpirationDateColor = Colors.red;
   static const mediumExpirationDateColor = Colors.orange;

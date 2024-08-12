@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 enum ScreenSize { mobile, tablet, desktop }
 
-class AppScreenSize {
+abstract class AppScreenSize {
   static const tabletBreakpoint = 600.0;
   static const desktopBreakpoint = 840.0;
 

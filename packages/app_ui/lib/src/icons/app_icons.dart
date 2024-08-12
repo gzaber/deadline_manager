@@ -1,7 +1,7 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
-class AppIcons {
+abstract class AppIcons {
   static const iconFontFamily = 'MaterialIcons';
 
   static const summaryDestinationIcon = Icons.list;
