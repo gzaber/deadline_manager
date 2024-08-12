@@ -95,7 +95,7 @@ class _DeadlineListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formattedDate =
-        DateFormat('dd-MM-yyyy').format(deadline.expirationDate);
+        DateFormat(AppDateFormat.pattern).format(deadline.expirationDate);
 
     return ListTile(
       leading: AppIcons.getDeadlineIcon(currentDate, deadline.expirationDate),

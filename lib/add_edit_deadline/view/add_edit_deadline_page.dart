@@ -129,7 +129,7 @@ class _DatePicker extends StatelessWidget {
       (AddEditDeadlineCubit cubit) => cubit.state.expirationDate,
     );
     final currentDate = DateTime.now();
-    final formattedDate = DateFormat('dd-MM-yyyy').format(stateDate);
+    final formattedDate = DateFormat(AppDateFormat.pattern).format(stateDate);
 
     return OutlinedButton(
       onPressed: () async {
