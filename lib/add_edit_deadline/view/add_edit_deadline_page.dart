@@ -3,6 +3,7 @@ import 'package:deadline_manager/add_edit_deadline/add_edit_deadline.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -38,8 +39,8 @@ class AddEditDeadlineView extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           context.read<AddEditDeadlineCubit>().state.initialDeadline == null
-              ? 'Create deadline'
-              : 'Update deadline',
+              ? AppLocalizations.of(context)!.addEditCreateTitle
+              : AppLocalizations.of(context)!.addEditUpdateTitle,
         ),
         actions: const [_SaveButton()],
       ),
@@ -52,19 +53,21 @@ class AddEditDeadlineView extends StatelessWidget {
           if (state.status == AddEditDeadlineStatus.failure) {
             FailureSnackBar.show(
               context: context,
-              text: 'Something went wrong',
+              text: AppLocalizations.of(context)!.failureMessage,
             );
           }
         },
-        child: const SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(AppInsets.xLarge),
+            padding: const EdgeInsets.all(AppInsets.xLarge),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _NameField(),
-                DescriptionText(description: 'Select expiration date:'),
-                _DatePicker(),
+                const _NameField(),
+                DescriptionText(
+                    description: AppLocalizations.of(context)!
+                        .addEditDeadlineSelectDateLabel),
+                const _DatePicker(),
               ],
             ),
           ),
@@ -110,7 +113,9 @@ class _NameField extends StatelessWidget {
       onChanged: (value) {
         context.read<AddEditDeadlineCubit>().onNameChanged(value);
       },
-      decoration: const InputDecoration(labelText: 'Deadline name'),
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context)!.addEditDeadlineNameLabel,
+      ),
     );
   }
 }

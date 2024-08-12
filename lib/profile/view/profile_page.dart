@@ -6,6 +6,7 @@ import 'package:deadline_manager/profile/profile.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permissions_repository/permissions_repository.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -33,7 +34,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(AppLocalizations.of(context)!.profileTitle),
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listenWhen: (previous, current) => previous.status != current.status,
@@ -41,13 +42,13 @@ class ProfileView extends StatelessWidget {
           if (state.status == ProfileStatus.signOutFailure) {
             FailureSnackBar.show(
               context: context,
-              text: 'Something went wrong',
+              text: AppLocalizations.of(context)!.failureMessage,
             );
           }
           if (state.status == ProfileStatus.deleteUserFailure) {
             FailureSnackBar.show(
               context: context,
-              text: 'Something went wrong - re-authenticate and try again',
+              text: AppLocalizations.of(context)!.deleteAccountFailureMessage,
             );
           }
         },
@@ -90,12 +91,12 @@ class _SignOutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: () => context.read<ProfileCubit>().signOut(),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(AppIcons.signOutIcon),
-          SizedBox(width: AppInsets.medium),
-          Text('Sign out'),
+          const Icon(AppIcons.signOutIcon),
+          const SizedBox(width: AppInsets.medium),
+          Text(AppLocalizations.of(context)!.profileSignOutButtonText),
         ],
       ),
     );
@@ -111,10 +112,12 @@ class _DeleteAccountButton extends StatelessWidget {
       onPressed: () async {
         await ConfirmationAlertDialog.show(
           context: context,
-          title: 'Delete',
-          content: 'Delete account?',
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
+          title: AppLocalizations.of(context)!.dialogDeleteTitle,
+          content: AppLocalizations.of(context)!.dialogDeleteAccountContent,
+          confirmButtonText:
+              AppLocalizations.of(context)!.dialogConfirmButtonText,
+          cancelButtonText:
+              AppLocalizations.of(context)!.dialogCancelButtonText,
         ).then(
           (value) {
             if (value == true) {
@@ -123,12 +126,12 @@ class _DeleteAccountButton extends StatelessWidget {
           },
         );
       },
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(AppIcons.deleteAccountIcon),
-          SizedBox(width: AppInsets.medium),
-          Text('Delete account'),
+          const Icon(AppIcons.deleteAccountIcon),
+          const SizedBox(width: AppInsets.medium),
+          Text(AppLocalizations.of(context)!.profileDeleteAccountButtonText),
         ],
       ),
     );

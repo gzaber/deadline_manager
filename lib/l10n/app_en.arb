@@ -1,0 +1,43 @@
+{
+    "appName": "Deadline Manager",
+
+    "summaryTitle": "Summary",
+    "summarySharedByLabel": "shared by:",
+    "summaryCategoryLabel": "category:",
+    "summaryShowDetailsMenuOption": "Show details",
+    "summaryShowSharedMenuOption": "Show shared",
+
+    "categoriesTitle": "Categories",
+    "addEditCategorySelectColorLabel": "Select color:",
+    "addEditCategorySelectIconLabel": "Select icon:",
+    "addEditCategoryNameLabel": "Category name",
+
+    "addEditDeadlineSelectDateLabel": "Select expiration date:",
+    "addEditDeadlineNameLabel": "Deadline name",
+
+    "permissionsTitle": "Permissions",
+    "addEditPermissionSelectCategoryLabel": "Select categories to share:",
+    "addEditPermissionUserEmailLabel": "User email",
+
+    "profileTitle": "Profile",
+    "profileDeleteAccountButtonText": "Delete account",
+    "profileSignOutButtonText": "Sign out",
+
+    "addEditCreateTitle": "Create",
+    "addEditUpdateTitle": "Update",
+
+    "failureMessage": "Something went wrong",
+    "deleteAccountFailureMessage": "Something went wrong - re-authenticate and try again",
+    "emptyListMessage": "The list is empty",
+
+    "menuUpdateOption": "Update",
+    "menuDeleteOption": "Delete",
+
+    "dialogDeleteTitle": "Delete",
+    "dialogDeleteCategoryContent": "Delete this category?",
+    "dialogDeleteDeadlineContent": "Delete this deadline?",
+    "dialogDeletePermissionContent": "Delete this permission?",
+    "dialogDeleteAccountContent": "Delete this account?",
+    "dialogConfirmButtonText": "Yes",
+    "dialogCancelButtonText": "No"
+}

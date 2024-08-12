@@ -5,6 +5,7 @@ import 'package:deadline_manager/categories/categories.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permissions_repository/permissions_repository.dart';
@@ -33,7 +34,7 @@ class CategoriesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories'),
+        title: Text(AppLocalizations.of(context)!.categoriesTitle),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -47,7 +48,7 @@ class CategoriesView extends StatelessWidget {
           if (state.status == CategoriesStatus.failure) {
             FailureSnackBar.show(
               context: context,
-              text: 'Something went wrong',
+              text: AppLocalizations.of(context)!.failureMessage,
             );
           }
         },
@@ -58,7 +59,9 @@ class CategoriesView extends StatelessWidget {
             );
           }
           if (state.categories.isEmpty) {
-            return const EmptyListInfo(text: 'Your list is empty.');
+            return EmptyListInfo(
+              text: AppLocalizations.of(context)!.emptyListMessage,
+            );
           }
           return MasonryGridView.extent(
             padding: const EdgeInsets.symmetric(horizontal: AppInsets.medium),
@@ -98,8 +101,8 @@ class _CategoryItem extends StatelessWidget {
         ),
       ),
       trailing: UpdateDeleteMenuButton(
-        updateText: 'Update',
-        deleteText: 'Delete',
+        updateText: AppLocalizations.of(context)!.menuUpdateOption,
+        deleteText: AppLocalizations.of(context)!.menuDeleteOption,
         onUpdateTap: () {
           context.go(
             AppRouter.categoriesToAddEditCategoryLocation,
@@ -109,10 +112,12 @@ class _CategoryItem extends StatelessWidget {
         onDeleteTap: () async {
           await ConfirmationAlertDialog.show(
             context: context,
-            title: 'Delete',
-            content: 'Delete this category?',
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
+            title: AppLocalizations.of(context)!.dialogDeleteTitle,
+            content: AppLocalizations.of(context)!.dialogDeleteCategoryContent,
+            confirmButtonText:
+                AppLocalizations.of(context)!.dialogConfirmButtonText,
+            cancelButtonText:
+                AppLocalizations.of(context)!.dialogCancelButtonText,
           ).then(
             (value) {
               if (value == true) {

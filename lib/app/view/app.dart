@@ -3,8 +3,10 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:categories_repository/categories_repository.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:deadline_manager/app/app.dart';
+import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permissions_repository/permissions_repository.dart';
 
 class App extends StatelessWidget {
@@ -60,9 +62,14 @@ class AppView extends StatelessWidget {
         context.select((AppCubit cubit) => cubit.state.isAuthenticated);
 
     return MaterialApp.router(
-      title: 'Deadline Manager',
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: [
+        ...AppLocalizations.localizationsDelegates,
+        FirebaseUILocalizations.delegate,
+      ],
       routerConfig: AppRouter(isAuthenticated: isAuthenticated).router,
     );
   }
