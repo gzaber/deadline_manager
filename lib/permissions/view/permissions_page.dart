@@ -4,6 +4,7 @@ import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/permissions/permissions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permissions_repository/permissions_repository.dart';
 
@@ -32,7 +33,7 @@ class PermissionsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Permissions'),
+        title: Text(AppLocalizations.of(context)!.permissionsTitle),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -46,7 +47,7 @@ class PermissionsView extends StatelessWidget {
           if (state.status == PermissionsStatus.failure) {
             FailureSnackBar.show(
               context: context,
-              text: 'Something went wrong',
+              text: AppLocalizations.of(context)!.failureMessage,
             );
           }
         },
@@ -57,7 +58,8 @@ class PermissionsView extends StatelessWidget {
             );
           }
           if (state.permissions.isEmpty) {
-            return const EmptyListInfo(text: 'Your list is empty.');
+            return EmptyListInfo(
+                text: AppLocalizations.of(context)!.emptyListMessage);
           }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
@@ -94,8 +96,8 @@ class _PermissionItem extends StatelessWidget {
         ],
       ),
       trailing: UpdateDeleteMenuButton(
-        updateText: 'Update',
-        deleteText: 'Delete',
+        updateText: AppLocalizations.of(context)!.menuUpdateOption,
+        deleteText: AppLocalizations.of(context)!.menuDeleteOption,
         onUpdateTap: () {
           context.go(
             AppRouter.permissionsToAddEditPermissionsLocation,
@@ -105,10 +107,13 @@ class _PermissionItem extends StatelessWidget {
         onDeleteTap: () async {
           await ConfirmationAlertDialog.show(
             context: context,
-            title: 'Delete',
-            content: 'Delete this permission?',
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
+            title: AppLocalizations.of(context)!.dialogDeleteTitle,
+            content:
+                AppLocalizations.of(context)!.dialogDeletePermissionContent,
+            confirmButtonText:
+                AppLocalizations.of(context)!.dialogConfirmButtonText,
+            cancelButtonText:
+                AppLocalizations.of(context)!.dialogCancelButtonText,
           ).then(
             (value) {
               if (value == true) {

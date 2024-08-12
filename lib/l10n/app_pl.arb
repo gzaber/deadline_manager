@@ -1,0 +1,43 @@
+{
+    "appName": "Deadline Manager",
+
+    "summaryTitle": "Podsumowanie",
+    "summarySharedByLabel": "udostępnione przez:",
+    "summaryCategoryLabel": "kategoria:",
+    "summaryShowDetailsMenuOption": "Pokaż detale",
+    "summaryShowSharedMenuOption": "Pokaż udostępnione",
+
+    "categoriesTitle": "Kategorie",
+    "addEditCategorySelectColorLabel": "Wybierz kolor:",
+    "addEditCategorySelectIconLabel": "Wybierz ikonę:",
+    "addEditCategoryNameLabel": "Nazwa kategorii",
+
+    "addEditDeadlineSelectDateLabel": "Wybierz datę ważności:",
+    "addEditDeadlineNameLabel": "Nazwa terminu",
+
+    "permissionsTitle": "Uprawnienia",
+    "addEditPermissionSelectCategoryLabel": "Wybierz kategorie do udostępnienia:",
+    "addEditPermissionUserEmailLabel": "Email użytkownika",
+
+    "profileTitle": "Profil",
+    "profileDeleteAccountButtonText": "Usuń konto",
+    "profileSignOutButtonText": "Wyloguj się",
+
+    "addEditCreateTitle": "Utwórz",
+    "addEditUpdateTitle": "Aktualizuj",
+
+    "failureMessage": "Coś poszło nie tak",
+    "deleteAccountFailureMessage": "Coś poszło nie tak - zaloguj się ponownie i spróbuj jeszcze raz",
+    "emptyListMessage": "Lista jest pusta",
+
+    "menuUpdateOption": "Aktualizuj",
+    "menuDeleteOption": "Usuń",
+
+    "dialogDeleteTitle": "Usuń",
+    "dialogDeleteCategoryContent": "Usunąć tą kategorię?",
+    "dialogDeleteDeadlineContent": "Usunąć ten termin?",
+    "dialogDeletePermissionContent": "Usunąć to uprawnienie?",
+    "dialogDeleteAccountContent": "Usunąć to konto?",
+    "dialogConfirmButtonText": "Tak",
+    "dialogCancelButtonText": "Nie"
+}

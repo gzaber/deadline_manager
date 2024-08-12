@@ -1,6 +1,7 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationPage extends StatelessWidget {
   const AuthenticationPage({super.key});
@@ -33,7 +34,7 @@ class _AppLogo extends StatelessWidget {
           ),
           const SizedBox(height: AppInsets.medium),
           Text(
-            'Deadline Manager',
+            AppLocalizations.of(context)!.appName,
             style: Theme.of(context).textTheme.displaySmall,
           ),
         ],

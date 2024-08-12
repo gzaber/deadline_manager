@@ -4,6 +4,7 @@ import 'package:deadline_manager/add_edit_permission/add_edit_permission.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permissions_repository/permissions_repository.dart';
 
@@ -38,8 +39,8 @@ class AddEditPermissionView extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           context.read<AddEditPermissionCubit>().state.initialPermission == null
-              ? 'Create permission'
-              : 'Update permission',
+              ? AppLocalizations.of(context)!.addEditCreateTitle
+              : AppLocalizations.of(context)!.addEditUpdateTitle,
         ),
         actions: const [_SaveButton()],
       ),
@@ -52,7 +53,7 @@ class AddEditPermissionView extends StatelessWidget {
           if (state.status == AddEditPermissionStatus.failure) {
             FailureSnackBar.show(
               context: context,
-              text: 'Something went wrong',
+              text: AppLocalizations.of(context)!.failureMessage,
             );
           }
         },
@@ -62,15 +63,17 @@ class AddEditPermissionView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return const SingleChildScrollView(
+          return SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(AppInsets.xLarge),
+              padding: const EdgeInsets.all(AppInsets.xLarge),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _ReceiverField(),
-                  DescriptionText(description: 'Select category to share:'),
-                  _CategorySelector(),
+                  const _ReceiverField(),
+                  DescriptionText(
+                      description: AppLocalizations.of(context)!
+                          .addEditPermissionSelectCategoryLabel),
+                  const _CategorySelector(),
                 ],
               ),
             ),
@@ -117,7 +120,10 @@ class _ReceiverField extends StatelessWidget {
       onChanged: (value) {
         context.read<AddEditPermissionCubit>().onReceiverChanged(value);
       },
-      decoration: const InputDecoration(labelText: 'User email'),
+      decoration: InputDecoration(
+        labelText:
+            AppLocalizations.of(context)!.addEditPermissionUserEmailLabel,
+      ),
     );
   }
 }

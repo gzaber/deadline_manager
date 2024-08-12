@@ -4,6 +4,7 @@ import 'package:deadline_manager/add_edit_category/add_edit_category.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class AddEditCategoryPage extends StatelessWidget {
@@ -36,8 +37,8 @@ class AddEditCategoryView extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           context.read<AddEditCategoryCubit>().state.initialCategory == null
-              ? 'Create category'
-              : 'Update category',
+              ? AppLocalizations.of(context)!.addEditCreateTitle
+              : AppLocalizations.of(context)!.addEditUpdateTitle,
         ),
         actions: const [_SaveButton()],
       ),
@@ -50,21 +51,25 @@ class AddEditCategoryView extends StatelessWidget {
           if (state.status == AddEditCategoryStatus.failure) {
             FailureSnackBar.show(
               context: context,
-              text: 'Something went wrong',
+              text: AppLocalizations.of(context)!.failureMessage,
             );
           }
         },
-        child: const SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(AppInsets.xLarge),
+            padding: const EdgeInsets.all(AppInsets.xLarge),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _NameField(),
-                DescriptionText(description: 'Select color:'),
-                _ColorSelector(colors: AppColors.categoryColors),
-                DescriptionText(description: 'Select icon:'),
-                _IconSelector(icons: AppIcons.categoryIcons),
+                const _NameField(),
+                DescriptionText(
+                    description: AppLocalizations.of(context)!
+                        .addEditCategorySelectColorLabel),
+                const _ColorSelector(colors: AppColors.categoryColors),
+                DescriptionText(
+                    description: AppLocalizations.of(context)!
+                        .addEditCategorySelectIconLabel),
+                const _IconSelector(icons: AppIcons.categoryIcons),
               ],
             ),
           ),
@@ -110,7 +115,9 @@ class _NameField extends StatelessWidget {
       onChanged: (value) {
         context.read<AddEditCategoryCubit>().onNameChanged(value);
       },
-      decoration: const InputDecoration(labelText: 'Category name'),
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context)!.addEditCategoryNameLabel,
+      ),
     );
   }
 }

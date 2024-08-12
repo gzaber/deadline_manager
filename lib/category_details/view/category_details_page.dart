@@ -1,13 +1,13 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:categories_repository/categories_repository.dart';
+import 'package:deadline_manager/app/app.dart';
+import 'package:deadline_manager/category_details/category_details.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-
-import 'package:deadline_manager/app/app.dart';
-import 'package:deadline_manager/category_details/category_details.dart';
 
 class CategoryDetailsPage extends StatelessWidget {
   const CategoryDetailsPage({
@@ -72,13 +72,15 @@ class CategoryDetailsView extends StatelessWidget {
           if (state.status == CategoryDetailsStatus.failure) {
             FailureSnackBar.show(
               context: context,
-              text: 'Something went wrong',
+              text: AppLocalizations.of(context)!.failureMessage,
             );
           }
         },
         builder: (context, state) {
           if (state.deadlines.isEmpty) {
-            return const EmptyListInfo(text: 'Your list is empty.');
+            return EmptyListInfo(
+              text: AppLocalizations.of(context)!.emptyListMessage,
+            );
           }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
@@ -108,7 +110,7 @@ class _DeadlineListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formattedDate =
-        DateFormat('dd-MM-yyyy').format(deadline.expirationDate);
+        DateFormat(AppDateFormat.pattern).format(deadline.expirationDate);
     final screenSize = AppScreenSize.getSize(context);
 
     return ListTile(
@@ -142,8 +144,8 @@ class _DeadlineMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return UpdateDeleteMenuButton(
-      updateText: 'Update',
-      deleteText: 'Delete',
+      updateText: AppLocalizations.of(context)!.menuUpdateOption,
+      deleteText: AppLocalizations.of(context)!.menuDeleteOption,
       onUpdateTap: () {
         context.go(
           '${AppRouter.categoriesToCategoryDetailsLocation}/${deadline.categoryId}/${AppRouter.addEditDeadlinePath}/${deadline.categoryId}',
@@ -153,10 +155,12 @@ class _DeadlineMenuButton extends StatelessWidget {
       onDeleteTap: () async {
         await ConfirmationAlertDialog.show(
           context: context,
-          title: 'Delete',
-          content: 'Delete this deadline?',
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
+          title: AppLocalizations.of(context)!.dialogDeleteTitle,
+          content: AppLocalizations.of(context)!.dialogDeleteDeadlineContent,
+          confirmButtonText:
+              AppLocalizations.of(context)!.dialogConfirmButtonText,
+          cancelButtonText:
+              AppLocalizations.of(context)!.dialogCancelButtonText,
         ).then(
           (value) {
             if (value == true) {

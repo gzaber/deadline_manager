@@ -5,6 +5,7 @@ import 'package:deadline_manager/summary/summary.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:permissions_repository/permissions_repository.dart';
 
@@ -34,7 +35,7 @@ class SummaryView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Summary'),
+        title: Text(AppLocalizations.of(context)!.summaryTitle),
         actions: const [_FilterDeadlinesMenuButton()],
       ),
       body: BlocConsumer<SummaryCubit, SummaryState>(
@@ -43,7 +44,7 @@ class SummaryView extends StatelessWidget {
           if (state.status == SummaryStatus.failure) {
             FailureSnackBar.show(
               context: context,
-              text: 'Something went wrong',
+              text: AppLocalizations.of(context)!.failureMessage,
             );
           }
         },
@@ -56,7 +57,9 @@ class SummaryView extends StatelessWidget {
           final deadlines =
               state.showShared ? state.summaryDeadlines : state.userDeadlines;
           if (deadlines.isEmpty) {
-            return const EmptyListInfo(text: 'Your list is empty.');
+            return EmptyListInfo(
+              text: AppLocalizations.of(context)!.emptyListMessage,
+            );
           }
           return ListView.separated(
             separatorBuilder: (_, __) => const Divider(),
@@ -92,7 +95,7 @@ class _DeadlineListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formattedDate =
-        DateFormat('dd-MM-yyyy').format(deadline.expirationDate);
+        DateFormat(AppDateFormat.pattern).format(deadline.expirationDate);
 
     return ListTile(
       leading: AppIcons.getDeadlineIcon(currentDate, deadline.expirationDate),
@@ -117,7 +120,11 @@ class _DeadlineListTileSubtitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(deadline.isShared ? 'shared by:' : 'category:'),
+        Text(
+          deadline.isShared
+              ? AppLocalizations.of(context)!.summarySharedByLabel
+              : AppLocalizations.of(context)!.summaryCategoryLabel,
+        ),
         const SizedBox(width: AppInsets.small),
         Icon(
           deadline.isShared
@@ -147,9 +154,10 @@ class _FilterDeadlinesMenuButton extends StatelessWidget {
           onTap: () => summaryCubit.toggleShowDetails(),
           child: Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(right: AppInsets.medium),
-                child: Text('Show details'),
+              Padding(
+                padding: const EdgeInsets.only(right: AppInsets.medium),
+                child: Text(
+                    AppLocalizations.of(context)!.summaryShowDetailsMenuOption),
               ),
               summaryCubit.state.showDetails
                   ? const Icon(Icons.check)
@@ -161,9 +169,10 @@ class _FilterDeadlinesMenuButton extends StatelessWidget {
           onTap: () => context.read<SummaryCubit>().toggleShowShared(),
           child: Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(right: AppInsets.medium),
-                child: Text('Show shared'),
+              Padding(
+                padding: const EdgeInsets.only(right: AppInsets.medium),
+                child: Text(
+                    AppLocalizations.of(context)!.summaryShowSharedMenuOption),
               ),
               summaryCubit.state.showShared
                   ? const Icon(Icons.check)
