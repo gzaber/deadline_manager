@@ -43,19 +43,7 @@ class CategoryDetailsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              IconData(
-                category.icon,
-                fontFamily: AppIcons.iconFontFamily,
-              ),
-            ),
-            const SizedBox(width: AppInsets.large),
-            Text(category.name),
-          ],
-        ),
+        title: Text(category.name),
         backgroundColor: Color(category.color),
         actions: [
           AddIconButton(
