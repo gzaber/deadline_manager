@@ -34,12 +34,12 @@ class PermissionsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.permissionsTitle),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.go(AppRouter.permissionsToAddEditPermissionsLocation);
-        },
-        child: const Icon(AppIcons.fabIcon),
+        actions: [
+          AddIconButton(
+            onPressed: () =>
+                context.go(AppRouter.permissionsToAddEditPermissionsLocation),
+          ),
+        ],
       ),
       body: BlocConsumer<PermissionsCubit, PermissionsState>(
         listenWhen: (previous, current) => previous.status != current.status,

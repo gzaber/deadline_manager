@@ -11,7 +11,7 @@ abstract class AppIcons {
 
   static const saveIcon = Icons.save;
   static const calendarIcon = Icons.date_range;
-  static const fabIcon = Icons.add;
+  static const addIcon = Icons.add_circle_outline;
   static const permissionItemIcon = Icons.person;
   static const emptyListInfoIcon = Icons.info;
   static const signOutIcon = Icons.logout;

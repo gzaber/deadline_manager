@@ -57,14 +57,13 @@ class CategoryDetailsView extends StatelessWidget {
           ],
         ),
         backgroundColor: Color(category.color),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.go(
-            '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}/${AppRouter.addEditDeadlinePath}/${category.id}',
-          );
-        },
-        child: const Icon(AppIcons.fabIcon),
+        actions: [
+          AddIconButton(
+            onPressed: () => context.go(
+              '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}/${AppRouter.addEditDeadlinePath}/${category.id}',
+            ),
+          ),
+        ],
       ),
       body: BlocConsumer<CategoryDetailsCubit, CategoryDetailsState>(
         listenWhen: (previous, current) => previous.status != current.status,
