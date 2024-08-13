@@ -57,7 +57,8 @@ class PermissionsView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          if (state.permissions.isEmpty) {
+          if (state.status == PermissionsStatus.streamSuccess &&
+              state.permissions.isEmpty) {
             return EmptyListInfo(
                 text: AppLocalizations.of(context)!.emptyListMessage);
           }

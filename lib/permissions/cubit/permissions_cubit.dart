@@ -29,7 +29,7 @@ class PermissionsCubit extends Cubit<PermissionsState> {
       categories.sort((a, b) => a.name.compareTo(b.name));
       emit(
         state.copyWith(
-          status: PermissionsStatus.success,
+          status: PermissionsStatus.asyncSuccess,
           categories: categories,
         ),
       );
@@ -47,7 +47,7 @@ class PermissionsCubit extends Cubit<PermissionsState> {
         permissions.sort((a, b) => a.receiver.compareTo(b.receiver));
         emit(
           state.copyWith(
-            status: PermissionsStatus.success,
+            status: PermissionsStatus.streamSuccess,
             permissions: permissions,
           ),
         );
@@ -71,7 +71,7 @@ class PermissionsCubit extends Cubit<PermissionsState> {
     emit(state.copyWith(status: PermissionsStatus.loading));
     try {
       await _permissionsRepository.deletePermission(id);
-      emit(state.copyWith(status: PermissionsStatus.success));
+      emit(state.copyWith(status: PermissionsStatus.asyncSuccess));
     } catch (_) {
       emit(state.copyWith(status: PermissionsStatus.failure));
     }

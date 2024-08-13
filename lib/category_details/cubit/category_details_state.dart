@@ -1,6 +1,12 @@
 part of 'category_details_cubit.dart';
 
-enum CategoryDetailsStatus { initial, loading, success, failure }
+enum CategoryDetailsStatus {
+  initial,
+  loading,
+  asyncSuccess,
+  streamSuccess,
+  failure,
+}
 
 final class CategoryDetailsState extends Equatable {
   CategoryDetailsState({

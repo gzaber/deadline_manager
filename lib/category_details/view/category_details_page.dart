@@ -76,7 +76,13 @@ class CategoryDetailsView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state.deadlines.isEmpty) {
+          if (state.status == CategoryDetailsStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state.status == CategoryDetailsStatus.streamSuccess &&
+              state.deadlines.isEmpty) {
             return EmptyListInfo(
               text: AppLocalizations.of(context)!.emptyListMessage,
             );
