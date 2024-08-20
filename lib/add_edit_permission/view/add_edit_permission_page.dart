@@ -140,6 +140,7 @@ class _CategorySelector extends StatelessWidget {
 
     return Wrap(
       spacing: AppInsets.medium,
+      runSpacing: AppInsets.medium,
       children: [
         ...stateCategories.map(
           (category) => ChoiceChip(

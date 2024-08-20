@@ -1,6 +1,12 @@
 part of 'permissions_cubit.dart';
 
-enum PermissionsStatus { intial, loading, success, failure }
+enum PermissionsStatus {
+  intial,
+  loading,
+  asyncSuccess,
+  streamSuccess,
+  failure,
+}
 
 final class PermissionsState extends Equatable {
   const PermissionsState({

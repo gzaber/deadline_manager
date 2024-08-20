@@ -118,27 +118,12 @@ class _DeadlineListTileSubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          deadline.isShared
-              ? AppLocalizations.of(context)!.summarySharedByLabel
-              : AppLocalizations.of(context)!.summaryCategoryLabel,
-        ),
-        const SizedBox(width: AppInsets.small),
-        Icon(
-          deadline.isShared
-              ? Icons.person
-              : IconData(
-                  deadline.categoryIcon,
-                  fontFamily: AppIcons.iconFontFamily,
-                ),
-          size: AppInsets.large,
-        ),
-        const SizedBox(width: AppInsets.small),
-        Text(deadline.isShared ? deadline.sharedBy : deadline.categoryName),
-      ],
-    );
+    final label = deadline.isShared
+        ? AppLocalizations.of(context)!.summarySharedByLabel
+        : AppLocalizations.of(context)!.summaryCategoryLabel;
+    final detail =
+        deadline.isShared ? deadline.sharedBy : deadline.categoryName;
+    return Text('$label $detail');
   }
 }
 

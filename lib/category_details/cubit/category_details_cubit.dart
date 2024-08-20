@@ -26,7 +26,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
       final category = await _categoriesRepository.readCategoryById(categoryId);
       emit(
         state.copyWith(
-          status: CategoryDetailsStatus.success,
+          status: CategoryDetailsStatus.asyncSuccess,
           category: category,
         ),
       );
@@ -43,7 +43,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
       deadlines.sort((a, b) => a.expirationDate.compareTo(b.expirationDate));
       emit(
         state.copyWith(
-          status: CategoryDetailsStatus.success,
+          status: CategoryDetailsStatus.streamSuccess,
           deadlines: deadlines,
         ),
       );
@@ -57,7 +57,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     try {
       await _deadlinesRepository.deleteDeadline(id);
       emit(
-        state.copyWith(status: CategoryDetailsStatus.success),
+        state.copyWith(status: CategoryDetailsStatus.asyncSuccess),
       );
     } catch (_) {
       emit(

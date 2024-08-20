@@ -35,12 +35,12 @@ class CategoriesView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.categoriesTitle),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.go(AppRouter.categoriesToAddEditCategoryLocation);
-        },
-        child: const Icon(AppIcons.fabIcon),
+        actions: [
+          AddIconButton(
+            onPressed: () =>
+                context.go(AppRouter.categoriesToAddEditCategoryLocation),
+          ),
+        ],
       ),
       body: BlocConsumer<CategoriesCubit, CategoriesState>(
         listenWhen: (previous, current) => previous.status != current.status,

@@ -43,28 +43,15 @@ class CategoryDetailsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              IconData(
-                category.icon,
-                fontFamily: AppIcons.iconFontFamily,
-              ),
-            ),
-            const SizedBox(width: AppInsets.large),
-            Text(category.name),
-          ],
-        ),
+        title: Text(category.name),
         backgroundColor: Color(category.color),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.go(
-            '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}/${AppRouter.addEditDeadlinePath}/${category.id}',
-          );
-        },
-        child: const Icon(AppIcons.fabIcon),
+        actions: [
+          AddIconButton(
+            onPressed: () => context.go(
+              '${AppRouter.categoriesToCategoryDetailsLocation}/${category.id}/${AppRouter.addEditDeadlinePath}/${category.id}',
+            ),
+          ),
+        ],
       ),
       body: BlocConsumer<CategoryDetailsCubit, CategoryDetailsState>(
         listenWhen: (previous, current) => previous.status != current.status,
@@ -77,7 +64,13 @@ class CategoryDetailsView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state.deadlines.isEmpty) {
+          if (state.status == CategoryDetailsStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state.status == CategoryDetailsStatus.streamSuccess &&
+              state.deadlines.isEmpty) {
             return EmptyListInfo(
               text: AppLocalizations.of(context)!.emptyListMessage,
             );
