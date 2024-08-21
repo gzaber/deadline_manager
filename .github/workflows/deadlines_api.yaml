@@ -5,14 +5,9 @@ on:
     paths:
       - "packages/deadlines_api/**"
       - ".github/workflows/deadlines_api.yaml"
-    branches:
-      - master
+    branches: [master]
   push:
-    paths:
-      - "packages/deadlines_api/**"
-      - ".github/workflows/deadlines_api.yaml"
-    branches:
-      - master
+    branches: [master]
 
 jobs:
   dart_tests:
