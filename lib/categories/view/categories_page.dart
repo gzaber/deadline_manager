@@ -120,7 +120,7 @@ class _CategoryItem extends StatelessWidget {
                 AppLocalizations.of(context)!.dialogCancelButtonText,
           ).then(
             (value) {
-              if (value == true) {
+              if (value == true && context.mounted) {
                 context.read<CategoriesCubit>().deleteCategory(category.id);
               }
             },
