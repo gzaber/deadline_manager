@@ -1,0 +1,45 @@
+name: deadlines_api
+
+on:
+  pull_request:
+    paths:
+      - "packages/deadlines_api/**"
+      - ".github/workflows/deadlines_api.yaml"
+    branches:
+      - master
+  push:
+    paths:
+      - "packages/deadlines_api/**"
+      - ".github/workflows/deadlines_api.yaml"
+    branches:
+      - master
+
+jobs:
+  dart_tests:
+    defaults:
+      run:
+        working-directory: packages/deadlines_api
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Analyze package source
+        run: dart analyze lib
+
+      - name: Run tests
+        run: |
+          dart pub global activate coverage
+          dart pub global run coverage:test_with_coverage
+
+      - name: Upload coverage to codecov
+        if: github.event_name == 'push'
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

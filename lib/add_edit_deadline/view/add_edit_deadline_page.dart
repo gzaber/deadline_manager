@@ -139,7 +139,7 @@ class _DatePicker extends StatelessWidget {
           firstDate: DateTime(currentDate.year - 10),
           lastDate: DateTime(currentDate.year + 10),
         ).then((value) {
-          if (value != null) {
+          if (value != null && context.mounted) {
             context.read<AddEditDeadlineCubit>().onDateTimeChanged(value);
           }
         });

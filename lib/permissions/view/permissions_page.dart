@@ -117,7 +117,7 @@ class _PermissionItem extends StatelessWidget {
                 AppLocalizations.of(context)!.dialogCancelButtonText,
           ).then(
             (value) {
-              if (value == true) {
+              if (value == true && context.mounted) {
                 context
                     .read<PermissionsCubit>()
                     .deletePermission(permission.id);

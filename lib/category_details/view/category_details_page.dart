@@ -156,7 +156,7 @@ class _DeadlineMenuButton extends StatelessWidget {
               AppLocalizations.of(context)!.dialogCancelButtonText,
         ).then(
           (value) {
-            if (value == true) {
+            if (value == true && context.mounted) {
               context.read<CategoryDetailsCubit>().deleteDeadline(deadline.id);
             }
           },
