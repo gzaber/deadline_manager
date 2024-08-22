@@ -3,13 +3,10 @@ import 'package:permissions_api/permissions_api.dart';
 
 class FirestorePermissionsApi implements PermissionsApi {
   FirestorePermissionsApi({
-    FirebaseFirestore? firestore,
-  }) : _firestore = firestore ?? FirebaseFirestore.instance {
-    _permissionsRef = _firestore.collection(_permissionsPath);
-  }
+    required FirebaseFirestore firestore,
+  }) : _permissionsRef = firestore.collection(_permissionsPath);
 
-  final FirebaseFirestore _firestore;
-  late final CollectionReference _permissionsRef;
+  final CollectionReference _permissionsRef;
 
   static const String _permissionsPath = 'permissions';
   static const String _categoryIdsField = 'categoryIds';

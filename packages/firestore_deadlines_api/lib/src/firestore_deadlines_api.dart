@@ -3,16 +3,13 @@ import 'package:deadlines_api/deadlines_api.dart';
 
 class FirestoreDeadlinesApi implements DeadlinesApi {
   FirestoreDeadlinesApi({
-    FirebaseFirestore? firestore,
-  }) : _firestore = firestore ?? FirebaseFirestore.instance {
-    _deadlinesRef = _firestore.collection(_deadlinesCollection);
-  }
+    required FirebaseFirestore firestore,
+  }) : _deadlinesRef = firestore.collection(_deadlinesPath);
 
-  final FirebaseFirestore _firestore;
-  late final CollectionReference _deadlinesRef;
+  final CollectionReference _deadlinesRef;
 
+  static const String _deadlinesPath = 'deadlines';
   static const String _categoryIdField = 'categoryId';
-  static const String _deadlinesCollection = 'deadlines';
 
   @override
   Future<void> createDeadline(Deadline deadline) async =>

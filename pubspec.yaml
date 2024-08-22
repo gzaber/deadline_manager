@@ -38,6 +38,7 @@ dependencies:
   permissions_repository:
     path: packages/permissions_repository
   firebase_ui_localizations: ^1.12.0
+  cloud_firestore: ^5.2.1
 
 dev_dependencies:
   flutter_test:

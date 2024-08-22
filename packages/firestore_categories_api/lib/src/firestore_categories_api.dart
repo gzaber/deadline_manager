@@ -3,15 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreCategoriesApi implements CategoriesApi {
   FirestoreCategoriesApi({
-    FirebaseFirestore? firestore,
-  }) : _firestore = firestore ?? FirebaseFirestore.instance {
-    _categoriesRef = _firestore.collection(_categoriesCollection);
-  }
+    required FirebaseFirestore firestore,
+  }) : _categoriesRef = firestore.collection(_categoriesPath);
 
-  final FirebaseFirestore _firestore;
-  late final CollectionReference _categoriesRef;
+  final CollectionReference _categoriesRef;
 
-  static const String _categoriesCollection = 'categories';
+  static const String _categoriesPath = 'categories';
   static const String _ownerField = 'owner';
 
   @override
