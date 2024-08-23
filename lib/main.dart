@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/firebase_options.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firestore_categories_api/firestore_categories_api.dart';
 import 'package:firestore_deadlines_api/firestore_deadlines_api.dart';
@@ -21,7 +22,8 @@ void main() async {
   );
 
   final firestore = FirebaseFirestore.instance;
-  final authenticationRepository = AuthenticationRepository();
+  final authenticationRepository =
+      AuthenticationRepository(firebaseAuth: FirebaseAuth.instance);
   final categoriesRepository = CategoriesRepository(
     categoriesApi: FirestoreCategoriesApi(firestore: firestore),
   );

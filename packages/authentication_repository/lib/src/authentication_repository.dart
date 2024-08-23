@@ -5,8 +5,8 @@ import 'models/models.dart';
 
 class AuthenticationRepository {
   AuthenticationRepository({
-    firebase_auth.FirebaseAuth? firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
+    required firebase_auth.FirebaseAuth firebaseAuth,
+  }) : _firebaseAuth = firebaseAuth;
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
 
