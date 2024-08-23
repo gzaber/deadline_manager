@@ -1,0 +1,40 @@
+name: categories_repository
+
+on:
+  pull_request:
+    paths:
+      - "packages/categories_repository/**"
+      - ".github/workflows/categories_repository.yaml"
+    branches: [master]
+  push:
+    branches: [master]
+
+jobs:
+  dart_tests:
+    defaults:
+      run:
+        working-directory: packages/categories_repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Analyze package source
+        run: dart analyze lib
+
+      - name: Run tests
+        run: |
+          dart pub global activate coverage
+          dart pub global run coverage:test_with_coverage
+
+      - name: Upload coverage to codecov
+        if: github.event_name == 'push'
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
