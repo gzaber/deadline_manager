@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:categories_repository/categories_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deadline_manager/app/app.dart';
 import 'package:deadline_manager/firebase_options.dart';
 import 'package:deadlines_repository/deadlines_repository.dart';
@@ -14,19 +15,21 @@ import 'package:permissions_repository/permissions_repository.dart';
 void main() async {
   setUrlStrategy(null);
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  final firestore = FirebaseFirestore.instance;
   final authenticationRepository = AuthenticationRepository();
   final categoriesRepository = CategoriesRepository(
-    categoriesApi: FirestoreCategoriesApi(),
+    categoriesApi: FirestoreCategoriesApi(firestore: firestore),
   );
   final deadlinesRepository = DeadlinesRepository(
-    deadlinesApi: FirestoreDeadlinesApi(),
+    deadlinesApi: FirestoreDeadlinesApi(firestore: firestore),
   );
   final permissionsRepository = PermissionsRepository(
-    permissionsApi: FirestorePermissionsApi(),
+    permissionsApi: FirestorePermissionsApi(firestore: firestore),
   );
 
   runApp(
