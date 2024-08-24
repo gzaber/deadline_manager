@@ -18,6 +18,15 @@ void main() {
       });
     });
 
+    group('auth', () {
+      test('returns firebase auth instance', () {
+        final authenticationRepository =
+            AuthenticationRepository(firebaseAuth: MockFirebaseAuth());
+
+        expect(authenticationRepository.auth, isA<FirebaseAuth>());
+      });
+    });
+
     group('user', () {
       test('emits user when firebase user is not empty', () async {
         final authenticationRepository = AuthenticationRepository(

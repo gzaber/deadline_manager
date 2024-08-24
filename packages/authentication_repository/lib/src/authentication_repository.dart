@@ -10,6 +10,8 @@ class AuthenticationRepository {
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
 
+  firebase_auth.FirebaseAuth get auth => _firebaseAuth;
+
   Stream<User> get user => _firebaseAuth.authStateChanges().map(
         (firebaseUser) =>
             firebaseUser == null ? User.empty : firebaseUser.toUser,

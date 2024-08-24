@@ -23,6 +23,8 @@ class AppCubit extends Cubit<AppState> {
   final AuthenticationRepository _authenticationRepository;
   late final StreamSubscription<User> _userSubscription;
 
+  get auth => _authenticationRepository.auth;
+
   @override
   Future<void> close() {
     _userSubscription.cancel();

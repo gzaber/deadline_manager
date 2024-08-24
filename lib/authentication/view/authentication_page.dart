@@ -1,6 +1,8 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:deadline_manager/app/app.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthenticationPage extends StatelessWidget {
@@ -9,6 +11,7 @@ class AuthenticationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SignInScreen(
+      auth: context.read<AppCubit>().auth,
       providers: [EmailAuthProvider()],
       headerBuilder: (context, constraints, shrinkOffset) => const _AppLogo(),
       sideBuilder: (context, constraints) => const _AppLogo(),
