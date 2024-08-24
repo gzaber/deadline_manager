@@ -21,6 +21,10 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Rename Firebase config file
+        run: |
+          mv lib/demo_firebase_options.dart lib/firebase_options.dart
+
       - name: Analyze package source
         run: flutter analyze lib
 
