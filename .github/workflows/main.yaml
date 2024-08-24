@@ -28,6 +28,10 @@ jobs:
       - name: Analyze package source
         run: flutter analyze lib
 
+      - name: Rename Firebase config file back
+        run: |
+          mv lib/firebase_options.dart lib/demo_firebase_options.dart
+
       - name: Run tests
         run: flutter test --coverage
 
@@ -36,3 +40,23 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  build_web:
+    needs: [flutter_tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Rename Firebase config file
+        run: |
+          mv lib/demo_firebase_options.dart lib/firebase_options.dart
+
+      - name: Build web app
+        run: flutter build web --no-tree-shake-icons
