@@ -3,13 +3,13 @@ part of 'add_edit_deadline_cubit.dart';
 enum AddEditDeadlineStatus { initial, loading, success, failure }
 
 final class AddEditDeadlineState extends Equatable {
-  AddEditDeadlineState({
+  const AddEditDeadlineState({
     this.status = AddEditDeadlineStatus.initial,
     this.initialDeadline,
     this.categoryId = '',
     this.name = '',
-    DateTime? expirationDate,
-  }) : expirationDate = expirationDate ?? DateTime.now();
+    required this.expirationDate,
+  });
 
   final AddEditDeadlineStatus status;
   final Deadline? initialDeadline;
