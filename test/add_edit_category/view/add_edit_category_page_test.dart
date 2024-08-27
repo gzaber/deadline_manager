@@ -46,6 +46,8 @@ void main() {
           ),
         ),
       );
+
+      expect(find.byType(AddEditCategoryView), findsOneWidget);
     });
   });
 
