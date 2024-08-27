@@ -102,7 +102,7 @@ void main() {
 
     group('saveDeadline', () {
       blocTest<AddEditDeadlineCubit, AddEditDeadlineState>(
-        'emits state with success when new deadline was successfully saved',
+        'emits state with success status when new deadline was successfully saved',
         setUp: () {
           when(() => deadlinesRepository.createDeadline(any()))
               .thenAnswer((_) async {});
@@ -128,7 +128,7 @@ void main() {
       );
 
       blocTest<AddEditDeadlineCubit, AddEditDeadlineState>(
-        'emits state with failure when saving created deadline to repository fails',
+        'emits state with failure status when saving created deadline to repository fails',
         setUp: () {
           when(() => deadlinesRepository.createDeadline(any()))
               .thenThrow(Exception('failure'));
@@ -154,7 +154,7 @@ void main() {
       );
 
       blocTest<AddEditDeadlineCubit, AddEditDeadlineState>(
-        'emits state with success when updated deadline was successfully saved',
+        'emits state with success status when updated deadline was successfully saved',
         setUp: () {
           when(() => deadlinesRepository.updateDeadline(any()))
               .thenAnswer((_) async {});
@@ -183,7 +183,7 @@ void main() {
       );
 
       blocTest<AddEditDeadlineCubit, AddEditDeadlineState>(
-        'emits state with failure when saving updated deadline to repository fails',
+        'emits state with failure status when saving updated deadline to repository fails',
         setUp: () {
           when(() => deadlinesRepository.updateDeadline(any()))
               .thenThrow(Exception('failure'));

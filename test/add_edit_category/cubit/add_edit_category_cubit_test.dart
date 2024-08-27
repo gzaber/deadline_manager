@@ -107,7 +107,7 @@ void main() {
 
     group('saveCategory', () {
       blocTest<AddEditCategoryCubit, AddEditCategoryState>(
-        'emits state with success when new category was successfully saved',
+        'emits state with success status when new category was successfully saved',
         setUp: () {
           when(() => categoriesRepository.createCategory(any()))
               .thenAnswer((_) async {});
@@ -124,7 +124,7 @@ void main() {
       );
 
       blocTest<AddEditCategoryCubit, AddEditCategoryState>(
-        'emits state with failure when saving created category to repository fails',
+        'emits state with failure status when saving created category to repository fails',
         setUp: () {
           when(() => categoriesRepository.createCategory(any()))
               .thenThrow(Exception('failure'));
@@ -141,7 +141,7 @@ void main() {
       );
 
       blocTest<AddEditCategoryCubit, AddEditCategoryState>(
-        'emits state with success when updated category was successfully saved',
+        'emits state with success status when updated category was successfully saved',
         setUp: () {
           when(() => categoriesRepository.updateCategory(any()))
               .thenAnswer((_) async {});
@@ -165,7 +165,7 @@ void main() {
       );
 
       blocTest<AddEditCategoryCubit, AddEditCategoryState>(
-        'emits state with failure when saving updated category to repository fails',
+        'emits state with failure status when saving updated category to repository fails',
         setUp: () {
           when(() => categoriesRepository.updateCategory(any()))
               .thenThrow(Exception('failure'));
