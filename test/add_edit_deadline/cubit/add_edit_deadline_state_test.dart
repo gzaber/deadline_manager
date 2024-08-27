@@ -30,7 +30,7 @@ void main() {
     group('constructor', () {
       test('works properly', () {
         expect(
-          () => AddEditDeadlineState(expirationDate: mockExpirationDate),
+          () => createState(expirationDate: mockExpirationDate),
           returnsNormally,
         );
       });

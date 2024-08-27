@@ -33,10 +33,7 @@ void main() {
 
     group('constructor', () {
       test('works properly', () {
-        expect(
-          () => const AddEditCategoryState(),
-          returnsNormally,
-        );
+        expect(createState, returnsNormally);
       });
     });
 
