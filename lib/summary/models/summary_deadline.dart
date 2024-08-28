@@ -19,6 +19,7 @@ class SummaryDeadline extends Equatable {
   final String sharedBy;
 
   Deadline toDeadline() => Deadline(
+        id: '',
         categoryId: '',
         name: name,
         expirationDate: expirationDate,
