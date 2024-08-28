@@ -5,7 +5,7 @@ enum SummaryStatus { initial, loading, success, failure }
 class SummaryState extends Equatable {
   const SummaryState({
     this.status = SummaryStatus.initial,
-    required this.user,
+    this.user = User.empty,
     this.categories = const [],
     this.userDeadlines = const [],
     this.summaryDeadlines = const [],
