@@ -95,7 +95,7 @@ void main() {
       );
 
       blocTest<AddEditPermissionCubit, AddEditPermissionState>(
-        'emits state with failure when reading from repostiory fails',
+        'emits state with failure status when reading from repostiory fails',
         setUp: () {
           when(() => categoriesRepository.readCategoriesByOwner(any()))
               .thenThrow(Exception('failure'));
