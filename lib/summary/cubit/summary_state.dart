@@ -6,7 +6,6 @@ class SummaryState extends Equatable {
   const SummaryState({
     this.status = SummaryStatus.initial,
     this.user = User.empty,
-    this.categories = const [],
     this.userDeadlines = const [],
     this.summaryDeadlines = const [],
     this.showDetails = false,
@@ -15,7 +14,6 @@ class SummaryState extends Equatable {
 
   final SummaryStatus status;
   final User user;
-  final List<Category> categories;
   final List<SummaryDeadline> userDeadlines;
   final List<SummaryDeadline> summaryDeadlines;
   final bool showDetails;
@@ -33,7 +31,6 @@ class SummaryState extends Equatable {
     return SummaryState(
       status: status ?? this.status,
       user: user ?? this.user,
-      categories: categories ?? this.categories,
       userDeadlines: userDeadlines ?? this.userDeadlines,
       summaryDeadlines: summaryDeadlines ?? this.summaryDeadlines,
       showDetails: showDetails ?? this.showDetails,
@@ -45,7 +42,6 @@ class SummaryState extends Equatable {
   List<Object> get props => [
         status,
         user,
-        categories,
         userDeadlines,
         summaryDeadlines,
         showDetails,
