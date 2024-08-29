@@ -43,23 +43,25 @@ void main() {
     });
 
     testWidgets('renders AddEditPermissionView', (tester) async {
-      await tester.pumpWidget(MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider.value(
-            value: categoriesRepository,
-          ),
-          RepositoryProvider.value(
-            value: permissionsRepository,
-          ),
-        ],
-        child: BlocProvider.value(
-          value: appCubit,
-          child: const MaterialApp(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            home: AddEditPermissionPage(),
+      await tester.pumpWidget(
+        MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider.value(
+              value: categoriesRepository,
+            ),
+            RepositoryProvider.value(
+              value: permissionsRepository,
+            ),
+          ],
+          child: BlocProvider.value(
+            value: appCubit,
+            child: const MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              home: AddEditPermissionPage(),
+            ),
           ),
         ),
-      ));
+      );
 
       expect(find.byType(AddEditPermissionView), findsOneWidget);
     });
