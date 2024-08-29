@@ -145,7 +145,7 @@ class _FilterDeadlinesMenuButton extends StatelessWidget {
                     AppLocalizations.of(context)!.summaryShowDetailsMenuOption),
               ),
               summaryCubit.state.showDetails
-                  ? const Icon(Icons.check)
+                  ? const Icon(AppIcons.checkIcon)
                   : const SizedBox(),
             ],
           ),
@@ -160,7 +160,7 @@ class _FilterDeadlinesMenuButton extends StatelessWidget {
                     AppLocalizations.of(context)!.summaryShowSharedMenuOption),
               ),
               summaryCubit.state.showShared
-                  ? const Icon(Icons.check)
+                  ? const Icon(AppIcons.checkIcon)
                   : const SizedBox(),
             ],
           ),

@@ -9,6 +9,7 @@ abstract class AppIcons {
   static const permissionsDestinationIcon = Icons.lock;
   static const profileDestinationIcon = Icons.account_circle;
 
+  static const checkIcon = Icons.check;
   static const saveIcon = Icons.save;
   static const calendarIcon = Icons.date_range;
   static const addIcon = Icons.add_circle_outline;
