@@ -72,8 +72,6 @@ class SummaryCubit extends Cubit<SummaryState> {
               isShared: sharedCategoryIds.contains(d.categoryId),
               categoryName:
                   categories.firstWhere((c) => c.id == d.categoryId).name,
-              categoryIcon:
-                  categories.firstWhere((c) => c.id == d.categoryId).icon,
               sharedBy:
                   categories.firstWhere((c) => c.id == d.categoryId).owner,
             ),
