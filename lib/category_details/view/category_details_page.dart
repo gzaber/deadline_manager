@@ -54,9 +54,12 @@ class CategoryDetailsView extends StatelessWidget {
         ],
       ),
       body: BlocConsumer<CategoryDetailsCubit, CategoryDetailsState>(
-        listenWhen: (previous, current) => previous.status != current.status,
+        listenWhen: (previous, current) =>
+            previous.futureStatus != current.futureStatus ||
+            previous.streamStatus != current.streamStatus,
         listener: (context, state) {
-          if (state.status == CategoryDetailsStatus.failure) {
+          if (state.futureStatus == CategoryDetailsFutureStatus.failure ||
+              state.streamStatus == CategoryDetailsStreamStatus.failure) {
             FailureSnackBar.show(
               context: context,
               text: AppLocalizations.of(context)!.failureMessage,
@@ -64,12 +67,13 @@ class CategoryDetailsView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state.status == CategoryDetailsStatus.loading) {
+          if (state.futureStatus == CategoryDetailsFutureStatus.loading ||
+              state.streamStatus == CategoryDetailsStreamStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (state.status == CategoryDetailsStatus.streamSuccess &&
+          if (state.streamStatus == CategoryDetailsStreamStatus.success &&
               state.deadlines.isEmpty) {
             return EmptyListInfo(
               text: AppLocalizations.of(context)!.emptyListMessage,

@@ -21,47 +21,47 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   late final StreamSubscription<List<Deadline>> _deadlinesSubscription;
 
   void readCategory(String categoryId) async {
-    emit(state.copyWith(status: CategoryDetailsStatus.loading));
+    emit(state.copyWith(futureStatus: CategoryDetailsFutureStatus.loading));
     try {
       final category = await _categoriesRepository.readCategoryById(categoryId);
       emit(
         state.copyWith(
-          status: CategoryDetailsStatus.asyncSuccess,
+          futureStatus: CategoryDetailsFutureStatus.success,
           category: category,
         ),
       );
     } catch (_) {
-      emit(state.copyWith(status: CategoryDetailsStatus.failure));
+      emit(state.copyWith(futureStatus: CategoryDetailsFutureStatus.failure));
     }
   }
 
   void subscribeToDeadlines(String categoryId) {
-    emit(state.copyWith(status: CategoryDetailsStatus.loading));
+    emit(state.copyWith(streamStatus: CategoryDetailsStreamStatus.loading));
     _deadlinesSubscription = _deadlinesRepository
         .observeDeadlinesByCategoryId(categoryId)
         .listen((deadlines) {
       deadlines.sort((a, b) => a.expirationDate.compareTo(b.expirationDate));
       emit(
         state.copyWith(
-          status: CategoryDetailsStatus.streamSuccess,
+          streamStatus: CategoryDetailsStreamStatus.success,
           deadlines: deadlines,
         ),
       );
     }, onError: (_) {
-      emit(state.copyWith(status: CategoryDetailsStatus.failure));
+      emit(state.copyWith(streamStatus: CategoryDetailsStreamStatus.failure));
     });
   }
 
   void deleteDeadline(String id) async {
-    emit(state.copyWith(status: CategoryDetailsStatus.loading));
+    emit(state.copyWith(futureStatus: CategoryDetailsFutureStatus.loading));
     try {
       await _deadlinesRepository.deleteDeadline(id);
       emit(
-        state.copyWith(status: CategoryDetailsStatus.asyncSuccess),
+        state.copyWith(futureStatus: CategoryDetailsFutureStatus.success),
       );
     } catch (_) {
       emit(
-        state.copyWith(status: CategoryDetailsStatus.failure),
+        state.copyWith(futureStatus: CategoryDetailsFutureStatus.failure),
       );
     }
   }
