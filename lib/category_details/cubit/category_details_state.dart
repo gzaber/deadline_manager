@@ -14,7 +14,7 @@ enum CategoryDetailsStreamStatus {
   failure,
 }
 
-class CategoryDetailsState extends Equatable {
+final class CategoryDetailsState extends Equatable {
   CategoryDetailsState({
     this.futureStatus = CategoryDetailsFutureStatus.initial,
     this.streamStatus = CategoryDetailsStreamStatus.initial,
