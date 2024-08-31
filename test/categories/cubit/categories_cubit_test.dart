@@ -105,9 +105,9 @@ void main() {
         act: (cubit) => cubit.subscribeToCategories(),
         expect: () => [
           const CategoriesState(
-              status: CategoriesStatus.loading, user: mockUser),
+              streamStatus: CategoriesStreamStatus.loading, user: mockUser),
           CategoriesState(
-            status: CategoriesStatus.success,
+            streamStatus: CategoriesStreamStatus.success,
             user: mockUser,
             categories: [mockCategory],
           ),
@@ -123,8 +123,10 @@ void main() {
         build: createCubit,
         act: (cubit) => cubit.subscribeToCategories(),
         expect: () => const [
-          CategoriesState(status: CategoriesStatus.loading, user: mockUser),
-          CategoriesState(status: CategoriesStatus.failure, user: mockUser),
+          CategoriesState(
+              streamStatus: CategoriesStreamStatus.loading, user: mockUser),
+          CategoriesState(
+              streamStatus: CategoriesStreamStatus.failure, user: mockUser),
         ],
       );
     });
@@ -133,20 +135,22 @@ void main() {
       blocTest<CategoriesCubit, CategoriesState>(
         'emits state with success status when category successfully deleted',
         build: () => createCubit()..subscribeToCategories(),
-        seed: () => CategoriesState(
-          status: CategoriesStatus.success,
-          user: mockUser,
-          categories: [mockCategory],
-        ),
         act: (cubit) => cubit.deleteCategory('id'),
         expect: () => [
+          const CategoriesState(
+            futureStatus: CategoriesFutureStatus.loading,
+            streamStatus: CategoriesStreamStatus.loading,
+            user: mockUser,
+          ),
           CategoriesState(
-            status: CategoriesStatus.loading,
+            futureStatus: CategoriesFutureStatus.loading,
+            streamStatus: CategoriesStreamStatus.success,
             user: mockUser,
             categories: [mockCategory],
           ),
           CategoriesState(
-            status: CategoriesStatus.success,
+            futureStatus: CategoriesFutureStatus.success,
+            streamStatus: CategoriesStreamStatus.success,
             user: mockUser,
             categories: [mockCategory],
           ),
@@ -160,25 +164,21 @@ void main() {
               .thenThrow(Exception('failure'));
         },
         build: () => createCubit()..subscribeToCategories(),
-        seed: () => CategoriesState(
-          status: CategoriesStatus.success,
-          user: mockUser,
-          categories: [mockCategory],
-        ),
         act: (cubit) => cubit.deleteCategory('id'),
         expect: () => [
-          CategoriesState(
-            status: CategoriesStatus.loading,
+          const CategoriesState(
+            futureStatus: CategoriesFutureStatus.loading,
+            streamStatus: CategoriesStreamStatus.loading,
             user: mockUser,
-            categories: [mockCategory],
+          ),
+          const CategoriesState(
+            futureStatus: CategoriesFutureStatus.failure,
+            streamStatus: CategoriesStreamStatus.loading,
+            user: mockUser,
           ),
           CategoriesState(
-            status: CategoriesStatus.failure,
-            user: mockUser,
-            categories: [mockCategory],
-          ),
-          CategoriesState(
-            status: CategoriesStatus.success,
+            futureStatus: CategoriesFutureStatus.failure,
+            streamStatus: CategoriesStreamStatus.success,
             user: mockUser,
             categories: [mockCategory],
           ),

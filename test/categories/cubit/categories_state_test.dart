@@ -15,12 +15,14 @@ void main() {
     );
 
     CategoriesState createState({
-      CategoriesStatus status = CategoriesStatus.initial,
+      CategoriesFutureStatus futureStatus = CategoriesFutureStatus.initial,
+      CategoriesStreamStatus streamStatus = CategoriesStreamStatus.initial,
       List<Category> categories = const [],
       User user = User.empty,
     }) {
       return CategoriesState(
-        status: status,
+        futureStatus: futureStatus,
+        streamStatus: streamStatus,
         categories: categories,
         user: user,
       );
@@ -39,7 +41,12 @@ void main() {
     test('props are correct', () {
       expect(
         createState().props,
-        equals([CategoriesStatus.initial, [], User.empty]),
+        equals([
+          CategoriesFutureStatus.initial,
+          CategoriesStreamStatus.initial,
+          [],
+          User.empty
+        ]),
       );
     });
 
@@ -54,7 +61,8 @@ void main() {
       test('retains the old value for every parameter if null is provided', () {
         expect(
           createState().copyWith(
-            status: null,
+            futureStatus: null,
+            streamStatus: null,
             categories: null,
             user: null,
           ),
@@ -65,13 +73,15 @@ void main() {
       test('replaces every non-null parameter', () {
         expect(
           createState().copyWith(
-            status: CategoriesStatus.success,
+            futureStatus: CategoriesFutureStatus.success,
+            streamStatus: CategoriesStreamStatus.success,
             categories: [mockCategory],
             user: mockUser,
           ),
           equals(
             createState(
-              status: CategoriesStatus.success,
+              futureStatus: CategoriesFutureStatus.success,
+              streamStatus: CategoriesStreamStatus.success,
               categories: [mockCategory],
               user: mockUser,
             ),

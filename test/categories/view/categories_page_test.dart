@@ -99,7 +99,8 @@ void main() {
 
       when(() => categoriesCubit.state).thenReturn(
         CategoriesState(
-          status: CategoriesStatus.success,
+          futureStatus: CategoriesFutureStatus.success,
+          streamStatus: CategoriesStreamStatus.success,
           categories: [mockCategory],
           user: mockUser,
         ),
@@ -153,8 +154,8 @@ void main() {
 
     testWidgets('renders circular progress indicator when loading data',
         (tester) async {
-      when(() => categoriesCubit.state)
-          .thenReturn(const CategoriesState(status: CategoriesStatus.loading));
+      when(() => categoriesCubit.state).thenReturn(
+          const CategoriesState(streamStatus: CategoriesStreamStatus.loading));
 
       await tester.pumpWidget(createView());
 
@@ -163,8 +164,8 @@ void main() {
 
     testWidgets('renders text info when there are no categories to display',
         (tester) async {
-      when(() => categoriesCubit.state)
-          .thenReturn(const CategoriesState(status: CategoriesStatus.success));
+      when(() => categoriesCubit.state).thenReturn(
+          const CategoriesState(streamStatus: CategoriesStreamStatus.success));
 
       await tester.pumpWidget(createView());
 
@@ -178,7 +179,7 @@ void main() {
       whenListen(
         categoriesCubit,
         Stream.fromIterable(
-          [const CategoriesState(status: CategoriesStatus.failure)],
+          [const CategoriesState(streamStatus: CategoriesStreamStatus.failure)],
         ),
       );
 
