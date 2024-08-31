@@ -292,16 +292,16 @@ void main() {
                 .called(1);
           });
         });
+      });
 
-        testWidgets('renders divider between deadline list tiles',
-            (tester) async {
-          when(() => categoryDetailsCubit.state).thenReturn(
-              CategoryDetailsState(deadlines: [mockDeadline, mockDeadline]));
+      testWidgets('renders divider between deadline list tiles',
+          (tester) async {
+        when(() => categoryDetailsCubit.state).thenReturn(
+            CategoryDetailsState(deadlines: [mockDeadline, mockDeadline]));
 
-          await tester.pumpWidget(createView());
+        await tester.pumpWidget(createView());
 
-          expect(find.byType(Divider), findsOneWidget);
-        });
+        expect(find.byType(Divider), findsOneWidget);
       });
     });
   });
