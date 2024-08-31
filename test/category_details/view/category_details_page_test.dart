@@ -211,6 +211,8 @@ void main() {
             'renders popup menu button without date text if screen size is mobile',
             (tester) async {
           tester.view.physicalSize = const Size(400, 800);
+          tester.view.devicePixelRatio = 1;
+
           await tester.pumpWidget(createView());
 
           expect(
@@ -227,7 +229,9 @@ void main() {
             ),
             findsOneWidget,
           );
+
           tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
         });
 
         group('popup menu button', () {
