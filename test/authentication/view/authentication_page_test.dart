@@ -42,7 +42,7 @@ void main() {
       expect(find.byType(SignInScreen), findsOneWidget);
     });
 
-    testWidgets('renders app name when screen size is not mobile',
+    testWidgets('renders app name when screen size is not desktop',
         (tester) async {
       await tester.pumpWidget(createPage());
 
