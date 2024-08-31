@@ -59,7 +59,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       await _authenticationRepository.signOut();
     } catch (_) {
-      emit(state.copyWith(status: ProfileStatus.success));
+      emit(state.copyWith(status: ProfileStatus.signOutFailure));
     }
   }
 }
