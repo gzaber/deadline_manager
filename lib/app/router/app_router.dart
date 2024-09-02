@@ -63,7 +63,10 @@ class AppRouter {
       ),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) => NavigationPage(child: child),
+        builder: (context, state, child) => NavigationPage(
+          getDestinations: NavDestinations.getDestinations,
+          child: child,
+        ),
         routes: [
           GoRoute(
             path: summaryPath,
