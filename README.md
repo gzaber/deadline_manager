@@ -1,4 +1,6 @@
-<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/gzaber/ForexViewer" alt="license MIT"></a>
+<a href="https://github.com/gzaber/deadline_manager/actions"><img src="https://img.shields.io/github/actions/workflow/status/gzaber/deadline_manager/main.yaml" alt="build"></a>
+<a href="https://codecov.io/gh/gzaber/deadline_manager"><img src="https://codecov.io/gh/gzaber/deadline_manager/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/gzaber/deadline_manager" alt="license MIT"></a>
 
 # Deadline Manager
 
