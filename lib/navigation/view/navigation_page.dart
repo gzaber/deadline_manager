@@ -1,5 +1,4 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:deadline_manager/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,9 +6,11 @@ class NavigationPage extends StatelessWidget {
   const NavigationPage({
     super.key,
     required this.child,
+    required this.getDestinations,
   });
 
   final Widget child;
+  final Function(BuildContext) getDestinations;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class NavigationPage extends StatelessWidget {
                 children: [
                   NavigationRail(
                     destinations: [
-                      ...NavDestinations.getDestinations(context).map(
+                      ...getDestinations(context).map(
                         (destination) => NavigationRailDestination(
                           icon: Icon(destination.icon),
                           label: Text(destination.label),
@@ -54,7 +55,7 @@ class NavigationPage extends StatelessWidget {
         return Scaffold(
           bottomNavigationBar: NavigationBar(
             destinations: [
-              ...NavDestinations.getDestinations(context).map(
+              ...getDestinations(context).map(
                 (destination) => NavigationDestination(
                   icon: Icon(destination.icon),
                   label: destination.label,
@@ -76,10 +77,10 @@ class NavigationPage extends StatelessWidget {
   int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.path;
 
-    return NavDestinations.getDestinations(context)
+    return getDestinations(context)
         .indexWhere((dest) => location.startsWith(dest.path));
   }
 
   void _onDestinationSelected(int index, BuildContext context) =>
-      context.go(NavDestinations.getDestinations(context)[index].path);
+      context.go(getDestinations(context)[index].path);
 }

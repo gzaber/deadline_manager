@@ -42,9 +42,12 @@ class PermissionsView extends StatelessWidget {
         ],
       ),
       body: BlocConsumer<PermissionsCubit, PermissionsState>(
-        listenWhen: (previous, current) => previous.status != current.status,
+        listenWhen: (previous, current) =>
+            previous.futureStatus != current.futureStatus ||
+            previous.streamStatus != current.streamStatus,
         listener: (context, state) {
-          if (state.status == PermissionsStatus.failure) {
+          if (state.futureStatus == PermissionsFutureStatus.failure ||
+              state.streamStatus == PermissionsStreamStatus.failure) {
             FailureSnackBar.show(
               context: context,
               text: AppLocalizations.of(context)!.failureMessage,
@@ -52,12 +55,13 @@ class PermissionsView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state.status == PermissionsStatus.loading) {
+          if (state.futureStatus == PermissionsFutureStatus.loading ||
+              state.streamStatus == PermissionsStreamStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (state.status == PermissionsStatus.streamSuccess &&
+          if (state.streamStatus == PermissionsStreamStatus.success &&
               state.permissions.isEmpty) {
             return EmptyListInfo(
                 text: AppLocalizations.of(context)!.emptyListMessage);

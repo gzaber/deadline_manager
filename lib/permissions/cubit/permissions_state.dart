@@ -1,34 +1,34 @@
 part of 'permissions_cubit.dart';
 
-enum PermissionsStatus {
-  intial,
-  loading,
-  asyncSuccess,
-  streamSuccess,
-  failure,
-}
+enum PermissionsFutureStatus { initial, loading, success, failure }
+
+enum PermissionsStreamStatus { initial, loading, success, failure }
 
 final class PermissionsState extends Equatable {
   const PermissionsState({
-    this.status = PermissionsStatus.intial,
+    this.futureStatus = PermissionsFutureStatus.initial,
+    this.streamStatus = PermissionsStreamStatus.initial,
     this.permissions = const [],
     this.categories = const [],
     this.user = User.empty,
   });
 
-  final PermissionsStatus status;
+  final PermissionsFutureStatus futureStatus;
+  final PermissionsStreamStatus streamStatus;
   final List<Permission> permissions;
   final List<Category> categories;
   final User user;
 
   PermissionsState copyWith({
-    PermissionsStatus? status,
+    PermissionsFutureStatus? futureStatus,
+    PermissionsStreamStatus? streamStatus,
     List<Permission>? permissions,
     List<Category>? categories,
     User? user,
   }) {
     return PermissionsState(
-      status: status ?? this.status,
+      futureStatus: futureStatus ?? this.futureStatus,
+      streamStatus: streamStatus ?? this.streamStatus,
       permissions: permissions ?? this.permissions,
       categories: categories ?? this.categories,
       user: user ?? this.user,
@@ -36,5 +36,6 @@ final class PermissionsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, permissions, categories, user];
+  List<Object> get props =>
+      [futureStatus, streamStatus, permissions, categories, user];
 }

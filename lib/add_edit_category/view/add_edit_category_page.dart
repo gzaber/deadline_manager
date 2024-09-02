@@ -140,6 +140,7 @@ class _IconSelector extends StatelessWidget {
       children: [
         ...icons.map(
           (icon) => ChoiceChip(
+            key: Key('addEditCategoryView_icon_choiceChip${icon.codePoint}'),
             onSelected: (_) {
               context
                   .read<AddEditCategoryCubit>()
@@ -172,6 +173,7 @@ class _ColorSelector extends StatelessWidget {
       children: [
         ...colors.map(
           (color) => ChoiceChip(
+            key: Key('addEditCategoryView_color_choiceChip${color.value}'),
             onSelected: (_) {
               context.read<AddEditCategoryCubit>().onColorChanged(color.value);
             },

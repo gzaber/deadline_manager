@@ -64,26 +64,16 @@ class SummaryCubit extends Cubit<SummaryState> {
           await _deadlinesRepository.readDeadlinesByCategoryIds(categoryIds);
       deadlines.sort((a, b) => a.expirationDate.compareTo(b.expirationDate));
 
-      final emptyCategory = Category(owner: '', name: '', icon: 0, color: 0);
-
       final summaryDeadlines = deadlines
           .map(
             (d) => SummaryDeadline(
               name: d.name,
               expirationDate: d.expirationDate,
               isShared: sharedCategoryIds.contains(d.categoryId),
-              categoryName: categories
-                  .firstWhere((c) => c.id == d.categoryId,
-                      orElse: () => emptyCategory)
-                  .name,
-              categoryIcon: categories
-                  .firstWhere((c) => c.id == d.categoryId,
-                      orElse: () => emptyCategory)
-                  .icon,
-              sharedBy: categories
-                  .firstWhere((c) => c.id == d.categoryId,
-                      orElse: () => emptyCategory)
-                  .owner,
+              categoryName:
+                  categories.firstWhere((c) => c.id == d.categoryId).name,
+              sharedBy:
+                  categories.firstWhere((c) => c.id == d.categoryId).owner,
             ),
           )
           .toList();

@@ -7,7 +7,6 @@ class SummaryDeadline extends Equatable {
     required this.expirationDate,
     required this.isShared,
     required this.categoryName,
-    required this.categoryIcon,
     required this.sharedBy,
   });
 
@@ -15,10 +14,10 @@ class SummaryDeadline extends Equatable {
   final DateTime expirationDate;
   final bool isShared;
   final String categoryName;
-  final int categoryIcon;
   final String sharedBy;
 
   Deadline toDeadline() => Deadline(
+        id: '',
         categoryId: '',
         name: name,
         expirationDate: expirationDate,
@@ -30,7 +29,6 @@ class SummaryDeadline extends Equatable {
         expirationDate,
         isShared,
         categoryName,
-        categoryIcon,
         sharedBy,
       ];
 }

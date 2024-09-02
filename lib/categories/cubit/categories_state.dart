@@ -1,30 +1,46 @@
 part of 'categories_cubit.dart';
 
-enum CategoriesStatus { initial, loading, success, failure }
+enum CategoriesFutureStatus {
+  initial,
+  loading,
+  success,
+  failure,
+}
+
+enum CategoriesStreamStatus {
+  initial,
+  loading,
+  success,
+  failure,
+}
 
 final class CategoriesState extends Equatable {
   const CategoriesState({
-    this.status = CategoriesStatus.initial,
+    this.futureStatus = CategoriesFutureStatus.initial,
+    this.streamStatus = CategoriesStreamStatus.initial,
     this.categories = const [],
     this.user = User.empty,
   });
 
-  final CategoriesStatus status;
+  final CategoriesFutureStatus futureStatus;
+  final CategoriesStreamStatus streamStatus;
   final List<Category> categories;
   final User user;
 
   CategoriesState copyWith({
-    CategoriesStatus? status,
+    CategoriesFutureStatus? futureStatus,
+    CategoriesStreamStatus? streamStatus,
     List<Category>? categories,
     User? user,
   }) {
     return CategoriesState(
-      status: status ?? this.status,
+      futureStatus: futureStatus ?? this.futureStatus,
+      streamStatus: streamStatus ?? this.streamStatus,
       categories: categories ?? this.categories,
       user: user ?? this.user,
     );
   }
 
   @override
-  List<Object> get props => [status, categories, user];
+  List<Object> get props => [futureStatus, streamStatus, categories, user];
 }

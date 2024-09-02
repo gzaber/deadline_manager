@@ -22,24 +22,24 @@ class PermissionsCubit extends Cubit<PermissionsState> {
   late final StreamSubscription<List<Permission>> _permissionsSubscription;
 
   void readCategories() async {
-    emit(state.copyWith(status: PermissionsStatus.loading));
+    emit(state.copyWith(futureStatus: PermissionsFutureStatus.loading));
     try {
       final categories =
           await _categoriesRepository.readCategoriesByOwner(state.user.email);
       categories.sort((a, b) => a.name.compareTo(b.name));
       emit(
         state.copyWith(
-          status: PermissionsStatus.asyncSuccess,
+          futureStatus: PermissionsFutureStatus.success,
           categories: categories,
         ),
       );
     } catch (_) {
-      emit(state.copyWith(status: PermissionsStatus.failure));
+      emit(state.copyWith(futureStatus: PermissionsFutureStatus.failure));
     }
   }
 
   void subscribeToPermissions() {
-    emit(state.copyWith(status: PermissionsStatus.loading));
+    emit(state.copyWith(streamStatus: PermissionsStreamStatus.loading));
     _permissionsSubscription = _permissionsRepository
         .observePermissionsByGiver(state.user.email)
         .listen(
@@ -47,13 +47,13 @@ class PermissionsCubit extends Cubit<PermissionsState> {
         permissions.sort((a, b) => a.receiver.compareTo(b.receiver));
         emit(
           state.copyWith(
-            status: PermissionsStatus.streamSuccess,
+            streamStatus: PermissionsStreamStatus.success,
             permissions: permissions,
           ),
         );
       },
       onError: (_) {
-        emit(state.copyWith(status: PermissionsStatus.failure));
+        emit(state.copyWith(streamStatus: PermissionsStreamStatus.failure));
       },
     );
   }
@@ -68,12 +68,12 @@ class PermissionsCubit extends Cubit<PermissionsState> {
   }
 
   void deletePermission(String id) async {
-    emit(state.copyWith(status: PermissionsStatus.loading));
+    emit(state.copyWith(futureStatus: PermissionsFutureStatus.loading));
     try {
       await _permissionsRepository.deletePermission(id);
-      emit(state.copyWith(status: PermissionsStatus.asyncSuccess));
+      emit(state.copyWith(futureStatus: PermissionsFutureStatus.success));
     } catch (_) {
-      emit(state.copyWith(status: PermissionsStatus.failure));
+      emit(state.copyWith(futureStatus: PermissionsFutureStatus.failure));
     }
   }
 

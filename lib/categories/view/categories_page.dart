@@ -43,9 +43,12 @@ class CategoriesView extends StatelessWidget {
         ],
       ),
       body: BlocConsumer<CategoriesCubit, CategoriesState>(
-        listenWhen: (previous, current) => previous.status != current.status,
+        listenWhen: (previous, current) =>
+            previous.futureStatus != current.futureStatus ||
+            previous.streamStatus != current.streamStatus,
         listener: (context, state) {
-          if (state.status == CategoriesStatus.failure) {
+          if (state.futureStatus == CategoriesFutureStatus.failure ||
+              state.streamStatus == CategoriesStreamStatus.failure) {
             FailureSnackBar.show(
               context: context,
               text: AppLocalizations.of(context)!.failureMessage,
@@ -53,7 +56,8 @@ class CategoriesView extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state.status == CategoriesStatus.loading) {
+          if (state.futureStatus == CategoriesFutureStatus.loading ||
+              state.streamStatus == CategoriesStreamStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
